@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
 
 export default function Home() {
   return (
@@ -9,7 +8,7 @@ export default function Home() {
           Welcome to <span className="text-blue-600">Sanaeva Store</span>
         </h1>
 
-        <Button>Shop Now</Button>
+        <Button size={"lg"}>Shop Now</Button>
        
        
       </main>
