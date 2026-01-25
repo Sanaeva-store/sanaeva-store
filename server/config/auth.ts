@@ -15,10 +15,13 @@ import { createId } from '@paralleldrive/cuid2'
  *
  * Features:
  * - Email/Password authentication
+ * - Social authentication (Google, Facebook)
  * - Session management with JWT
  * - Prisma adapter for PostgreSQL
  *
  * @see https://www.better-auth.com/docs/adapters/prisma
+ * @see https://www.better-auth.com/docs/authentication/google
+ * @see https://www.better-auth.com/docs/authentication/facebook
  * @see https://elysiajs.com/integrations/better-auth.html
  */
 export const auth = betterAuth({
@@ -37,6 +40,22 @@ export const auth = betterAuth({
     requireEmailVerification: false, // Set to true in production with email service
     minPasswordLength: 8,
     maxPasswordLength: 128,
+  },
+
+  // Social authentication providers
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID || '',
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+      redirectURI: process.env.GOOGLE_REDIRECT_URI || `${process.env.BETTER_AUTH_URL || 'http://localhost:3000'}/api/auth/callback/google`,
+      enabled: Boolean(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET),
+    },
+    facebook: {
+      clientId: process.env.FACEBOOK_CLIENT_ID || '',
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET || '',
+      redirectURI: process.env.FACEBOOK_REDIRECT_URI || `${process.env.BETTER_AUTH_URL || 'http://localhost:3000'}/api/auth/callback/facebook`,
+      enabled: Boolean(process.env.FACEBOOK_CLIENT_ID && process.env.FACEBOOK_CLIENT_SECRET),
+    },
   },
 
   // Session configuration

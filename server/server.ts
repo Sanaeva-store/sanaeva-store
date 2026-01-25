@@ -1,6 +1,6 @@
 import { Elysia, t } from 'elysia'
 import { authController } from './modules/auth'
-import { openapi, fromTypes } from '@elysiajs/openapi'
+import { openapi } from '@elysiajs/openapi'
 import { opentelemetry } from '@elysiajs/opentelemetry'
 import { BatchSpanProcessor } from '@opentelemetry/sdk-trace-node'
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto'
@@ -30,18 +30,8 @@ export const api = new Elysia({
   prefix: '/api/v1',
   normalize: true
 })
-  .use(opentelemetry({
-
-  }))
-  .use(
-    openapi({
-      references: fromTypes(
-        process.env.NODE_ENV === 'production'
-          ? 'dist/index.d.ts'
-          : 'src/index.ts'
-      )
-    })
-  )
+  .use(opentelemetry({}))
+  .use(openapi())
   // Health check
   .get('/', () => ({ ok: true, message: 'Sanaeva Store API' }))
 

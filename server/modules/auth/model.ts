@@ -28,6 +28,25 @@ export const signUpSchema = z.object({
 export type SignUpInput = z.infer<typeof signUpSchema>
 
 /**
+ * Backoffice Sign Up Schema
+ */
+export const signUpBackofficeSchema = z.object({
+  email: z.string().email('Invalid email address'),
+  password: z
+    .string()
+    .min(8, 'Password must be at least 8 characters')
+    .max(128, 'Password must not exceed 128 characters'),
+  name: z.string().min(1, 'Name is required').optional(),
+  roleCode: z
+    .enum(['ADMIN', 'MANAGER', 'STAFF'])
+    .default('STAFF')
+    .optional()
+    .describe('Role to assign to the user. Defaults to STAFF.'),
+})
+
+export type SignUpBackofficeInput = z.infer<typeof signUpBackofficeSchema>
+
+/**
  * Sign In Schema
  */
 export const signInSchema = z.object({

@@ -1,4 +1,5 @@
 import { auth } from '@/server/config/auth'
+import { prisma } from '@/server/db/client'
 import type {
   SignUpInput,
   SignInInput,
@@ -11,6 +12,7 @@ import type {
   SignUpResponse,
   SignInResponse,
   AuthSessionResponse,
+  SignUpBackofficeInput,
 } from './model'
 
 /**
@@ -47,6 +49,63 @@ export async function signUp(input: SignUpInput): Promise<SignUpResponse> {
       throw new Error(`Sign up failed: ${error.message}`)
     }
     throw new Error('Sign up failed')
+  }
+}
+
+/**
+ * Sign up a backoffice user with role assignment
+ */
+export async function signUpBackoffice(input: SignUpBackofficeInput): Promise<SignUpResponse> {
+  try {
+    // Create user with Better Auth
+    const result = (await auth.api.signUpEmail({
+      body: {
+        email: input.email,
+        password: input.password,
+        name: input.name || '',
+      },
+    })) as BetterAuthSignUpResponse
+
+    if (!result || !result.user) {
+      throw new Error('Failed to create user')
+    }
+
+    // Assign role to user
+    const role = await prisma.role.findUnique({
+      where: { code: input.roleCode || 'STAFF' },
+    })
+
+    if (!role) {
+      throw new Error(`Role ${input.roleCode || 'STAFF'} not found`)
+    }
+
+    await prisma.userRole.create({
+      data: {
+        userId: result.user.id,
+        roleId: role.id,
+      },
+    })
+
+    // Log user creation
+    await prisma.auditLog.create({
+      data: {
+        userId: result.user.id,
+        action: 'USER_CREATED',
+        entity: 'User',
+        entityId: result.user.id,
+        meta: JSON.stringify({ roleCode: input.roleCode || 'STAFF' }),
+      },
+    })
+
+    return {
+      user: mapUserToResponse(result.user),
+      token: result.token,
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Backoffice sign up failed: ${error.message}`)
+    }
+    throw new Error('Backoffice sign up failed')
   }
 }
 
@@ -163,17 +222,90 @@ export async function revokeAllSessions(_userId: string): Promise<never> {
 /**
  * Check if user has a specific role
  */
-export async function checkUserRole(_userId: string, _roleCode: string): Promise<boolean> {
-  // Implement custom RBAC logic
-  throw new Error('Implement custom RBAC logic')
+export async function checkUserRole(userId: string, roleCode: string): Promise<boolean> {
+  try {
+    const userRole = await prisma.userRole.findFirst({
+      where: {
+        userId,
+        role: {
+          code: roleCode,
+        },
+      },
+    })
+    return userRole !== null
+  } catch (error) {
+    console.error('Check user role failed:', error)
+    return false
+  }
 }
 
 /**
  * Check if user has a specific permission
  */
-export async function checkUserPermission(_userId: string, _permissionCode: string): Promise<boolean> {
-  // Implement custom RBAC logic
-  throw new Error('Implement custom RBAC logic')
+export async function checkUserPermission(userId: string, permissionCode: string): Promise<boolean> {
+  try {
+    const userRoleWithPermission = await prisma.userRole.findFirst({
+      where: {
+        userId,
+        role: {
+          permissions: {
+            some: {
+              permission: {
+                code: permissionCode,
+              },
+            },
+          },
+        },
+      },
+    })
+    return userRoleWithPermission !== null
+  } catch (error) {
+    console.error('Check user permission failed:', error)
+    return false
+  }
+}
+
+/**
+ * Handle social login post-authentication
+ * Auto-assigns CUSTOMER role for social login users
+ */
+export async function handleSocialLogin(userId: string, provider: string): Promise<void> {
+  try {
+    // Check if user already has a role
+    const existingRole = await prisma.userRole.findFirst({
+      where: { userId },
+    })
+
+    if (!existingRole) {
+      // Auto-assign CUSTOMER role for social logins
+      const customerRole = await prisma.role.findUnique({
+        where: { code: 'CUSTOMER' },
+      })
+
+      if (customerRole) {
+        await prisma.userRole.create({
+          data: {
+            userId,
+            roleId: customerRole.id,
+          },
+        })
+      }
+    }
+
+    // Log social login
+    await prisma.auditLog.create({
+      data: {
+        userId,
+        action: 'SOCIAL_LOGIN',
+        entity: 'User',
+        entityId: userId,
+        meta: JSON.stringify({ provider }),
+      },
+    })
+  } catch (error) {
+    console.error('Handle social login failed:', error)
+    // Don't throw - allow login to continue even if role assignment fails
+  }
 }
 
 /**

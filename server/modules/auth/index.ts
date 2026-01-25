@@ -1,5 +1,7 @@
 import { Elysia, t } from 'elysia'
 import { betterAuthPlugin } from '@/server/plugins/auth'
+import * as authService from './service'
+import { signUpBackofficeSchema } from './model'
 
 /**
  * Authentication Controller (Example Custom Routes)
@@ -15,8 +17,13 @@ import { betterAuthPlugin } from '@/server/plugins/auth'
  * - POST /api/auth/api/sign-in/email
  * - POST /api/auth/api/sign-out
  * - GET /api/auth/api/session
+ * - GET /api/auth/api/sign-in/google (OAuth - if configured)
+ * - GET /api/auth/api/callback/google (OAuth callback)
+ * - GET /api/auth/api/sign-in/facebook (OAuth - if configured)
+ * - GET /api/auth/api/callback/facebook (OAuth callback)
  * 
  * Custom endpoints in this controller:
+ * - POST /auth/backoffice/register: Register backoffice user with role
  * - GET /auth/me: Get current user profile
  * - PUT /auth/profile: Update user profile
  * - GET /auth/sessions: Get all user sessions
@@ -27,6 +34,53 @@ import { betterAuthPlugin } from '@/server/plugins/auth'
 
 export const authController = new Elysia({ prefix: '/auth' })
   .use(betterAuthPlugin)
+
+  /**
+   * Register a backoffice user with role assignment
+   * Public route - no authentication required
+   */
+  .post(
+    '/backoffice/register',
+    async ({ body }) => {
+      try {
+        const validated = signUpBackofficeSchema.parse(body)
+        const result = await authService.signUpBackoffice(validated)
+
+        return {
+          success: true,
+          data: result,
+          message: 'Backoffice user registered successfully',
+        }
+      } catch (error) {
+        if (error instanceof Error) {
+          return {
+            success: false,
+            error: error.message,
+          }
+        }
+        return {
+          success: false,
+          error: 'Registration failed',
+        }
+      }
+    },
+    {
+      body: t.Object({
+        email: t.String({ format: 'email' }),
+        password: t.String({ minLength: 8, maxLength: 128 }),
+        name: t.Optional(t.String()),
+        roleCode: t.Optional(
+          t.Union([t.Literal('ADMIN'), t.Literal('MANAGER'), t.Literal('STAFF')])
+        ),
+      }),
+      detail: {
+        tags: ['Authentication'],
+        summary: 'Register backoffice user',
+        description:
+          'Register a new backoffice user with role assignment. Defaults to STAFF role if not specified.',
+      },
+    }
+  )
 
   /**
    * Get current user profile
