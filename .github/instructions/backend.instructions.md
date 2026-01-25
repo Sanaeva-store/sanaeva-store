@@ -1,5 +1,5 @@
 ---
-applyTo: "**/*.tsx,**/*.ts"
+applyTo: "**/*.ts"
 ---
 
 - Use Elysiajs for building API routes instead of Next.js Route Handlers.
@@ -7,18 +7,3 @@ applyTo: "**/*.tsx,**/*.ts"
 
 
 # Project structure
-| src
-  | modules
-	| auth
-	  | index.ts (Elysia controller)
-	  | service.ts (service)
-	  | model.ts (model)
-	| user
-	  | index.ts (Elysia controller)
-	  | service.ts (service)
-	  | model.ts (model)
-  | utils
-	| a
-	  | index.ts
-	| b
-	  | index.ts

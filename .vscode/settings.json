@@ -1,3 +1,8 @@
 {
-    "prisma.pinToPrisma6": true
+  "prisma.pinToPrisma6": false,
+  "prisma.schemaPath": "prisma/schema.prisma",
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma",
+    "editor.formatOnSave": true
+  }
 }

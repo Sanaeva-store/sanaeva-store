@@ -14,14 +14,17 @@
 - This project uses bun as a package manager.
 - This is a Next.js (App Router) + TypeScript project and use Route handler alternative with Elysiajs instead of Route Handler from NextJS.
 - React Hook Form is used for form management.
-- Zod is used for schema validation.
 - Vitest is used for testing.
 - ESLint and Prettier are used for code quality and formatting.
 - Axios is used for HTTP requests and create interceptors and generic for React Query call the Axios like a fetcher.
 - React Query is used for data fetching and state management.
 - TailwindCSS is used for styling.
+- Use shadcn/ui for UI components.
+- Use TanStack Virtual for rendering large lists efficiently.
 - Prisma is used for database ORM with a PostgreSQL database.
 - Use Zod for validation and React Hook Form for forms when building UI forms.
+- Use Framer Motion for animations and transitions.
+
 
 # Coding standards
 - Prefer small pure functions.
