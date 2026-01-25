@@ -30,6 +30,7 @@
 - Prefer small pure functions.
 - Add meaningful error handling; never swallow errors silently.
 - Follow existing folder conventions and naming patterns.
+- Document in /docs file name should  be same as the feature or module name and use UPPERCASE.md.
 
 # Quality gates
 - Add/adjust tests when changing business logic.
