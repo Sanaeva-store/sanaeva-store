@@ -1,7 +1,7 @@
 import { Elysia, t } from 'elysia'
 import { betterAuthPlugin } from '@/server/plugins/auth'
 import * as authService from './service'
-import { signUpBackofficeSchema } from './model'
+import { signUpBackofficeSchema, signInFlexibleSchema } from './model'
 
 /**
  * Authentication Controller (Example Custom Routes)
@@ -34,6 +34,51 @@ import { signUpBackofficeSchema } from './model'
 
 export const authController = new Elysia({ prefix: '/auth' })
   .use(betterAuthPlugin)
+
+  /**
+   * Sign in with email or username and password
+   * Public route - no authentication required
+   */
+  .post(
+    '/sign-in',
+    async ({ body }) => {
+      try {
+        const validated = signInFlexibleSchema.parse(body)
+        const result = await authService.signInFlexible(validated)
+
+        return {
+          success: true,
+          data: result,
+          message: 'Sign in successful',
+        }
+      } catch (error) {
+        if (error instanceof Error) {
+          return {
+            success: false,
+            error: error.message,
+          }
+        }
+        return {
+          success: false,
+          error: 'Sign in failed',
+        }
+      }
+    },
+    {
+      body: t.Object({
+        emailOrUsername: t.String({
+          description: 'Email address or username',
+        }),
+        password: t.String(),
+      }),
+      detail: {
+        tags: ['Authentication'],
+        summary: 'Sign in with email or username',
+        description:
+          'Sign in to the application using either email address or username along with password.',
+      },
+    }
+  )
 
   /**
    * Register a backoffice user with role assignment

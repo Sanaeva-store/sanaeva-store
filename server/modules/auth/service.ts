@@ -3,6 +3,7 @@ import { prisma } from '@/server/db/client'
 import type {
   SignUpInput,
   SignInInput,
+  SignInFlexibleInput,
   UpdateProfileInput,
   UserResponse,
   BetterAuthUser,
@@ -110,7 +111,7 @@ export async function signUpBackoffice(input: SignUpBackofficeInput): Promise<Si
 }
 
 /**
- * Sign in an existing user
+ * Sign in an existing user with email
  */
 export async function signIn(input: SignInInput): Promise<SignInResponse> {
   try {
@@ -118,6 +119,59 @@ export async function signIn(input: SignInInput): Promise<SignInResponse> {
       body: {
         email: input.email,
         password: input.password,
+      },
+    })) as BetterAuthSignInResponse
+
+    if (!result || !result.user) {
+      throw new Error('Invalid credentials')
+    }
+
+    return {
+      user: mapUserToResponse(result.user),
+      token: result.token,
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Sign in failed: ${error.message}`)
+    }
+    throw new Error('Sign in failed')
+  }
+}
+
+/**
+ * Sign in with email or username
+ * Flexible authentication that accepts either email or username
+ */
+export async function signInFlexible(input: SignInFlexibleInput): Promise<SignInResponse> {
+  try {
+    const { emailOrUsername, password } = input
+
+    // Determine if input is email or username
+    const isEmail = emailOrUsername.includes('@')
+
+    let email: string
+
+    if (isEmail) {
+      email = emailOrUsername
+    } else {
+      // Find user by username and get their email
+      const user = await prisma.user.findUnique({
+        where: { username: emailOrUsername },
+        select: { email: true },
+      })
+
+      if (!user) {
+        throw new Error('Invalid credentials')
+      }
+
+      email = user.email
+    }
+
+    // Sign in with the email
+    const result = (await auth.api.signInEmail({
+      body: {
+        email,
+        password,
       },
     })) as BetterAuthSignInResponse
 

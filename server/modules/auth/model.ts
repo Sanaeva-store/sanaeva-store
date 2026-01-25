@@ -47,7 +47,7 @@ export const signUpBackofficeSchema = z.object({
 export type SignUpBackofficeInput = z.infer<typeof signUpBackofficeSchema>
 
 /**
- * Sign In Schema
+ * Sign In Schema (email only)
  */
 export const signInSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -55,6 +55,19 @@ export const signInSchema = z.object({
 })
 
 export type SignInInput = z.infer<typeof signInSchema>
+
+/**
+ * Sign In with Email or Username Schema
+ */
+export const signInFlexibleSchema = z.object({
+  emailOrUsername: z
+    .string()
+    .min(1, 'Email or username is required')
+    .describe('Email address or username'),
+  password: z.string().min(1, 'Password is required'),
+})
+
+export type SignInFlexibleInput = z.infer<typeof signInFlexibleSchema>
 
 /**
  * Update Profile Schema
