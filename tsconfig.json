@@ -20,7 +20,11 @@
     ],
     "paths": {
       "@/*": ["./*"]
-    }
+    },
+    "types": [
+      "bun-types"
+    ]
+
   },
   "include": [
     "next-env.d.ts",

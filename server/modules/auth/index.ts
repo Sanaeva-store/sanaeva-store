@@ -4,8 +4,8 @@ import { betterAuthPlugin } from '@/server/plugins/auth'
 /**
  * Authentication Controller (Example Custom Routes)
  * 
- * This demonstrates how to create custom authenticated routes
- * using the betterAuthPlugin macro.
+ * This demonstrates custom authenticated routes that use the auth macro
+ * provided by betterAuthPlugin.
  * 
  * Better Auth provides all standard auth endpoints automatically.
  * Use this controller only for custom business logic beyond authentication.
@@ -20,6 +20,9 @@ import { betterAuthPlugin } from '@/server/plugins/auth'
  * - GET /auth/me: Get current user profile
  * - PUT /auth/profile: Update user profile
  * - GET /auth/sessions: Get all user sessions
+ * 
+ * Note: Plugin deduplication ensures betterAuthPlugin is only loaded once
+ * even if .use(betterAuthPlugin) appears in multiple places.
  */
 
 export const authController = new Elysia({ prefix: '/auth' })

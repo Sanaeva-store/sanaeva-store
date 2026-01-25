@@ -1,6 +1,10 @@
 import { Elysia, t } from 'elysia'
-import { betterAuthPlugin } from './plugins/auth'
 import { authController } from './modules/auth'
+import { openapi, fromTypes } from '@elysiajs/openapi'
+import { opentelemetry } from '@elysiajs/opentelemetry'
+import { BatchSpanProcessor } from '@opentelemetry/sdk-trace-node'
+import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto'
+
 
 /**
  * Main Elysia API Server
@@ -22,7 +26,22 @@ import { authController } from './modules/auth'
  */
 
 // one reusable instance
-export const api = new Elysia({ prefix: '/api' })
+export const api = new Elysia({
+  prefix: '/api/v1',
+  normalize: true
+})
+  .use(opentelemetry({
+
+  }))
+  .use(
+    openapi({
+      references: fromTypes(
+        process.env.NODE_ENV === 'production'
+          ? 'dist/index.d.ts'
+          : 'src/index.ts'
+      )
+    })
+  )
   // Health check
   .get('/', () => ({ ok: true, message: 'Sanaeva Store API' }))
 
@@ -31,11 +50,8 @@ export const api = new Elysia({ prefix: '/api' })
     body: t.Object({ name: t.String() })
   })
 
-  // Better Auth integration with macro-based auth middleware
-  .use(betterAuthPlugin)
-  
-  // Custom authenticated routes
+  // Custom authenticated routes (includes betterAuthPlugin via plugin deduplication)
   .use(authController)
 
-  // you can plug in more plugins here
-  // .use(somePlugin)
+// you can plug in more plugins here
+// .use(somePlugin)

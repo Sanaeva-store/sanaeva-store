@@ -38,7 +38,7 @@ If existing repo conventions conflict with these assumptions, follow the repo.
 - `app/*` for Next.js routes, layouts, route handlers.
 - `features/<domain>/*` for business logic.
 - `components/ui/*` for components from shadcn/ui.
-- `components/ui/design-components/*` for design system primitives (no business logic).
+- `components/components-design/*` for design system primitives (no business logic).
 - `components/layouts/*` for layout components and combinations of UI components (Header, Footer, etc.).
 - `components/layouts/admin/*` for layout components and combinations of UI components for admin (Header, Footer, etc.).
 - `components/common/*` for shared non-domain components.
