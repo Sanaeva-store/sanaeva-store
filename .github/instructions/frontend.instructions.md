@@ -202,3 +202,14 @@ When you generate or modify code:
 - `features/orders/types/*`
 
 ---
+
+## Agent Skills Integration (Next + React)
+- Canonical policy: `/docs/FRONTEND-SKILL-POLICY.md`
+- Precedence for overlapping rules:
+  1. Next.js safety and architecture (`next-best-practices`)
+  2. React performance optimization (`vercel-react-best-practices`)
+  3. Existing repository conventions
+- Balanced enforcement:
+  - Keep diff-oriented changes; avoid over-refactor.
+  - Do not add new libraries without explicit instruction.
+  - Preserve repository patterns for React Query + Axios fetcher, RHF, Zod, and App Router boundaries.

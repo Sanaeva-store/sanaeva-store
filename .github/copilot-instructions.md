@@ -72,3 +72,14 @@
 - The code is expected to be clean, well-structured, and maintainable.
 - Follow best practices for code quality and maintainability.
 - NEVER assume backwards compatibility anywhere in the codebase. All refactors should be considered new development.
+
+## Agent Skills Integration (Next + React)
+- Follow `/docs/FRONTEND-SKILL-POLICY.md` as the canonical skill contract for frontend work.
+- Apply rules in this precedence order:
+  1. Next.js safety and architecture (`next-best-practices`)
+  2. React performance optimization (`vercel-react-best-practices`)
+  3. Existing repository conventions
+- Keep the approach balanced:
+  - Prefer minimal changes over broad rewrites.
+  - Do not add dependencies unless explicitly requested.
+  - Preserve current patterns (React Query + Axios fetcher, RHF, Zod, App Router semantics).
