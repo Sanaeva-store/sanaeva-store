@@ -7,11 +7,11 @@ This directory contains all specifications for the Sanaeva Store admin dashboard
 ### [features/](./features/)
 Feature specifications for admin dashboard modules:
 - [Overview](./features/overview.md) - Dashboard overview and KPIs
+- [Inventory Backoffice Roadmap](./features/inventory-backoffice-roadmap.md) - Inventory menu and screen plan aligned with backend API
 - [Orders](./features/orders.md) - Order management
 - [Products](./features/products.md) - Product and inventory management
-- [Customers](./features/customers.md) - Customer management
 - [Analytics](./features/analytics.md) - Reports and analytics
-- [Settings](./features/settings.md) - System settings
+- [Marketing & Growth](./features/marketing-growth.md) - Promotion and campaign operations
 
 ### [requirements/](./requirements/)
 Technical and business requirements:
@@ -46,5 +46,5 @@ System architecture and design:
 
 ## 📖 Related Documentation
 
-- [Project Structure](../../docs/project-BACKEND-STRUCTURE.md)
-- [Authentication](../../docs/authentication/README.md)
+- [Project Structure](../../project-structure/BACKEND-STRUCTURE.md)
+- [Authentication](../../authentication/README.md)

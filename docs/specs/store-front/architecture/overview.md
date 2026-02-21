@@ -182,7 +182,7 @@ components/
 
 ## 📖 Related Documentation
 
-- [Frontend Structure](../../../docs/project-structure/FRONTEND-STRUCTURE.md)
+- [Frontend Structure](../../../project-structure/FRONTEND-STRUCTURE.md)
 - [Product Catalog](../features/product-catalog.md)
 - [Shopping Cart](../features/shopping-cart.md)
 - [Checkout](../features/checkout.md)

@@ -276,4 +276,4 @@ class PermissionService {
 
 - [Authentication](./auth.md)
 - [Architecture Overview](../architecture/overview.md)
-- [Auth Implementation](../../../docs/authentication/README.md)
+- [Auth Implementation](../../../authentication/README.md)

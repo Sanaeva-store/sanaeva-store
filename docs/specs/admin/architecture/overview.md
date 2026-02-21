@@ -234,4 +234,4 @@ interface ApiResponse<T> {
 - [Order Flow](./order-flow.md)
 - [Data Model](./data-model.md)
 - [API Routes](./api-routes.md)
-- [Backend Structure](../../docs/project-structure/BACKEND-STRUCTURE.md)
+- [Backend Structure](../../project-structure/BACKEND-STRUCTURE.md)

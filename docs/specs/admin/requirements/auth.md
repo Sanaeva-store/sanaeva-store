@@ -218,4 +218,4 @@ interface AuditLog {
 
 - [Architecture Overview](../architecture/overview.md)
 - [Permissions](./permissions.md)
-- [Auth Implementation](../../../docs/authentication/README.md)
+- [Auth Implementation](../../../authentication/README.md)

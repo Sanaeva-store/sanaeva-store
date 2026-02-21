@@ -6,12 +6,18 @@ This directory contains all specifications for Sanaeva Store customer-facing sto
 
 ### [features/](./features/)
 Feature specifications for storefront functionality:
+- [Modern Storefront Experience](./features/modern-storefront-experience.md) - Modern UX scope and phase-based delivery
+- [Landing & Home](./features/landing-home.md) - Landing experience and home content blocks
 - [Product Catalog](./features/product-catalog.md) - Product browsing and discovery
 - [Shopping Cart](./features/shopping-cart.md) - Cart functionality
 - [Checkout](./features/checkout.md) - Checkout flow
 - [Search & Filters](./features/search.md) - Search and filtering
 - [User Account](./features/user-account.md) - Customer account features
 - [Order History](./features/order-history.md) - Order tracking
+- [Wishlist](./features/wishlist.md) - Saved items for later purchase
+- [Product Detail Page](./features/product-detail-page.md) - PDP variants, reviews, and social sharing
+- [Marketing & Growth](./features/marketing-growth.md) - Promotions, newsletter, loyalty, and content
+- [Modern & Advanced](./features/modern-advanced.md) - Chat, PWA, multi-language/currency, affiliate
 
 ### [requirements/](./requirements/)
 Technical and business requirements:
@@ -20,6 +26,7 @@ Technical and business requirements:
 - [Responsive Design](./requirements/responsive.md) - Mobile-first design
 - [Performance](./requirements/performance.md) - Performance standards
 - [SEO](./requirements/seo.md) - SEO optimization
+- [Security & Compliance](./requirements/security-compliance.md) - SSL, GDPR/PDPA, cookie and privacy controls
 
 ### [architecture/](./architecture/)
 Frontend architecture and design:
@@ -49,5 +56,6 @@ Frontend architecture and design:
 
 ## 📖 Related Documentation
 
-- [Frontend Structure](../../docs/project-structure/FRONTEND-STRUCTURE.md)
-- [Authentication](../../docs/authentication/README.md)
+- [Frontend Structure](../../project-structure/FRONTEND-STRUCTURE.md)
+- [Authentication](../../authentication/README.md)
+- [Storefront Frontend Phase Plan](../../agent-requirements/storefront-frontend/README.md)

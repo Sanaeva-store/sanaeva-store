@@ -28,6 +28,19 @@ Documentation for the application architecture and organization.
 - **[Backend Structure](./project-structure/backend.structure.md)** - Server architecture
 - **[Frontend Structure](./project-structure/frontend.structure.md)** - Client architecture
 
+### 📐 [Specifications](./specs/README.md)
+Structured feature requirements and architecture specs for Admin and Storefront.
+
+- **[Specification Index](./specs/INDEX.md)** - Master index for all specs
+- **[Storefront Specs](./specs/store-front/README.md)** - Customer-facing specs
+- **[Admin Specs](./specs/admin/README.md)** - Back office specs
+
+### 🗺️ [Agent Requirements](./agent-requirements/storefront-frontend/README.md)
+Phase-based execution plan for storefront frontend delivery.
+
+- **[Storefront Frontend Plan](./agent-requirements/storefront-frontend/README.md)** - Roadmap and dependencies
+- **[Production Checklist](./agent-requirements/storefront-frontend/production-readiness-checklist.md)** - Go/No-Go checklist
+
 ### 📦 Coming Soon
 - **Database** - Prisma schema and migrations guide
 - **API Reference** - Complete API documentation
