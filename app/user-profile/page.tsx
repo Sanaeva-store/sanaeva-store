@@ -1,9 +1,3 @@
-import React from 'react'
-
-type Props = {}
-
-export default function index({}: Props) {
-  return (
-    <div>Profile Page</div>
-  )
+export default function UserProfilePage() {
+  return <div>Profile Page</div>;
 }

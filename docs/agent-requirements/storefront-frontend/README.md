@@ -27,7 +27,9 @@ _Last updated: 2026-02-21_
    Cart/checkout UX hardening, validation, payment flow readiness
 5. `phase-5-observability-performance-release.md`
    Monitoring, performance tuning, release readiness
-6. `production-readiness-checklist.md`
+6. `phase-6-i18n-mapcn-adoption.md`
+   I18N foundation, localization rollout, and MapCN adoption
+7. `production-readiness-checklist.md`
    Go/No-Go checklist ก่อน production
 
 ## Cross-Phase Definition of Done

@@ -13,6 +13,12 @@ import {
   FileText,
   BarChart3,
   LogOut,
+  Warehouse,
+  PackagePlus,
+  PackageMinus,
+  TrendingDown,
+  History,
+  Truck,
 } from "lucide-react"
 
 import {
@@ -54,13 +60,53 @@ const menuItems = [
     ],
   },
   {
-    title: "Management",
+    title: "Inventory",
     items: [
       {
-        title: "Products",
-        url: "/admin-dasboard/products",
+        title: "Dashboard",
+        url: "/admin-dasboard/inventory/dashboard",
+        icon: Warehouse,
+      },
+      {
+        title: "Products & SKUs",
+        url: "/admin-dasboard/inventory/products",
         icon: Package,
       },
+      {
+        title: "Initial Stock",
+        url: "/admin-dasboard/inventory/initial-stock",
+        icon: PackagePlus,
+      },
+      {
+        title: "Adjustment",
+        url: "/admin-dasboard/inventory/adjustment",
+        icon: PackageMinus,
+      },
+      {
+        title: "Receiving",
+        url: "/admin-dasboard/inventory/receiving",
+        icon: Truck,
+      },
+      {
+        title: "Low Stock",
+        url: "/admin-dasboard/inventory/low-stock",
+        icon: TrendingDown,
+      },
+      {
+        title: "Transactions",
+        url: "/admin-dasboard/inventory/transactions",
+        icon: History,
+      },
+      {
+        title: "Suppliers",
+        url: "/admin-dasboard/inventory/suppliers",
+        icon: Users,
+      },
+    ],
+  },
+  {
+    title: "Management",
+    items: [
       {
         title: "Orders",
         url: "/admin-dasboard/orders",
