@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Search, SlidersHorizontal, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -53,6 +53,8 @@ export function ProductListingClient() {
 
   const updateParam = useCallback(
     (key: string, value: string) => {
+      const current = searchParams.get(key) ?? "";
+      if (current === value) return;
       const next = new URLSearchParams(searchParams.toString());
       if (value) {
         next.set(key, value);
@@ -65,7 +67,12 @@ export function ProductListingClient() {
     [router, searchParams],
   );
 
+  const isMounted = React.useRef(false);
   useEffect(() => {
+    if (!isMounted.current) {
+      isMounted.current = true;
+      return;
+    }
     updateParam("q", debouncedSearch);
   }, [debouncedSearch, updateParam]);
 
