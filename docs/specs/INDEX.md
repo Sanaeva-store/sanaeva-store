@@ -34,6 +34,9 @@ This index provides a complete overview of all technical specifications, feature
 
 ## 🛒 Storefront Specs
 
+### Design System
+- ✅ [Ecommerce UI Instructions](../agent-requirements/storefront-frontend/ECOMMERCE-UI-INSTRUCTION.md) - Design tokens, responsive patterns, Framer Motion/embla-carousel usage, next/image policy, and page-specific guidance
+
 ### Features
 - 🔄 [Modern Storefront Experience](./store-front/features/modern-storefront-experience.md) - Landing and shopping pages with modern UX and backend phase alignment
 - 📋 [Landing & Home](./store-front/features/landing-home.md) - Homepage structure and conversion-focused sections

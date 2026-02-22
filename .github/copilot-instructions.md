@@ -37,10 +37,10 @@
 - Ensure lint and typecheck pass before finalizing changes.
 
 ## Development Guidelines
-- Volta manages Node.js and npm versions.
+- Volta manages Node.js versions.
 - All code should be written in JavaScript (ES6+).
-- Run `npm lint` and `npm format` to check code quality.
-- Use `npm test` to run tests.
+- Run `bun run lint` and `bun run format` to check code quality.
+- Use `bun run test` to run tests.
 - Dotenv is used for environment variables, DO NOT TOUCH `.env` files.
 - Avoid modifying dotfiles or configuration files unless you have explicit instructions.
 

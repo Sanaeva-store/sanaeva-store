@@ -243,6 +243,39 @@
   --sidebar-ring: oklch(0.551 0.027 264.364);
 }
 
+/* Domain-specific theme scopes */
+[data-theme-domain="storefront"] {
+  /* Storefront-specific colors - Modern pastel pink aesthetic */
+  --storefront-primary: #FFB6C1;
+  --storefront-primary-hover: #FF69B4;
+  --storefront-accent: #FFC0CB;
+  --storefront-background: #FFF5F7;
+  --storefront-text: #2D3748;
+  --storefront-border: #FFE4E6;
+  
+  /* Product card specific */
+  --storefront-card-bg: #FFFFFF;
+  --storefront-card-shadow: 0 2px 8px rgba(255, 105, 180, 0.1);
+  --storefront-card-hover-shadow: 0 8px 24px rgba(255, 105, 180, 0.2);
+  
+  /* Button variants */
+  --storefront-button-primary-bg: var(--storefront-primary);
+  --storefront-button-primary-text: #FFFFFF;
+  --storefront-button-secondary-bg: transparent;
+  --storefront-button-secondary-border: var(--storefront-primary);
+}
+
+[data-theme-domain="backoffice"] {
+  /* Admin-specific colors - Professional indigo/gray aesthetic */
+  --backoffice-primary: #4F46E5;
+  --backoffice-primary-hover: #4338CA;
+  --backoffice-background: #F9FAFB;
+  --backoffice-sidebar-bg: #1F2937;
+  --backoffice-text: #111827;
+  --backoffice-border: #E5E7EB;
+  --backoffice-card-bg: #FFFFFF;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

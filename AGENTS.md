@@ -31,15 +31,15 @@ If guidance conflicts:
 
 ## 4) Package Manager and Commands (Strict)
 
-- Use `pnpm` only.
-- Do not use `npm`, `npx`, `yarn`, or `bun` for package/script commands.
+- Use `bun` only.
+- Do not use `npm`, `npx`, `yarn`, or `pnpm` for package/script commands.
 - Common commands:
-  - `pnpm install`
-  - `pnpm dev`
-  - `pnpm lint`
-  - `pnpm typecheck`
-  - `pnpm test`
-  - `pnpm build`
+  - `bun install`
+  - `bun dev`
+  - `bun run lint`
+  - `bun run typecheck`
+  - `bun run test`
+  - `bun run build`
 
 ## 5) Coding Best Practices
 
@@ -70,5 +70,5 @@ If guidance conflicts:
 When submitting work:
 - State what changed and why.
 - List touched files clearly.
-- Report what was validated (`pnpm lint`, `pnpm typecheck`, tests) or why not run.
+- Report what was validated (`bun run lint`, `bun run typecheck`, tests) or why not run.
 - Note assumptions and remaining risks if any.

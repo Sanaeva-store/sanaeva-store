@@ -14,6 +14,7 @@ _Last updated: 2026-02-21_
 
 - Spec requirements และ feature definition: `docs/specs/store-front/**`
 - Timeline และ execution plan: `docs/agent-requirements/storefront-frontend/**`
+- **UI/UX Design System**: `ECOMMERCE-UI-INSTRUCTION.md` - Design tokens, responsive patterns, animation rules, and component guidance
 
 ## Phase Roadmap
 

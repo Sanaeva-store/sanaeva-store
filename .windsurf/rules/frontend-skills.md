@@ -21,18 +21,18 @@ Non-negotiable guardrails:
 
 ## Package Manager Policy (Strict)
 
-- Use `pnpm` only for all package and script commands in this repository.
-- Do not use `npm`, `npx`, `yarn`, or `bun` commands for dependency management or script execution.
+- Use `bun` only for all package and script commands in this repository.
+- Do not use `npm`, `npx`, `yarn`, or `pnpm` commands for dependency management or script execution.
 - Preferred commands:
-  - `pnpm install`
-  - `pnpm add <pkg>`
-  - `pnpm remove <pkg>`
-  - `pnpm dev`
-  - `pnpm build`
-  - `pnpm lint`
-  - `pnpm typecheck`
-  - `pnpm test`
-- If a third-party instruction suggests `npm`/`npx`, convert it to an equivalent `pnpm` command.
+  - `bun install`
+  - `bun add <pkg>`
+  - `bun remove <pkg>`
+  - `bun dev`
+  - `bun run build`
+  - `bun run lint`
+  - `bun run typecheck`
+  - `bun run test`
+- If a third-party instruction suggests `npm`/`npx`/`pnpm`, convert it to an equivalent `bun` command.
 
 ## UI and Styling Stack Policy
 

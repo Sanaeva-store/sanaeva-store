@@ -4,4 +4,4 @@ For frontend work, follow:
 
 - `.windsurf/rules/frontend-skills.md`
 - `docs/FRONTEND-SKILL-POLICY.md`
-- Package manager must be `pnpm` only (never `npm`, `npx`, `yarn`, or `bun` for package/script commands).
+- Package manager must be `bun` only (never `npm`, `npx`, `yarn`, or `pnpm` for package/script commands).

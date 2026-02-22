@@ -135,3 +135,43 @@ export const animations = {
     transition: { duration: 0.25 },
   },
 } as const;
+
+/**
+ * Domain-specific semantic token contracts
+ * These define the semantic color tokens used by each domain
+ */
+export const domainTokens = {
+  /**
+   * Storefront domain tokens (ecommerce customer-facing)
+   * Theme: Modern pastel pink aesthetic
+   */
+  storefront: {
+    primary: "var(--storefront-primary)",
+    primaryHover: "var(--storefront-primary-hover)",
+    accent: "var(--storefront-accent)",
+    background: "var(--storefront-background)",
+    text: "var(--storefront-text)",
+    border: "var(--storefront-border)",
+    cardBg: "var(--storefront-card-bg)",
+    cardShadow: "var(--storefront-card-shadow)",
+    cardHoverShadow: "var(--storefront-card-hover-shadow)",
+    buttonPrimaryBg: "var(--storefront-button-primary-bg)",
+    buttonPrimaryText: "var(--storefront-button-primary-text)",
+    buttonSecondaryBg: "var(--storefront-button-secondary-bg)",
+    buttonSecondaryBorder: "var(--storefront-button-secondary-border)",
+  },
+
+  /**
+   * Backoffice domain tokens (admin dashboard)
+   * Theme: Professional indigo/gray aesthetic
+   */
+  backoffice: {
+    primary: "var(--backoffice-primary)",
+    primaryHover: "var(--backoffice-primary-hover)",
+    background: "var(--backoffice-background)",
+    sidebarBg: "var(--backoffice-sidebar-bg)",
+    text: "var(--backoffice-text)",
+    border: "var(--backoffice-border)",
+    cardBg: "var(--backoffice-card-bg)",
+  },
+} as const;
