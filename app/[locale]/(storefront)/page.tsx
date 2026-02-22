@@ -1,9 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Grid3X3 } from "lucide-react";
+import { ArrowRight, Grid3x3 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import type { Locale } from "@/shared/lib/i18n";
 
 type LocalizedText = {
@@ -152,166 +151,207 @@ export default async function StorefrontHomePage({
   };
 
   return (
-    <div className="bg-background text-foreground">
-      <section className="py-8 md:py-12 lg:py-16">
-        <div className="container px-4 md:px-6">
-          <div className="grid items-center gap-6 lg:grid-cols-2 lg:gap-12">
-            <div className="space-y-4">
-              <Badge variant="secondary" className="bg-secondary text-secondary-foreground">
+    <div className="flex-1">
+      {/* Hero Section */}
+      <section className="container mx-auto px-4 py-8 md:px-6 md:py-12 lg:py-16">
+        <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:grid-cols-2">
+          <div className="flex flex-col justify-center space-y-4">
+            <div className="space-y-2">
+              <Badge className="inline-flex items-center rounded-full border border-secondary bg-secondary/20 px-2.5 py-0.5 text-xs font-semibold text-secondary-foreground">
                 {dict.hero.badge}
               </Badge>
-              <h1 className="text-3xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
-                {dict.hero.title}
+              <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
+                {dict.hero.title.split(", ")[0]},<br />
+                <span className="text-primary-foreground/70">{dict.hero.title.split(", ")[1]}</span>
               </h1>
-              <p className="max-w-[640px] text-muted-foreground md:text-xl">
+              <p className="max-w-[600px] text-muted-foreground md:text-xl">
                 {dict.hero.description}
               </p>
-              <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                <Button asChild>
-                  <Link href={`/${locale}/products`}>{dict.hero.shopLatest}</Link>
-                </Button>
-                <Button variant="outline" asChild>
-                  <Link href={`/${locale}/products`}>{dict.hero.viewLookbook}</Link>
-                </Button>
-              </div>
             </div>
+            <div className="flex flex-col gap-2 min-[400px]:flex-row">
+              <Button
+                asChild
+                className="h-10 bg-primary px-8 text-sm font-medium text-primary-foreground shadow hover:bg-primary/90"
+              >
+                <Link href={`/${locale}/products`}>{dict.hero.shopLatest}</Link>
+              </Button>
+              <Button
+                variant="outline"
+                asChild
+                className="h-10 border-input bg-background px-8 text-sm font-medium shadow-sm hover:bg-accent hover:text-accent-foreground"
+              >
+                <Link href={`/${locale}/products`}>{dict.hero.viewLookbook}</Link>
+              </Button>
+            </div>
+          </div>
+          <div className="relative mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last lg:aspect-square">
+            <Image
+              src={heroImage}
+              alt={locale === "th" ? "แฟชั่นผ้าไหมไทยร่วมสมัย" : "Modern fashion made from Thai silk"}
+              fill
+              className="h-full w-full object-cover object-[center_30%]"
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+          </div>
+        </div>
+      </section>
 
-            <div className="relative overflow-hidden rounded-xl border bg-card">
-              <div className="aspect-square">
+      {/* Category Pills */}
+      <section className="container mx-auto px-4 py-8 md:px-6">
+        <div className="flex flex-wrap items-center justify-center gap-2">
+          <Button
+            className="inline-flex h-9 items-center justify-center rounded-full border bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm hover:bg-primary/90"
+            asChild
+          >
+            <Link href={`/${locale}/products`}>
+              <Grid3x3 className="mr-2 h-4 w-4" />
+              {dict.categories.all}
+            </Link>
+          </Button>
+          {dict.categories.list.map((item) => (
+            <Button
+              key={item}
+              variant="outline"
+              className="inline-flex h-9 items-center justify-center rounded-full border-input bg-background px-4 py-2 text-sm font-medium shadow-sm hover:bg-accent hover:text-accent-foreground"
+              asChild
+            >
+              <Link href={`/${locale}/products`}>{item}</Link>
+            </Button>
+          ))}
+        </div>
+      </section>
+
+      {/* Trending Collections */}
+      <section className="container mx-auto px-4 py-12 md:px-6 lg:py-16">
+        <div className="mb-8 flex items-center justify-between">
+          <div className="space-y-1">
+            <h2 className="text-2xl font-semibold tracking-tight">{dict.trending.title}</h2>
+            <p className="text-sm text-muted-foreground">{dict.trending.description}</p>
+          </div>
+          <Link
+            href={`/${locale}/products`}
+            className="inline-flex items-center text-sm font-medium hover:underline"
+          >
+            {dict.trending.viewAll}
+            <ArrowRight className="ml-1 h-4 w-4" />
+          </Link>
+        </div>
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {trendingCollections.map((item) => (
+            <div
+              key={item.image}
+              className="group relative rounded-lg border bg-card text-card-foreground shadow-sm transition-all hover:shadow-md"
+            >
+              <div className="aspect-[4/5] overflow-hidden rounded-t-lg">
                 <Image
-                  src={heroImage}
-                  alt={locale === "th" ? "แฟชั่นผ้าไหมไทยร่วมสมัย" : "Modern fashion made from Thai silk"}
+                  src={item.image}
+                  alt={t(locale, item.title)}
                   fill
-                  className="object-cover"
-                  sizes="(min-width: 1024px) 40vw, 100vw"
-                  priority
+                  className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  sizes="(min-width: 1024px) 20vw, (min-width: 640px) 40vw, 100vw"
                 />
               </div>
+              <div className="p-4">
+                <h3 className="font-semibold leading-none tracking-tight">{t(locale, item.title)}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{t(locale, item.subtitle)}</p>
+              </div>
             </div>
-          </div>
+          ))}
         </div>
       </section>
 
-      <section className="py-4">
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-wrap items-center justify-center gap-2">
-            <Button className="rounded-full" size="sm">
-              <Grid3X3 className="mr-2 h-4 w-4" />
-              {dict.categories.all}
-            </Button>
-            {dict.categories.list.map((item) => (
-              <Button key={item} variant="outline" size="sm" className="rounded-full">
-                {item}
-              </Button>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-12 lg:py-16">
-        <div className="container px-4 md:px-6">
-          <div className="mb-8 flex items-center justify-between">
-            <div>
-              <h2 className="text-2xl font-semibold tracking-tight">{dict.trending.title}</h2>
-              <p className="text-sm text-muted-foreground">{dict.trending.description}</p>
-            </div>
-            <Button variant="link" asChild className="px-0">
-              <Link href={`/${locale}/products`}>
-                {dict.trending.viewAll}
-                <ArrowRight className="ml-1 h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {trendingCollections.map((item) => (
-              <Card key={item.image} className="overflow-hidden border bg-card text-card-foreground">
-                <div className="relative aspect-[4/5]">
-                  <Image
-                    src={item.image}
-                    alt={t(locale, item.title)}
-                    fill
-                    className="object-cover transition-transform duration-300 hover:scale-105"
-                    sizes="(min-width: 1024px) 20vw, (min-width: 640px) 40vw, 100vw"
-                  />
-                </div>
-                <CardContent className="space-y-1 p-4">
-                  <h3 className="font-semibold">{t(locale, item.title)}</h3>
-                  <p className="text-sm text-muted-foreground">{t(locale, item.subtitle)}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-accent/30 py-12 md:py-20">
-        <div className="container px-4 md:px-6">
+      {/* Story Section */}
+      <section className="w-full bg-accent/30 py-12 md:py-24 lg:py-32">
+        <div className="container mx-auto px-4 md:px-6">
           <div className="grid items-center gap-6 lg:grid-cols-2 lg:gap-12">
-            <div className="relative aspect-square overflow-hidden rounded-xl border bg-card">
+            <div className="relative aspect-square overflow-hidden rounded-xl bg-muted shadow-xl">
               <Image
                 src={storyImage}
-                alt={locale === "th" ? "ช่างทอผ้าไหมไทย" : "Thai artisan weaving silk"}
+                alt={locale === "th" ? "ช่างทอผ้าไหมไทย" : "Thai woman weaving silk"}
                 fill
-                className="object-cover"
+                className="h-full w-full object-cover"
                 sizes="(min-width: 1024px) 40vw, 100vw"
               />
             </div>
-            <div className="space-y-4">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">{dict.story.title}</h2>
-              <p className="text-muted-foreground md:text-lg">{dict.story.description}</p>
-              <Button variant="secondary" asChild>
-                <Link href={`/${locale}/products`}>{dict.story.cta}</Link>
-              </Button>
+            <div className="flex flex-col justify-center space-y-4">
+              <div className="space-y-2">
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+                  {dict.story.title}
+                </h2>
+                <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                  {dict.story.description}
+                </p>
+              </div>
+              <div className="flex flex-col gap-2 min-[400px]:flex-row">
+                <Button
+                  asChild
+                  className="h-10 bg-foreground px-8 text-sm font-medium text-background shadow hover:bg-foreground/90"
+                >
+                  <Link href={`/${locale}/products`}>{dict.story.cta}</Link>
+                </Button>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="py-12 lg:py-16">
-        <div className="container px-4 md:px-6">
-          <div className="mb-10 text-center">
-            <Badge>{dict.arrivals.badge}</Badge>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">{dict.arrivals.title}</h2>
-            <p className="mx-auto mt-2 max-w-2xl text-muted-foreground md:text-lg">
-              {dict.arrivals.description}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {arrivals.map((item) => (
-              <Card key={item.image} className="overflow-hidden border bg-card text-card-foreground">
-                <div className="relative aspect-[3/4]">
-                  {item.badge ? (
-                    <span className="absolute left-2 top-2 z-10 rounded-full bg-background px-2 py-1 text-xs font-medium text-foreground">
-                      {t(locale, item.badge)}
-                    </span>
-                  ) : null}
-                  <Image
-                    src={item.image}
-                    alt={t(locale, item.title)}
-                    fill
-                    className="object-cover"
-                    sizes="(min-width: 1024px) 20vw, (min-width: 640px) 40vw, 100vw"
-                  />
-                </div>
-                <CardContent className="space-y-2 p-4">
-                  <h3 className="font-semibold">{t(locale, item.title)}</h3>
-                  <p className="text-sm text-muted-foreground">{t(locale, item.subtitle)}</p>
-                  <p className="text-sm font-medium">{t(locale, item.price)}</p>
-                  <Button className="mt-2 w-full" size="sm" asChild>
+      {/* Fresh Arrivals */}
+      <section className="container mx-auto px-4 py-12 md:px-6 lg:py-16">
+        <div className="mb-10 flex flex-col items-center justify-center space-y-4 text-center">
+          <Badge className="inline-flex items-center rounded-full border border-transparent bg-primary px-2.5 py-0.5 text-xs font-semibold text-primary-foreground hover:bg-primary/80">
+            {dict.arrivals.badge}
+          </Badge>
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">{dict.arrivals.title}</h2>
+          <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl/relaxed">
+            {dict.arrivals.description}
+          </p>
+        </div>
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {arrivals.map((item) => (
+            <div
+              key={item.image}
+              className="group relative overflow-hidden rounded-lg border bg-card text-card-foreground shadow-sm"
+            >
+              <div className="relative aspect-[3/4] w-full overflow-hidden bg-muted">
+                {item.badge && (
+                  <div className="absolute left-2 top-2 z-10 rounded-full bg-background/90 px-2.5 py-0.5 text-xs font-semibold shadow-sm backdrop-blur">
+                    {t(locale, item.badge)}
+                  </div>
+                )}
+                <Image
+                  src={item.image}
+                  alt={t(locale, item.title)}
+                  fill
+                  className="h-full w-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
+                  sizes="(min-width: 1024px) 20vw, (min-width: 640px) 40vw, 100vw"
+                />
+                <div className="absolute inset-x-0 bottom-0 p-4 opacity-0 transition-opacity group-hover:opacity-100">
+                  <Button
+                    asChild
+                    className="h-9 w-full bg-primary text-sm font-medium text-primary-foreground shadow hover:bg-primary/90"
+                  >
                     <Link href={`/${locale}/products`}>{dict.arrivals.addToCart}</Link>
                   </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          <div className="mt-10 flex justify-center">
-            <Button variant="outline" asChild>
-              <Link href={`/${locale}/products`}>{dict.arrivals.viewAllProducts}</Link>
-            </Button>
-          </div>
+                </div>
+              </div>
+              <div className="space-y-1 p-4">
+                <h3 className="font-semibold leading-none">{t(locale, item.title)}</h3>
+                <p className="text-sm text-muted-foreground">{t(locale, item.subtitle)}</p>
+                <div className="pt-1 font-medium">{t(locale, item.price)}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="mt-12 flex justify-center">
+          <Button
+            variant="outline"
+            asChild
+            className="h-11 border-input bg-background px-8 py-2 text-sm font-medium shadow-sm hover:bg-accent hover:text-accent-foreground"
+          >
+            <Link href={`/${locale}/products`}>{dict.arrivals.viewAllProducts}</Link>
+          </Button>
         </div>
       </section>
     </div>
