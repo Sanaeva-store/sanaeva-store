@@ -1,10 +1,11 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { CheckCircle2, Package, Plus, Trash2 } from "lucide-react";
+import { DatePicker } from "@/components/common/date-picker";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -225,7 +226,18 @@ export default function GoodsReceivingPage() {
                         <Input placeholder="LOT-2026-001" className="h-9" disabled={isPending} {...register(`items.${index}.lotNumber`)} />
                       </TableCell>
                       <TableCell className="align-top">
-                        <Input type="date" className="h-9" disabled={isPending} {...register(`items.${index}.expiryDate`)} />
+                        <Controller
+                          name={`items.${index}.expiryDate`}
+                          control={control}
+                          render={({ field }) => (
+                            <DatePicker
+                              value={field.value || undefined}
+                              onChange={(v) => field.onChange(v ?? "")}
+                              disabled={isPending}
+                              className="h-9"
+                            />
+                          )}
+                        />
                         {errors.items?.[index]?.expiryDate && <p className="mt-1 text-xs text-destructive">{errors.items[index]?.expiryDate?.message}</p>}
                       </TableCell>
                       <TableCell className="align-top">

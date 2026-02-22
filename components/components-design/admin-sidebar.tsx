@@ -19,6 +19,21 @@ import {
   TrendingDown,
   History,
   Truck,
+  ClipboardList,
+  Tag,
+  TicketPercent,
+  TrendingUp,
+  Camera,
+  RotateCcw,
+  Skull,
+  DollarSign,
+  AlertCircle,
+  ArrowLeftRight,
+  ScanLine,
+  List,
+  Shield,
+  ScrollText,
+  CheckSquare,
 } from "lucide-react"
 
 import {
@@ -73,13 +88,64 @@ const menuItems: MenuGroup[] = [
       { titleKey: "items.receiving", url: "/admin-dasboard/inventory/receiving", icon: Truck },
       { titleKey: "items.lowStock", url: "/admin-dasboard/inventory/low-stock", icon: TrendingDown },
       { titleKey: "items.transactions", url: "/admin-dasboard/inventory/transactions", icon: History },
-      { titleKey: "items.suppliers", url: "/admin-dasboard/inventory/suppliers", icon: Users },
+    ],
+  },
+  {
+    titleKey: "groups.purchasing",
+    items: [
+      { titleKey: "items.suppliers", url: "/admin-dasboard/purchasing/suppliers", icon: Truck },
+      { titleKey: "items.purchaseOrders", url: "/admin-dasboard/purchasing/purchase-orders", icon: ClipboardList },
+    ],
+  },
+  {
+    titleKey: "groups.orders",
+    items: [
+      { titleKey: "items.orderList", url: "/admin-dasboard/orders", icon: ShoppingCart },
+    ],
+  },
+  {
+    titleKey: "groups.promotions",
+    items: [
+      { titleKey: "items.promotionList", url: "/admin-dasboard/promotions", icon: TicketPercent },
+      { titleKey: "items.couponValidate", url: "/admin-dasboard/promotions/validate-coupon", icon: Tag },
+    ],
+  },
+  {
+    titleKey: "groups.reports",
+    items: [
+      { titleKey: "items.reportLowStock", url: "/admin-dasboard/reports/low-stock", icon: TrendingDown },
+      { titleKey: "items.reportSnapshot", url: "/admin-dasboard/reports/snapshot", icon: Camera },
+      { titleKey: "items.reportTurnover", url: "/admin-dasboard/reports/turnover", icon: TrendingUp },
+      { titleKey: "items.reportAging", url: "/admin-dasboard/reports/aging", icon: RotateCcw },
+      { titleKey: "items.reportDeadStock", url: "/admin-dasboard/reports/dead-stock", icon: Skull },
+      { titleKey: "items.reportProfit", url: "/admin-dasboard/reports/profit", icon: DollarSign },
+      { titleKey: "items.reportPriceCost", url: "/admin-dasboard/reports/price-cost-anomalies", icon: AlertCircle },
+    ],
+  },
+  {
+    titleKey: "groups.stockControl",
+    items: [
+      { titleKey: "items.stockTransfers", url: "/admin-dasboard/stock-control/transfers", icon: ArrowLeftRight },
+      { titleKey: "items.cycleCount", url: "/admin-dasboard/stock-control/cycle-count", icon: ScanLine },
+    ],
+  },
+  {
+    titleKey: "groups.pricing",
+    items: [
+      { titleKey: "items.priceLists", url: "/admin-dasboard/pricing/price-lists", icon: List },
+    ],
+  },
+  {
+    titleKey: "groups.adminSecurity",
+    items: [
+      { titleKey: "items.adminUsers", url: "/admin-dasboard/admin/users", icon: Shield },
+      { titleKey: "items.auditLogs", url: "/admin-dasboard/admin/audit-logs", icon: ScrollText },
+      { titleKey: "items.approvals", url: "/admin-dasboard/admin/approvals", icon: CheckSquare },
     ],
   },
   {
     titleKey: "groups.management",
     items: [
-      { titleKey: "items.orders", url: "/admin-dasboard/order-management", icon: ShoppingCart },
       { titleKey: "items.customers", url: "/admin-dasboard/customers", icon: Users },
     ],
   },

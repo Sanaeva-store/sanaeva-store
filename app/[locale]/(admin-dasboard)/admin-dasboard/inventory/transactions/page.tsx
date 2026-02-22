@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ArrowDownLeft, ArrowUpRight, ChevronLeft, ChevronRight, Filter, RotateCcw } from "lucide-react";
+import { DatePicker } from "@/components/common/date-picker";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -154,12 +155,22 @@ export default function StockTransactionsPage() {
 
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             <div className="space-y-2">
-              <Label htmlFor="filter-from">{t("filters.fromDate")}</Label>
-              <Input id="filter-from" type="date" className="h-10" value={from} onChange={(e) => setFrom(e.target.value)} />
+              <Label>{t("filters.fromDate")}</Label>
+              <DatePicker
+                value={from || undefined}
+                onChange={(v) => setFrom(v ?? "")}
+                placeholder={t("filters.fromDate")}
+                locale={locale as "th" | "en"}
+              />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="filter-to">{t("filters.toDate")}</Label>
-              <Input id="filter-to" type="date" className="h-10" value={to} onChange={(e) => setTo(e.target.value)} />
+              <Label>{t("filters.toDate")}</Label>
+              <DatePicker
+                value={to || undefined}
+                onChange={(v) => setTo(v ?? "")}
+                placeholder={t("filters.toDate")}
+                locale={locale as "th" | "en"}
+              />
             </div>
           </div>
         </CardContent>

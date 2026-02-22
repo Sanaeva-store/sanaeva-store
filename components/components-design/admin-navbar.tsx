@@ -19,6 +19,7 @@ import { SidebarTrigger } from "@/components/ui/sidebar"
 import { Badge } from "@/components/ui/badge"
 import { useTheme } from "next-themes"
 import { useBackofficeTranslations } from "@/shared/lib/i18n"
+import { LanguageSwitcher } from "@/components/common/language-switcher"
 
 export function AdminNavbar() {
   const { theme, setTheme } = useTheme()
@@ -47,6 +48,8 @@ export function AdminNavbar() {
       </div>
 
       <div className="flex items-center gap-2">
+        <LanguageSwitcher />
+
         <Button
           variant="ghost"
           size="icon"
