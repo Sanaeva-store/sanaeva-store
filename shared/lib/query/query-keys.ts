@@ -7,6 +7,9 @@ export const queryKeys = {
       warehouseId?: string;
       variantId?: string;
       type?: string;
+      createdById?: string;
+      from?: string;
+      to?: string;
       page?: number;
     }) =>
       [
@@ -15,6 +18,9 @@ export const queryKeys = {
         filters.warehouseId ?? "all",
         filters.variantId ?? "all",
         filters.type ?? "all",
+        filters.createdById ?? "all",
+        filters.from ?? "",
+        filters.to ?? "",
         filters.page ?? 1,
       ] as const,
   },

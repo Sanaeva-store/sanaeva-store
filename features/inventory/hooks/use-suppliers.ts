@@ -4,18 +4,19 @@ import {
   fetchSupplierById,
   createSupplier,
   updateSupplier,
+  toggleSupplierStatus,
   type CreateSupplierPayload,
   type UpdateSupplierPayload,
 } from "@/features/inventory/api/suppliers.api";
 
 const supplierKeys = {
   all: ["suppliers"] as const,
-  list: (params: { page?: number; search?: string }) =>
-    ["suppliers", "list", params.page ?? 1, params.search ?? ""] as const,
+  list: (params: { page?: number }) =>
+    ["suppliers", "list", params.page ?? 1] as const,
   detail: (id: string) => ["suppliers", "detail", id] as const,
 };
 
-export function useSuppliersQuery(params: { page?: number; search?: string } = {}) {
+export function useSuppliersQuery(params: { page?: number; limit?: number } = {}) {
   return useQuery({
     queryKey: supplierKeys.list(params),
     queryFn: () => fetchSuppliers(params),
@@ -46,6 +47,17 @@ export function useUpdateSupplierMutation() {
     mutationFn: ({ id, payload }: { id: string; payload: UpdateSupplierPayload }) =>
       updateSupplier(id, payload),
     onSuccess: (_data, { id }) => {
+      void queryClient.invalidateQueries({ queryKey: supplierKeys.all });
+      void queryClient.invalidateQueries({ queryKey: supplierKeys.detail(id) });
+    },
+  });
+}
+
+export function useToggleSupplierStatusMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => toggleSupplierStatus(id),
+    onSuccess: (_data, id) => {
       void queryClient.invalidateQueries({ queryKey: supplierKeys.all });
       void queryClient.invalidateQueries({ queryKey: supplierKeys.detail(id) });
     },

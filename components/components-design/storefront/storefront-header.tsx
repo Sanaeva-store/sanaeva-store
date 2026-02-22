@@ -1,17 +1,41 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingCart, Search, Menu, User } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { ShoppingCart, Menu, User, LogOut, Package, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useCartTotals } from "@/features/cart/store/cart.selectors";
+import { useCurrentUserQuery, useSignOutMutation } from "@/features/account/hooks/use-auth";
 
 export function StorefrontHeader() {
+  const router = useRouter();
   const { totalItems } = useCartTotals();
+  const { data: user, isLoading } = useCurrentUserQuery();
+  const { mutate: signOut, isPending: isSigningOut } = useSignOutMutation();
+
+  const handleSignOut = () => {
+    signOut(undefined, {
+      onSuccess: () => router.push("/"),
+    });
+  };
+
+  const initials = user?.name
+    ? user.name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2)
+    : "U";
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
@@ -25,13 +49,23 @@ export function StorefrontHeader() {
             </Button>
           </SheetTrigger>
           <SheetContent side="left">
-            <nav className="flex flex-col gap-4">
+            <nav className="flex flex-col gap-4 pt-4">
               <Link href="/" className="text-lg font-semibold">
                 Home
               </Link>
               <Link href="/products" className="text-lg">
                 Products
               </Link>
+              {user && (
+                <>
+                  <Link href="/account" className="text-lg">
+                    My Account
+                  </Link>
+                  <Link href="/orders" className="text-lg">
+                    My Orders
+                  </Link>
+                </>
+              )}
             </nav>
           </SheetContent>
         </Sheet>
@@ -53,16 +87,59 @@ export function StorefrontHeader() {
 
         {/* Actions */}
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon">
-            <Search className="h-5 w-5" />
-            <span className="sr-only">Search</span>
-          </Button>
-          <Button variant="ghost" size="icon" asChild>
-            <Link href="/account">
-              <User className="h-5 w-5" />
-              <span className="sr-only">Account</span>
-            </Link>
-          </Button>
+          {/* Account */}
+          {isLoading ? (
+            <div className="h-9 w-9 animate-pulse rounded-full bg-muted" />
+          ) : user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="rounded-full">
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage src={user.image} alt={user.name} />
+                    <AvatarFallback className="text-xs">{initials}</AvatarFallback>
+                  </Avatar>
+                  <span className="sr-only">Account menu</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuLabel className="font-normal">
+                  <p className="font-medium">{user.name}</p>
+                  <p className="text-xs text-muted-foreground">{user.email}</p>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/account">
+                    <Settings className="mr-2 h-4 w-4" />
+                    Account Settings
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/orders">
+                    <Package className="mr-2 h-4 w-4" />
+                    My Orders
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onClick={handleSignOut}
+                  disabled={isSigningOut}
+                  className="text-destructive focus:text-destructive"
+                >
+                  <LogOut className="mr-2 h-4 w-4" />
+                  Sign Out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Button variant="ghost" size="sm" asChild>
+              <Link href="/auth/signin">
+                <User className="mr-2 h-4 w-4" />
+                Sign In
+              </Link>
+            </Button>
+          )}
+
+          {/* Cart */}
           <Button variant="ghost" size="icon" asChild className="relative">
             <Link href="/cart">
               <ShoppingCart className="h-5 w-5" />

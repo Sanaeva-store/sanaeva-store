@@ -109,7 +109,7 @@ const menuItems = [
     items: [
       {
         title: "Orders",
-        url: "/admin-dasboard/orders",
+        url: "/admin-dasboard/order-management",
         icon: ShoppingCart,
       },
       {
@@ -143,7 +143,7 @@ export function AdminSidebar() {
     <Sidebar collapsible="icon">
       <SidebarHeader>
         <div className="flex items-center gap-2 px-2 py-1">
-          <div className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-primary/80 shadow-sm">
+          <div className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-linear-to-br from-primary to-primary/80 shadow-sm">
             <div className="absolute inset-0 rounded-lg bg-primary/20 blur-sm" />
             <svg
               viewBox="0 0 24 24"
@@ -223,7 +223,7 @@ export function AdminSidebar() {
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent
-                className="w-[var(--radix-dropdown-menu-trigger-width)] min-w-56 rounded-lg"
+                className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
                 side="bottom"
                 align="end"
                 sideOffset={4}

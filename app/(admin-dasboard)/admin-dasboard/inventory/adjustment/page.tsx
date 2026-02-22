@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/select";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Info } from "lucide-react";
+import { adjustmentReasonOptions } from "@/shared/constants/options";
 
 export const metadata: Metadata = {
   title: "Stock Adjustment - Sanaeva Store",
@@ -97,11 +98,11 @@ export default function StockAdjustmentPage() {
                 <SelectValue placeholder="Select reason..." />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="damage">Damaged Goods</SelectItem>
-                <SelectItem value="loss">Loss/Theft</SelectItem>
-                <SelectItem value="found">Found Stock</SelectItem>
-                <SelectItem value="correction">Inventory Correction</SelectItem>
-                <SelectItem value="other">Other</SelectItem>
+                {adjustmentReasonOptions.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>

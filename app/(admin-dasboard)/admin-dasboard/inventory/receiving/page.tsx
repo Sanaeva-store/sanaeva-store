@@ -59,13 +59,25 @@ export default function GoodsReceivingPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="po-ref">PO Reference (Optional)</Label>
-              <Input id="po-ref" placeholder="PO-2024-001" />
+              <Label htmlFor="location">Location (Optional)</Label>
+              <Input id="location" placeholder="e.g. Zone A, Shelf 3" />
             </div>
 
             <div className="space-y-2">
+              <Label htmlFor="po-id">PO Reference (Optional)</Label>
+              <Input id="po-id" placeholder="PO-2024-001" />
+            </div>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="space-y-2">
               <Label htmlFor="invoice">Invoice Number (Optional)</Label>
               <Input id="invoice" placeholder="INV-2024-001" />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="note">Note (Optional)</Label>
+              <Input id="note" placeholder="Add receiving notes..." />
             </div>
           </div>
         </CardContent>
@@ -92,15 +104,16 @@ export default function GoodsReceivingPage() {
             <TableHeader>
               <TableRow>
                 <TableHead>Product Variant</TableHead>
-                <TableHead>Quantity</TableHead>
+                <TableHead>Qty</TableHead>
                 <TableHead>Unit Cost</TableHead>
-                <TableHead>Total</TableHead>
+                <TableHead>Lot Number</TableHead>
+                <TableHead>Expiry Date</TableHead>
                 <TableHead className="w-[100px]">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               <TableRow>
-                <TableCell colSpan={5} className="text-center text-muted-foreground">
+                <TableCell colSpan={6} className="text-center text-muted-foreground">
                   No items added yet. Click &quot;Add Item&quot; to start.
                 </TableCell>
               </TableRow>

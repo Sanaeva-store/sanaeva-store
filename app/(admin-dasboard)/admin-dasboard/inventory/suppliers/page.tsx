@@ -35,7 +35,7 @@ export default function SuppliersPage() {
           <div className="flex gap-4">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Search by name, code, or contact..." className="pl-9" />
+              <Input placeholder="Search by name..." className="pl-9" />
             </div>
             <Button variant="outline">Filter</Button>
           </div>

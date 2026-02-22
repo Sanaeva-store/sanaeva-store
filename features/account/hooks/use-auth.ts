@@ -5,23 +5,23 @@ import {
   signIn,
   signUp,
   signOut,
-  forgotPassword,
-  fetchCurrentUser,
+  fetchCurrentSession,
   type SignInPayload,
   type SignUpPayload,
-  type ForgotPasswordPayload,
+  type AuthUser,
 } from "@/features/account/api/auth.api";
 
-const authKeys = {
-  user: ["auth", "user"] as const,
+export const authKeys = {
+  session: ["auth", "session"] as const,
 };
 
 export function useCurrentUserQuery() {
   return useQuery({
-    queryKey: authKeys.user,
-    queryFn: fetchCurrentUser,
+    queryKey: authKeys.session,
+    queryFn: fetchCurrentSession,
     retry: false,
     staleTime: 5 * 60 * 1000,
+    select: (data): AuthUser | null => data?.user ?? null,
   });
 }
 
@@ -30,7 +30,7 @@ export function useSignInMutation() {
   return useMutation({
     mutationFn: (payload: SignInPayload) => signIn(payload),
     onSuccess: (data) => {
-      queryClient.setQueryData(authKeys.user, data.user);
+      queryClient.setQueryData(authKeys.session, data);
     },
   });
 }
@@ -40,7 +40,7 @@ export function useSignUpMutation() {
   return useMutation({
     mutationFn: (payload: SignUpPayload) => signUp(payload),
     onSuccess: (data) => {
-      queryClient.setQueryData(authKeys.user, data.user);
+      queryClient.setQueryData(authKeys.session, data);
     },
   });
 }
@@ -50,14 +50,8 @@ export function useSignOutMutation() {
   return useMutation({
     mutationFn: signOut,
     onSuccess: () => {
-      queryClient.setQueryData(authKeys.user, null);
+      queryClient.setQueryData(authKeys.session, null);
       void queryClient.invalidateQueries();
     },
-  });
-}
-
-export function useForgotPasswordMutation() {
-  return useMutation({
-    mutationFn: (payload: ForgotPasswordPayload) => forgotPassword(payload),
   });
 }

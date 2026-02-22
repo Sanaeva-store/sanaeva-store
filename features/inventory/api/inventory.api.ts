@@ -1,13 +1,23 @@
 import { apiRequest } from "@/shared/lib/http/api-client";
+import type { PaginatedResponse } from "@/shared/types/api";
 
-export type TransactionType =
-  | "initialize"
-  | "adjust_increase"
-  | "adjust_decrease"
-  | "receive"
-  | "reserve"
-  | "release"
-  | "commit";
+/**
+ * Matches backend StockTxnType enum (uppercase, exact).
+ * Source: inventory DTO / Prisma schema
+ */
+export type StockTxnType =
+  | "INBOUND"
+  | "OUTBOUND"
+  | "RESERVE"
+  | "RELEASE"
+  | "TRANSFER_OUT"
+  | "TRANSFER_IN"
+  | "ADJUST";
+
+/**
+ * Matches backend AdjustmentReason enum (uppercase, exact).
+ */
+export type AdjustmentReason = "DAMAGE" | "LOST" | "FOUND" | "MANUAL_CORRECTION";
 
 export type LowStockItem = {
   variantId: string;
@@ -25,63 +35,93 @@ export type StockTransaction = {
   variantName: string;
   warehouseId: string;
   warehouseName: string;
-  type: TransactionType;
-  quantityBefore: number;
-  quantityAfter: number;
-  delta: number;
-  reason?: string;
+  type: StockTxnType;
+  beforeQty: number;
+  afterQty: number;
+  qty: number;
+  reasonCode?: AdjustmentReason;
   note?: string;
-  referenceId?: string;
-  actorId?: string;
+  refType?: string;
+  refId?: string;
+  createdById?: string;
   createdAt: string;
+  unitCost?: number;
+};
+
+/**
+ * GoodsReceiptResponseDto — returned by POST /api/inventory/receive
+ */
+export type GoodsReceiptResponseDto = {
+  id: string;
+  code: string;
+  warehouseId: string;
+  poId?: string;
+  receivedAt: string;
+  status: string;
+  note?: string;
+  transactions: StockTransaction[];
+};
+
+/**
+ * StockBalanceDto — returned by GET /api/inventory/balance/:variantId
+ */
+export type StockBalanceDto = {
+  variantId: string;
+  warehouseId: string;
+  locationId?: string;
+  onHand: number;
+  reserved: number;
+  available: number;
 };
 
 export type TransactionFilters = {
   variantId?: string;
   warehouseId?: string;
-  type?: TransactionType;
-  fromDate?: string;
-  toDate?: string;
+  type?: StockTxnType;
+  createdById?: string;
+  from?: string;
+  to?: string;
   page?: number;
   limit?: number;
 };
 
-export type TransactionListResponse = {
-  items: StockTransaction[];
-  total: number;
-  page: number;
-  limit: number;
-};
+export type TransactionListResponse = PaginatedResponse<StockTransaction>;
 
 export type InitializeStockPayload = {
   variantId: string;
   warehouseId: string;
-  quantity: number;
+  locationId?: string;
+  qty: number;
+  unitCost?: number;
   note?: string;
-  idempotencyKey: string;
+  idempotencyKey?: string;
 };
 
 export type AdjustStockPayload = {
   variantId: string;
   warehouseId: string;
-  delta: number;
-  reason: string;
+  locationId?: string;
+  qty: number;
+  reasonCode: AdjustmentReason;
   note?: string;
   idempotencyKey: string;
 };
 
 export type ReceiveItem = {
   variantId: string;
-  quantity: number;
+  qty: number;
   unitCost?: number;
+  lotNumber?: string;
+  expiryDate?: string;
 };
 
 export type ReceiveStockPayload = {
   warehouseId: string;
-  poReference?: string;
+  locationId?: string;
+  poId?: string;
   invoiceNumber?: string;
+  note?: string;
   items: ReceiveItem[];
-  idempotencyKey: string;
 };
 
 export async function fetchLowStock(warehouseId?: string): Promise<LowStockItem[]> {
@@ -96,14 +136,14 @@ export async function fetchTransactions(
   if (filters.variantId) params.set("variantId", filters.variantId);
   if (filters.warehouseId) params.set("warehouseId", filters.warehouseId);
   if (filters.type) params.set("type", filters.type);
-  if (filters.fromDate) params.set("fromDate", filters.fromDate);
-  if (filters.toDate) params.set("toDate", filters.toDate);
+  if (filters.createdById) params.set("createdById", filters.createdById);
+  if (filters.from) params.set("from", filters.from);
+  if (filters.to) params.set("to", filters.to);
   if (filters.page) params.set("page", String(filters.page));
   if (filters.limit) params.set("limit", String(filters.limit));
   const query = params.toString();
-  return apiRequest<TransactionListResponse>(
-    `/api/inventory/transactions${query ? `?${query}` : ""}`,
-  );
+  const qs = query ? `?${query}` : "";
+  return apiRequest<TransactionListResponse>(`/api/inventory/transactions${qs}`);
 }
 
 export async function initializeStock(
@@ -126,15 +166,23 @@ export async function adjustStock(
 
 export async function receiveStock(
   payload: ReceiveStockPayload,
-): Promise<StockTransaction[]> {
-  return apiRequest<StockTransaction[]>("/api/inventory/receive", {
+): Promise<GoodsReceiptResponseDto> {
+  return apiRequest<GoodsReceiptResponseDto>("/api/inventory/receive", {
     method: "POST",
     body: payload,
   });
 }
 
-export async function fetchStockBalance(variantId: string): Promise<{ available: number; reserved: number }> {
-  return apiRequest<{ available: number; reserved: number }>(
-    `/api/inventory/balance/${variantId}`,
+export async function fetchStockBalance(
+  variantId: string,
+  warehouseId?: string,
+  locationId?: string,
+): Promise<StockBalanceDto> {
+  const params = new URLSearchParams();
+  if (warehouseId) params.set("warehouseId", warehouseId);
+  if (locationId) params.set("locationId", locationId);
+  const query = params.toString();
+  return apiRequest<StockBalanceDto>(
+    `/api/inventory/balance/${variantId}${query ? `?${query}` : ""}`,
   );
 }

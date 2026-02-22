@@ -7,6 +7,7 @@ This index provides a complete overview of all technical specifications, feature
 - [Main README](./README.md) - Overview and getting started
 - [UI-First Master Plan](./ui-first-master-plan.md) - Unified UI-first roadmap + Zustand/state architecture plan
 - [UI-First Execution Checklist](./ui-first-execution-checklist.md) - 4-week actionable execution checklist
+- [Charting Strategy](./charting-strategy.md) - Recharts engine + shadcn wrapper conventions
 - [Admin Dashboard](./admin/) - Back office specifications
 - [Storefront](./store-front/) - Customer-facing specifications
 - [Storefront Frontend Phase Plan](../agent-requirements/storefront-frontend/README.md) - Timeline and execution plan

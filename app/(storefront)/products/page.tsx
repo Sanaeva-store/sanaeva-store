@@ -1,14 +1,7 @@
 import type { Metadata } from "next";
-import { Filter } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Suspense } from "react";
 import { LoadingSkeleton } from "@/shared/ui";
+import { ProductListingClient } from "@/components/components-design/storefront/product-listing-client";
 
 export const metadata: Metadata = {
   title: "Products - Sanaeva Store",
@@ -24,41 +17,9 @@ export default function ProductListingPage() {
           Discover our latest collection
         </p>
       </div>
-
-      {/* Filters and Sort */}
-      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex gap-2">
-          <Button variant="outline" size="sm">
-            <Filter className="mr-2 h-4 w-4" />
-            Filters
-          </Button>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-muted-foreground">Sort by:</span>
-          <Select defaultValue="newest">
-            <SelectTrigger className="w-[180px]">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="newest">Newest</SelectItem>
-              <SelectItem value="price-low">Price: Low to High</SelectItem>
-              <SelectItem value="price-high">Price: High to Low</SelectItem>
-              <SelectItem value="popular">Most Popular</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
-
-      {/* Product Grid */}
-      <LoadingSkeleton variant="card" count={12} />
-
-      {/* Pagination placeholder */}
-      <div className="mt-8 flex justify-center">
-        <p className="text-sm text-muted-foreground">
-          Pagination will be added here
-        </p>
-      </div>
+      <Suspense fallback={<LoadingSkeleton variant="card" count={12} />}>
+        <ProductListingClient />
+      </Suspense>
     </div>
   );
 }

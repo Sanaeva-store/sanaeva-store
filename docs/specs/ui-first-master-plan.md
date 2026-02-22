@@ -157,6 +157,7 @@
 1. `sonner`: unified toast strategy
 2. `framer-motion`: meaningful transitions only (avoid over-animation)
 3. `next/font` + image optimization standards on every key page
+4. Charts standard: `Recharts` as engine + `shadcn` chart wrappers via shared components
 
 ### Step 4: Guardrails
 
@@ -211,3 +212,4 @@ core/
 2. `docs/specs/store-front/features/modern-storefront-experience.md`
 3. `docs/specs/admin/architecture/overview.md`
 4. `docs/specs/store-front/architecture/overview.md`
+5. `docs/specs/charting-strategy.md`

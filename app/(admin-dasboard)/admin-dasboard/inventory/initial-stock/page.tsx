@@ -63,9 +63,21 @@ export default function InitialStockPage() {
               </Select>
             </div>
 
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="space-y-2">
+                <Label htmlFor="quantity">Quantity</Label>
+                <Input id="quantity" type="number" placeholder="0" min="1" />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="unit-cost">Unit Cost (Optional)</Label>
+                <Input id="unit-cost" type="number" placeholder="0.00" min="0" step="0.01" />
+              </div>
+            </div>
+
             <div className="space-y-2">
-              <Label htmlFor="quantity">Quantity</Label>
-              <Input id="quantity" type="number" placeholder="0" min="0" />
+              <Label htmlFor="location">Location (Optional)</Label>
+              <Input id="location" placeholder="e.g. Zone A, Shelf 3" />
             </div>
 
             <div className="space-y-2">

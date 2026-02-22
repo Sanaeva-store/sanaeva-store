@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "@/shared/lib/query/query-keys";
 import {
   fetchProductsList,
-  fetchProductBySlug,
+  fetchProductById,
   type ProductListParams,
 } from "@/features/storefront/api/products.api";
 
@@ -11,16 +11,16 @@ export function useProductsListQuery(params: ProductListParams = {}) {
     queryKey: queryKeys.products.list({
       search: params.search,
       page: params.page,
-      category: params.category,
+      category: params.categoryId,
     }),
     queryFn: () => fetchProductsList(params),
   });
 }
 
-export function useProductBySlugQuery(slug: string) {
+export function useProductByIdQuery(productId: string) {
   return useQuery({
-    queryKey: queryKeys.products.detail(slug),
-    queryFn: () => fetchProductBySlug(slug),
-    enabled: Boolean(slug),
+    queryKey: queryKeys.products.detail(productId),
+    queryFn: () => fetchProductById(productId),
+    enabled: Boolean(productId),
   });
 }

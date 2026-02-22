@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { LoadingSkeleton } from "@/shared/ui";
+import { stockTxnTypeOptions } from "@/shared/constants/options";
 
 export const metadata: Metadata = {
   title: "Stock Transactions - Sanaeva Store",
@@ -58,11 +59,11 @@ export default function StockTransactionsPage() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Types</SelectItem>
-                <SelectItem value="initialize">Initialize</SelectItem>
-                <SelectItem value="adjust">Adjustment</SelectItem>
-                <SelectItem value="receive">Receiving</SelectItem>
-                <SelectItem value="reserve">Reservation</SelectItem>
-                <SelectItem value="commit">Commit</SelectItem>
+                {stockTxnTypeOptions.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
 

@@ -27,10 +27,14 @@ export function useTransactionsQuery(filters: TransactionFilters = {}) {
   });
 }
 
-export function useStockBalanceQuery(variantId: string) {
+export function useStockBalanceQuery(
+  variantId: string,
+  warehouseId?: string,
+  locationId?: string,
+) {
   return useQuery({
-    queryKey: ["inventory", "balance", variantId],
-    queryFn: () => fetchStockBalance(variantId),
+    queryKey: ["inventory", "balance", variantId, warehouseId ?? "all", locationId ?? "all"],
+    queryFn: () => fetchStockBalance(variantId, warehouseId, locationId),
     enabled: Boolean(variantId),
   });
 }

@@ -1,12 +1,20 @@
-import { apiRequest } from "@/shared/lib/http/api-client";
+import { publicEnv } from "@/shared/config/public-env";
+import { ApiError } from "@/shared/lib/http/api-client";
 
 export type AuthUser = {
   id: string;
   email: string;
-  firstName: string;
-  lastName: string;
-  phone?: string;
-  role: "customer" | "admin" | "staff";
+  name: string;
+  image?: string;
+};
+
+export type AuthSession = {
+  user: AuthUser;
+  session: {
+    id: string;
+    expiresAt: string;
+    token: string;
+  };
 };
 
 export type SignInPayload = {
@@ -17,57 +25,55 @@ export type SignInPayload = {
 export type SignUpPayload = {
   email: string;
   password: string;
-  firstName: string;
-  lastName: string;
-  phone?: string;
+  name: string;
 };
 
 export type ForgotPasswordPayload = {
   email: string;
 };
 
-export type ResetPasswordPayload = {
-  token: string;
-  password: string;
+const authBase = () => {
+  const base = publicEnv.apiBaseUrl || "";
+  return `${base}/api/auth/api`;
 };
 
-export type AuthResponse = {
-  user: AuthUser;
-  accessToken: string;
-};
+async function authFetch<T>(path: string, init?: RequestInit): Promise<T> {
+  const res = await fetch(`${authBase()}${path}`, {
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    ...init,
+  });
+  const json = (await res.json()) as Record<string, unknown>;
+  if (!res.ok) {
+    const message = typeof json.message === "string" ? json.message : "Auth request failed";
+    throw new ApiError(message, res.status);
+  }
+  return json as T;
+}
 
-export async function signIn(payload: SignInPayload): Promise<AuthResponse> {
-  return apiRequest<AuthResponse>("/api/auth/signin", {
+export async function signIn(payload: SignInPayload): Promise<AuthSession> {
+  return authFetch<AuthSession>("/sign-in/email", {
     method: "POST",
-    body: payload,
+    body: JSON.stringify(payload),
   });
 }
 
-export async function signUp(payload: SignUpPayload): Promise<AuthResponse> {
-  return apiRequest<AuthResponse>("/api/auth/signup", {
+export async function signUp(payload: SignUpPayload): Promise<AuthSession> {
+  return authFetch<AuthSession>("/sign-up/email", {
     method: "POST",
-    body: payload,
+    body: JSON.stringify(payload),
   });
 }
 
 export async function signOut(): Promise<void> {
-  return apiRequest<void>("/api/auth/signout", { method: "POST" });
+  await authFetch<unknown>("/sign-out", { method: "POST" });
 }
 
-export async function forgotPassword(payload: ForgotPasswordPayload): Promise<void> {
-  return apiRequest<void>("/api/auth/forgot-password", {
-    method: "POST",
-    body: payload,
-  });
-}
-
-export async function resetPassword(payload: ResetPasswordPayload): Promise<void> {
-  return apiRequest<void>("/api/auth/reset-password", {
-    method: "POST",
-    body: payload,
-  });
-}
-
-export async function fetchCurrentUser(): Promise<AuthUser> {
-  return apiRequest<AuthUser>("/api/auth/me");
+export async function fetchCurrentSession(): Promise<AuthSession | null> {
+  try {
+    return await authFetch<AuthSession>("/session");
+  } catch (err) {
+    if (err instanceof ApiError && err.status === 401) return null;
+    throw err;
+  }
 }

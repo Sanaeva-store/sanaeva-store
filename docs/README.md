@@ -41,6 +41,14 @@ Phase-based execution plan for storefront frontend delivery.
 - **[Storefront Frontend Plan](./agent-requirements/storefront-frontend/README.md)** - Roadmap and dependencies
 - **[Production Checklist](./agent-requirements/storefront-frontend/production-readiness-checklist.md)** - Go/No-Go checklist
 
+### 🔄 [Backend-Frontend Sync](./agent-sync/backend-frontend-input-contracts/README.md)
+Agent-friendly API contract sync docs for building consistent UI input fields and payloads.
+
+- **[Sync Overview](./agent-sync/backend-frontend-input-contracts/README.md)** - Source, scope, status legend
+- **[Phase Sync](./agent-sync/backend-frontend-input-contracts/phase-sync.md)** - Backend phase to frontend feature mapping
+- **[Input Contracts](./agent-sync/backend-frontend-input-contracts/input-contracts.md)** - Required fields, types, enums, query params
+- **[Frontend Gap Checklist](./agent-sync/backend-frontend-input-contracts/frontend-gap-checklist.md)** - Current mismatches to fix
+
 ### 📦 Coming Soon
 - **Database** - Prisma schema and migrations guide
 - **API Reference** - Complete API documentation
