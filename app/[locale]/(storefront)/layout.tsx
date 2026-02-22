@@ -4,7 +4,7 @@ import { StorefrontFooter } from "@/components/components-design/storefront/stor
 
 export default function StorefrontLayout({ children }: PropsWithChildren) {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col" data-theme-domain="storefront">
       <StorefrontHeader />
       <main className="flex-1">{children}</main>
       <StorefrontFooter />

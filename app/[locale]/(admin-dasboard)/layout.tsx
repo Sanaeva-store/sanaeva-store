@@ -13,7 +13,7 @@ type Props = {
 
 export default function Layout({ children }: Props) {
   return (
-    <SidebarProvider defaultOpen={false}>
+    <SidebarProvider defaultOpen={false} data-theme-domain="backoffice">
       <AdminSidebar />
       <SidebarInset>
         <AdminNavbar />

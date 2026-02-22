@@ -7,20 +7,22 @@ export const useCartCurrency = () => useCartStore((state) => state.currency);
 export const useCartItems = () => useCartStore((state) => state.items);
 
 export const useCartTotals = () =>
-  useCartStore((state) => {
-    const subtotal = state.items.reduce(
-      (sum, item) => sum + item.unitPrice * item.quantity,
-      0,
-    );
+  useCartStore(
+    useShallow((state) => {
+      const subtotal = state.items.reduce(
+        (sum, item) => sum + item.unitPrice * item.quantity,
+        0,
+      );
 
-    const totalItems = state.items.reduce((sum, item) => sum + item.quantity, 0);
+      const totalItems = state.items.reduce((sum, item) => sum + item.quantity, 0);
 
-    return {
-      subtotal,
-      totalItems,
-      itemLines: state.items.length,
-    };
-  });
+      return {
+        subtotal,
+        totalItems,
+        itemLines: state.items.length,
+      };
+    }),
+  );
 
 export const useCartActions = () =>
   useCartStore(
