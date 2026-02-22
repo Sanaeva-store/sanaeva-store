@@ -1,0 +1,37 @@
+{
+  "meta": {
+    "title": "แดชบอร์ด",
+    "description": "ภาพรวมแดชบอร์ดหลังบ้าน"
+  },
+  "profitCard": {
+    "title": "กำไรรวม",
+    "amount": "฿ 15,237,000",
+    "trend": "+16%",
+    "trendLabel": "เทียบกับสัปดาห์ก่อน"
+  },
+  "stats": {
+    "totalProducts": "สินค้าทั้งหมด",
+    "productCategory": "หมวดหมู่สินค้า",
+    "totalSold": "ยอดขายรวม",
+    "monthlyIncome": "รายได้รายเดือน",
+    "trend": "+15%",
+    "updateDate": "20 กรกฎาคม 2024"
+  },
+  "productSale": {
+    "title": "ยอดขายสินค้า",
+    "periodDaily": "รายวัน",
+    "periodWeekly": "รายสัปดาห์",
+    "periodMonthly": "รายเดือน",
+    "periodYearly": "รายปี",
+    "food": "อาหาร",
+    "drink": "เครื่องดื่ม",
+    "snack": "ของว่าง",
+    "dessert": "ของหวาน"
+  },
+  "targetPrediction": {
+    "title": "คาดการณ์เป้าหมาย",
+    "targetAmount": "฿ 30,000,000",
+    "currentAmount": "฿ 15,237,000",
+    "description": "จากการวิเคราะห์ธุรกิจ พบว่าแนวโน้มการเติบโตเป็นไปในทิศทางที่ดีมาก"
+  }
+}

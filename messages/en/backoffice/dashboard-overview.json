@@ -1,0 +1,37 @@
+{
+  "meta": {
+    "title": "Dashboard",
+    "description": "Backoffice overview dashboard"
+  },
+  "profitCard": {
+    "title": "Profit amount",
+    "amount": "฿ 15,237,000",
+    "trend": "+16%",
+    "trendLabel": "From the previous week"
+  },
+  "stats": {
+    "totalProducts": "Total Products",
+    "productCategory": "Product Category",
+    "totalSold": "Total Sold",
+    "monthlyIncome": "Monthly income",
+    "trend": "+15%",
+    "updateDate": "20 July 2024"
+  },
+  "productSale": {
+    "title": "Product Sale",
+    "periodDaily": "Daily",
+    "periodWeekly": "Weekly",
+    "periodMonthly": "Monthly",
+    "periodYearly": "Yearly",
+    "food": "Food",
+    "drink": "Drink",
+    "snack": "Snack",
+    "dessert": "Dessert"
+  },
+  "targetPrediction": {
+    "title": "Target Prediction",
+    "targetAmount": "฿ 30,000,000",
+    "currentAmount": "฿ 15,237,000",
+    "description": "Based on the MSME analysis that has been carried out, the development of this business shows a very positive trend."
+  }
+}

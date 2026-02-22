@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -15,27 +15,30 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useInitializeStockMutation } from "@/features/inventory/hooks/use-inventory";
 import type { ApiError } from "@/shared/lib/http/api-client";
-
-const schema = z.object({
-  variantId: z.string().min(1, "Variant ID is required"),
-  warehouseId: z.string().min(1, "Warehouse ID is required"),
-  locationId: z.string().optional(),
-  qty: z
-    .number()
-    .int("Quantity must be a whole number")
-    .min(1, "Quantity must be greater than 0"),
-  unitCost: z.number().min(0).optional(),
-  note: z.string().optional(),
-});
-
-type FormValues = z.infer<typeof schema>;
+import { useBackofficeTranslations } from "@/shared/lib/i18n";
 
 export default function InitialStockPage() {
+  const { t } = useBackofficeTranslations("inventory-initial-stock");
   const [successData, setSuccessData] = useState<{
     id: string;
     afterQty: number;
     variantId: string;
   } | null>(null);
+
+  const schema = useMemo(
+    () =>
+      z.object({
+        variantId: z.string().min(1, t("validation.variantRequired")),
+        warehouseId: z.string().min(1, t("validation.warehouseRequired")),
+        locationId: z.string().optional(),
+        qty: z.number().int(t("validation.qtyInteger")).min(1, t("validation.qtyGreaterThanZero")),
+        unitCost: z.number().min(0).optional(),
+        note: z.string().optional(),
+      }),
+    [t],
+  );
+
+  type FormValues = z.infer<typeof schema>;
 
   const mutation = useInitializeStockMutation();
 
@@ -72,33 +75,30 @@ export default function InitialStockPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold">Initial Stock</h1>
-        <p className="mt-2 text-muted-foreground">
-          Set opening stock levels for product variants
-        </p>
+        <h1 className="text-3xl font-bold">{t("title")}</h1>
+        <p className="mt-2 text-muted-foreground">{t("subtitle")}</p>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        {/* Initialize Form */}
         <Card className="max-w-2xl">
           <CardHeader>
             <div className="flex items-center gap-2">
               <PackagePlus className="h-5 w-5 text-primary" />
-              <CardTitle>Initialize Stock</CardTitle>
+              <CardTitle>{t("form.title")}</CardTitle>
             </div>
-            <CardDescription>
-              Set the opening inventory quantity for a product variant. Each variant can only be initialized once per warehouse.
-            </CardDescription>
+            <CardDescription>{t("form.description")}</CardDescription>
           </CardHeader>
           <CardContent>
             {successData && (
-              <Alert className="mb-6 border-green-200 bg-green-50 text-green-800">
-                <CheckCircle2 className="h-4 w-4 text-green-600" />
-                <AlertTitle>Stock Initialized</AlertTitle>
+              <Alert variant="success" className="mb-6">
+                <CheckCircle2 className="h-4 w-4" />
+                <AlertTitle>{t("success.title")}</AlertTitle>
                 <AlertDescription>
-                  Variant <span className="font-mono font-semibold">{successData.variantId}</span> initialized with{" "}
-                  <span className="font-semibold">{successData.afterQty}</span> units.{" "}
-                  <span className="text-xs text-green-600">TXN: {successData.id}</span>
+                  {t("success.message", undefined, {
+                    variantId: successData.variantId,
+                    afterQty: successData.afterQty,
+                    id: successData.id,
+                  })}
                 </AlertDescription>
               </Alert>
             )}
@@ -107,18 +107,16 @@ export default function InitialStockPage() {
               <Alert variant="destructive" className="mb-6">
                 <AlertTitle>
                   {apiError.status === 409
-                    ? "Already Initialized"
+                    ? t("errors.alreadyInitialized")
                     : apiError.status === 422
-                      ? "Validation Error"
+                      ? t("errors.validation")
                       : apiError.status === 403
-                        ? "Permission Denied"
-                        : "Error"}
+                        ? t("errors.permission")
+                        : t("errors.generic")}
                 </AlertTitle>
                 <AlertDescription className="space-y-1">
                   <p>{apiError.message}</p>
-                  {apiError.code && (
-                    <p className="text-xs opacity-70">Code: {apiError.code}</p>
-                  )}
+                  {apiError.code && <p className="text-xs opacity-70">Code: {apiError.code}</p>}
                 </AlertDescription>
               </Alert>
             )}
@@ -126,169 +124,102 @@ export default function InitialStockPage() {
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-2">
-                  <Label htmlFor="variantId">
-                    Variant ID <span className="text-destructive">*</span>
-                  </Label>
-                  <Input
-                    id="variantId"
-                    placeholder="e.g. clvar001"
-                    className="h-10"
-                    disabled={isPending}
-                    {...register("variantId")}
-                  />
-                  {errors.variantId && (
-                    <p className="mt-1 text-xs text-destructive">{errors.variantId.message}</p>
-                  )}
+                  <Label htmlFor="variantId">{t("form.variantId")} <span className="text-destructive">*</span></Label>
+                  <Input id="variantId" placeholder={t("form.variantPlaceholder")} className="h-10" disabled={isPending} {...register("variantId")} />
+                  {errors.variantId && <p className="mt-1 text-xs text-destructive">{errors.variantId.message}</p>}
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="warehouseId">
-                    Warehouse ID <span className="text-destructive">*</span>
-                  </Label>
-                  <Input
-                    id="warehouseId"
-                    placeholder="e.g. clwh001"
-                    className="h-10"
-                    disabled={isPending}
-                    {...register("warehouseId")}
-                  />
-                  {errors.warehouseId && (
-                    <p className="mt-1 text-xs text-destructive">{errors.warehouseId.message}</p>
-                  )}
+                  <Label htmlFor="warehouseId">{t("form.warehouseId")} <span className="text-destructive">*</span></Label>
+                  <Input id="warehouseId" placeholder={t("form.warehousePlaceholder")} className="h-10" disabled={isPending} {...register("warehouseId")} />
+                  {errors.warehouseId && <p className="mt-1 text-xs text-destructive">{errors.warehouseId.message}</p>}
                 </div>
               </div>
 
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-2">
-                  <Label htmlFor="qty">
-                    Quantity <span className="text-destructive">*</span>
-                  </Label>
-                  <Input
-                    id="qty"
-                    type="number"
-                    inputMode="numeric"
-                    placeholder="0"
-                    min="1"
-                    step="1"
-                    className="h-10"
-                    disabled={isPending}
-                    {...register("qty", { valueAsNumber: true })}
-                  />
-                  {errors.qty && (
-                    <p className="mt-1 text-xs text-destructive">{errors.qty.message}</p>
-                  )}
+                  <Label htmlFor="qty">{t("form.qty")} <span className="text-destructive">*</span></Label>
+                  <Input id="qty" type="number" inputMode="numeric" placeholder={t("form.qtyPlaceholder")} min="1" step="1" className="h-10" disabled={isPending} {...register("qty", { valueAsNumber: true })} />
+                  {errors.qty && <p className="mt-1 text-xs text-destructive">{errors.qty.message}</p>}
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="unitCost">Unit Cost (Optional)</Label>
-                  <Input
-                    id="unitCost"
-                    type="number"
-                    inputMode="decimal"
-                    placeholder="0.00"
-                    min="0"
-                    step="0.01"
-                    className="h-10"
-                    disabled={isPending}
-                    {...register("unitCost", { valueAsNumber: true })}
-                  />
-                  {errors.unitCost && (
-                    <p className="mt-1 text-xs text-destructive">{errors.unitCost.message}</p>
-                  )}
+                  <Label htmlFor="unitCost">{t("form.unitCost")}</Label>
+                  <Input id="unitCost" type="number" inputMode="decimal" placeholder={t("form.unitCostPlaceholder")} min="0" step="0.01" className="h-10" disabled={isPending} {...register("unitCost", { valueAsNumber: true })} />
+                  {errors.unitCost && <p className="mt-1 text-xs text-destructive">{errors.unitCost.message}</p>}
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="locationId">Location ID (Optional)</Label>
-                <Input
-                  id="locationId"
-                  placeholder="e.g. clloc001"
-                  className="h-10"
-                  disabled={isPending}
-                  {...register("locationId")}
-                />
+                <Label htmlFor="locationId">{t("form.locationId")}</Label>
+                <Input id="locationId" placeholder={t("form.locationPlaceholder")} className="h-10" disabled={isPending} {...register("locationId")} />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="note">Note (Optional)</Label>
-                <Textarea
-                  id="note"
-                  placeholder="e.g. Opening stock — initial setup"
-                  rows={3}
-                  disabled={isPending}
-                  {...register("note")}
-                />
+                <Label htmlFor="note">{t("form.note")}</Label>
+                <Textarea id="note" placeholder={t("form.notePlaceholder")} rows={3} disabled={isPending} {...register("note")} />
               </div>
 
               <Separator />
 
               <div className="flex gap-3">
                 <Button type="submit" className="flex-1" disabled={isPending}>
-                  {isPending ? "Initializing..." : "Initialize Stock"}
+                  {isPending ? t("form.submitting") : t("form.submit")}
                 </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  disabled={isPending}
-                  onClick={() => { reset(); setSuccessData(null); mutation.reset(); }}
-                >
-                  Clear
+                <Button type="button" variant="outline" disabled={isPending} onClick={() => { reset(); setSuccessData(null); mutation.reset(); }}>
+                  {t("form.clear")}
                 </Button>
               </div>
             </form>
           </CardContent>
         </Card>
 
-        {/* Info Panel */}
         <div className="space-y-4">
           <Card>
             <CardHeader>
               <div className="flex items-center gap-2">
                 <Warehouse className="h-5 w-5 text-muted-foreground" />
-                <CardTitle className="text-base">How it works</CardTitle>
+                <CardTitle className="text-base">{t("info.howItWorks")}</CardTitle>
               </div>
             </CardHeader>
             <CardContent className="space-y-3 text-sm text-muted-foreground">
-              <p>
-                Initialize stock sets the <strong className="text-foreground">opening quantity</strong> for a product variant in a specific warehouse.
-              </p>
               <ul className="space-y-2 pl-4">
-                <li className="list-disc">Each variant can only be initialized once per warehouse</li>
-                <li className="list-disc">Quantity must be a positive integer (≥ 1)</li>
-                <li className="list-disc">Unit cost is optional and stored as reference</li>
-                <li className="list-disc">Location ID narrows the stock to a specific bin/shelf</li>
+                <li className="list-disc">{t("info.rule1")}</li>
+                <li className="list-disc">{t("info.rule2")}</li>
+                <li className="list-disc">{t("info.rule3")}</li>
+                <li className="list-disc">{t("info.rule4")}</li>
               </ul>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader>
-              <CardTitle className="text-base">Required Fields</CardTitle>
+              <CardTitle className="text-base">{t("info.requiredFields")}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
               <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">Variant ID</span>
-                <Badge variant="destructive" className="text-xs">Required</Badge>
+                <span className="text-muted-foreground">{t("form.variantId")}</span>
+                <Badge variant="destructive" className="text-xs">{t("info.required")}</Badge>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">Warehouse ID</span>
-                <Badge variant="destructive" className="text-xs">Required</Badge>
+                <span className="text-muted-foreground">{t("form.warehouseId")}</span>
+                <Badge variant="destructive" className="text-xs">{t("info.required")}</Badge>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">Quantity</span>
-                <Badge variant="destructive" className="text-xs">Required · integer &gt; 0</Badge>
+                <span className="text-muted-foreground">{t("form.qty")}</span>
+                <Badge variant="destructive" className="text-xs">{t("info.requiredInteger")}</Badge>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">Unit Cost</span>
-                <Badge variant="secondary" className="text-xs">Optional</Badge>
+                <span className="text-muted-foreground">{t("form.unitCost")}</span>
+                <Badge variant="secondary" className="text-xs">{t("info.optional")}</Badge>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">Location ID</span>
-                <Badge variant="secondary" className="text-xs">Optional</Badge>
+                <span className="text-muted-foreground">{t("form.locationId")}</span>
+                <Badge variant="secondary" className="text-xs">{t("info.optional")}</Badge>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">Note</span>
-                <Badge variant="secondary" className="text-xs">Optional</Badge>
+                <span className="text-muted-foreground">{t("form.note")}</span>
+                <Badge variant="secondary" className="text-xs">{t("info.optional")}</Badge>
               </div>
             </CardContent>
           </Card>

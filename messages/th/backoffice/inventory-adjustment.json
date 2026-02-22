@@ -1,0 +1,62 @@
+{
+  "title": "ปรับสต็อก",
+  "subtitle": "เพิ่มหรือลดปริมาณสต็อกพร้อมบันทึกการตรวจสอบ",
+  "notice": "การปรับสต็อกทุกครั้งจะถูกบันทึกและต้องระบุรหัสเหตุผลเพื่อการตรวจสอบ โดยจำนวนห้ามเป็นศูนย์",
+  "validation": {
+    "variantRequired": "ต้องระบุรหัสตัวเลือก",
+    "warehouseRequired": "ต้องระบุรหัสคลัง",
+    "directionRequired": "กรุณาเลือกทิศทางการปรับ",
+    "qtyInteger": "จำนวนต้องเป็นจำนวนเต็ม",
+    "qtyMin": "จำนวนต้องไม่น้อยกว่า 1",
+    "reasonRequired": "ต้องระบุรหัสเหตุผล"
+  },
+  "success": {
+    "title": "ส่งรายการปรับสต็อกแล้ว",
+    "message": "สต็อกเปลี่ยนจาก {{beforeQty}} เป็น {{afterQty}} ({{qty}} หน่วย) TXN: {{id}}"
+  },
+  "errors": {
+    "validation": "ข้อมูลไม่ถูกต้อง",
+    "permission": "ไม่มีสิทธิ์",
+    "conflict": "ข้อมูลขัดแย้ง",
+    "generic": "เกิดข้อผิดพลาด"
+  },
+  "form": {
+    "title": "ฟอร์มปรับสต็อก",
+    "description": "ปรับระดับสต็อกตามตัวเลือกสินค้าและตำแหน่งคลัง",
+    "variantId": "รหัสตัวเลือก",
+    "warehouseId": "รหัสคลัง",
+    "direction": "ทิศทาง",
+    "selectDirection": "เลือกทิศทาง...",
+    "increase": "เพิ่ม",
+    "decrease": "ลด",
+    "qty": "จำนวน",
+    "reasonCode": "รหัสเหตุผล",
+    "selectReason": "เลือกเหตุผล...",
+    "locationId": "รหัสตำแหน่ง (ไม่บังคับ)",
+    "note": "หมายเหตุ (ไม่บังคับ)",
+    "submit": "ยืนยันปรับสต็อก",
+    "submitting": "กำลังส่ง...",
+    "clear": "ล้างข้อมูล",
+    "variantPlaceholder": "เช่น clvar001",
+    "warehousePlaceholder": "เช่น clwh001",
+    "locationPlaceholder": "เช่น clloc001",
+    "notePlaceholder": "เพิ่มรายละเอียดการปรับสต็อก..."
+  },
+  "rules": {
+    "title": "กฎการปรับสต็อก",
+    "item1": "จำนวนห้ามเป็นศูนย์ ต้องอย่างน้อย 1",
+    "item2": "การลดจะส่งค่า qty ติดลบไปยัง API",
+    "item3": "รหัสเหตุผลต้องตรงกับ enum ฝั่ง backend",
+    "item4": "ทุกการส่งจะสร้าง idempotency key ใหม่",
+    "item5": "ระบบจะปฏิเสธหากสต็อกหลังปรับต่ำกว่า 0"
+  },
+  "reasonCodes": {
+    "title": "รหัสเหตุผล"
+  },
+  "reasonLabels": {
+    "DAMAGE": "สินค้าชำรุด",
+    "LOST": "สูญหาย/ถูกขโมย",
+    "FOUND": "พบสต็อกเพิ่ม",
+    "MANUAL_CORRECTION": "แก้ไขสต็อก"
+  }
+}

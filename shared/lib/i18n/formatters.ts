@@ -28,17 +28,15 @@ export function formatNumber(
 export function formatDate(
   date: string | Date,
   locale?: Locale,
-  options?: {
-    dateStyle?: Intl.DateTimeFormatOptions["dateStyle"];
-    timeStyle?: Intl.DateTimeFormatOptions["timeStyle"];
-  },
+  options?: Intl.DateTimeFormatOptions,
 ): string {
   const d = typeof date === "string" ? new Date(date) : date;
   const selectedLocale = locale ?? defaultLocale;
-  return new Intl.DateTimeFormat(localeFormats[selectedLocale], {
-    dateStyle: options?.dateStyle ?? "long",
-    timeStyle: options?.timeStyle,
-  }).format(d);
+  const formatOptions =
+    options && Object.keys(options).length > 0
+      ? options
+      : { dateStyle: "long" as const };
+  return new Intl.DateTimeFormat(localeFormats[selectedLocale], formatOptions).format(d);
 }
 
 export function formatRelativeTime(date: string | Date, locale?: Locale): string {

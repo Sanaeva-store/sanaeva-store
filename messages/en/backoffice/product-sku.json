@@ -1,0 +1,14 @@
+{
+  "meta": {
+    "title": "Products & SKUs",
+    "description": "Manage product catalog and variants"
+  },
+  "title": "Products & SKUs",
+  "subtitle": "Manage your product catalog and variants",
+  "addProduct": "Add Product",
+  "searchTitle": "Search Products",
+  "searchPlaceholder": "Search by name, SKU, or barcode...",
+  "filter": "Filter",
+  "allProducts": "All Products",
+  "allProductsDescription": "Complete list of products and their variants"
+}

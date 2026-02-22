@@ -4,6 +4,24 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  /* Semantic role colors */
+  --color-semantic-info-bg: var(--semantic-info-bg);
+  --color-semantic-info-text: var(--semantic-info-text);
+  --color-semantic-info-border: var(--semantic-info-border);
+  --color-semantic-success-bg: var(--semantic-success-bg);
+  --color-semantic-success-text: var(--semantic-success-text);
+  --color-semantic-success-border: var(--semantic-success-border);
+  --color-semantic-warning-bg: var(--semantic-warning-bg);
+  --color-semantic-warning-text: var(--semantic-warning-text);
+  --color-semantic-warning-border: var(--semantic-warning-border);
+  --color-semantic-error-bg: var(--semantic-error-bg);
+  --color-semantic-error-text: var(--semantic-error-text);
+  --color-semantic-error-border: var(--semantic-error-border);
+  --color-semantic-cancel-bg: var(--semantic-cancel-bg);
+  --color-semantic-cancel-text: var(--semantic-cancel-text);
+  --color-semantic-cancel-border: var(--semantic-cancel-border);
+  --color-semantic-cancel-hover: var(--semantic-cancel-hover);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
@@ -207,6 +225,24 @@
   --navbar-font: #6878AB;
   --navbar-active: #000000;
   --navbar-underline: #074E9F;
+
+  /* Semantic role colors (aligned with design-tokens.ts semanticColors) */
+  --semantic-info-bg: #EAF4FF;
+  --semantic-info-text: #0B5CAD;
+  --semantic-info-border: #A8CCF4;
+  --semantic-success-bg: #EAF8E7;
+  --semantic-success-text: #237804;
+  --semantic-success-border: #B7E0A3;
+  --semantic-warning-bg: #FFF4DD;
+  --semantic-warning-text: #AD6800;
+  --semantic-warning-border: #FFD666;
+  --semantic-error-bg: #FFF1F0;
+  --semantic-error-text: #A8071A;
+  --semantic-error-border: #FFCCC7;
+  --semantic-cancel-bg: #FFFFFF;
+  --semantic-cancel-text: #232C62;
+  --semantic-cancel-border: #D1D7E7;
+  --semantic-cancel-hover: #F7F9FF;
 }
 
 .dark {
@@ -241,6 +277,24 @@
   --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.551 0.027 264.364);
+
+  /* Semantic role colors - dark mode */
+  --semantic-info-bg: #0D2A4A;
+  --semantic-info-text: #7DBFFC;
+  --semantic-info-border: #1A4A7A;
+  --semantic-success-bg: #0D2E12;
+  --semantic-success-text: #6FCF97;
+  --semantic-success-border: #1A4A22;
+  --semantic-warning-bg: #2E1F00;
+  --semantic-warning-text: #FAAD14;
+  --semantic-warning-border: #4A3200;
+  --semantic-error-bg: #2E0A0A;
+  --semantic-error-text: #FF7875;
+  --semantic-error-border: #4A1010;
+  --semantic-cancel-bg: #1F2937;
+  --semantic-cancel-text: #D1D7E7;
+  --semantic-cancel-border: #374151;
+  --semantic-cancel-hover: #374151;
 }
 
 /* Domain-specific theme scopes */

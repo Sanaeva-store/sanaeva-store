@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -37,22 +37,28 @@ import {
 } from "@/features/inventory/hooks/use-suppliers";
 import type { Supplier } from "@/features/inventory/api/suppliers.api";
 import type { ApiError } from "@/shared/lib/http/api-client";
-
-const supplierSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  email: z.string().email("Invalid email").optional().or(z.literal("")),
-  phone: z.string().optional(),
-});
-
-type SupplierFormValues = z.infer<typeof supplierSchema>;
+import { formatDate, useBackofficeTranslations } from "@/shared/lib/i18n";
 
 export default function SuppliersPage() {
+  const { t, locale } = useBackofficeTranslations("inventory-suppliers");
   const [page, setPage] = useState(1);
   const limit = 20;
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingSupplier, setEditingSupplier] = useState<Supplier | null>(null);
   const [togglingId, setTogglingId] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
+
+  const schema = useMemo(
+    () =>
+      z.object({
+        name: z.string().min(1, t("errors.nameRequired")),
+        email: z.string().email(t("errors.invalidEmail")).optional().or(z.literal("")),
+        phone: z.string().optional(),
+      }),
+    [t],
+  );
+
+  type SupplierFormValues = z.infer<typeof schema>;
 
   const { data, isLoading, isError, error, refetch } = useSuppliersQuery({ page, limit });
   const createMutation = useCreateSupplierMutation();
@@ -65,7 +71,7 @@ export default function SuppliersPage() {
     reset,
     formState: { errors, isSubmitting },
   } = useForm<SupplierFormValues>({
-    resolver: zodResolver(supplierSchema),
+    resolver: zodResolver(schema),
   });
 
   const openCreate = () => {
@@ -93,10 +99,10 @@ export default function SuppliersPage() {
     };
     if (editingSupplier) {
       await updateMutation.mutateAsync({ id: editingSupplier.id, payload });
-      setSuccessMsg(`Supplier "${payload.name}" updated.`);
+      setSuccessMsg(t("messages.updated", undefined, { name: payload.name }));
     } else {
       await createMutation.mutateAsync(payload);
-      setSuccessMsg(`Supplier "${payload.name}" created.`);
+      setSuccessMsg(t("messages.created", undefined, { name: payload.name }));
     }
     setDialogOpen(false);
     reset();
@@ -107,7 +113,12 @@ export default function SuppliersPage() {
     setSuccessMsg(null);
     try {
       await toggleMutation.mutateAsync(supplier.id);
-      setSuccessMsg(`${supplier.name} is now ${supplier.isActive ? "inactive" : "active"}.`);
+      setSuccessMsg(
+        t("messages.statusNow", undefined, {
+          name: supplier.name,
+          status: supplier.isActive ? t("table.inactive") : t("table.active"),
+        }),
+      );
     } finally {
       setTogglingId(null);
     }
@@ -122,48 +133,45 @@ export default function SuppliersPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">Suppliers</h1>
-          <p className="mt-2 text-muted-foreground">
-            Manage your supplier directory
-          </p>
+          <h1 className="text-3xl font-bold">{t("title")}</h1>
+          <p className="mt-2 text-muted-foreground">{t("subtitle")}</p>
         </div>
         <Button onClick={openCreate}>
           <Plus className="mr-2 h-4 w-4" />
-          Add Supplier
+          {t("addSupplier")}
         </Button>
       </div>
 
       {successMsg && (
-        <Alert className="border-green-200 bg-green-50 text-green-800">
-          <CheckCircle2 className="h-4 w-4 text-green-600" />
-          <AlertTitle>Success</AlertTitle>
+        <Alert variant="success">
+          <CheckCircle2 className="h-4 w-4" />
+          <AlertTitle>{t("successTitle")}</AlertTitle>
           <AlertDescription>{successMsg}</AlertDescription>
         </Alert>
       )}
 
       {toggleMutation.isError && (
         <Alert variant="destructive">
-          <AlertTitle>Toggle Failed</AlertTitle>
+          <AlertTitle>{t("toggleFailed")}</AlertTitle>
           <AlertDescription>{(toggleMutation.error as ApiError)?.message}</AlertDescription>
         </Alert>
       )}
 
-      {/* Suppliers Table */}
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
               <div className="flex items-center gap-2">
                 <Truck className="h-5 w-5 text-primary" />
-                <CardTitle>All Suppliers</CardTitle>
+                <CardTitle>{t("table.title")}</CardTitle>
               </div>
               <CardDescription className="mt-1">
-                {isLoading ? "Loading..." : `${data?.total ?? 0} total suppliers`}
+                {isLoading ? t("table.loading") : `${data?.total ?? 0} ${t("table.totalSuppliers")}`}
               </CardDescription>
             </div>
             {data && data.totalPages > 1 && (
               <Badge variant="secondary" className="text-xs">
-                Page {page} of {totalPages}
+                {t("table.pageOf", undefined, { page, totalPages })}
               </Badge>
             )}
           </div>
@@ -173,8 +181,8 @@ export default function SuppliersPage() {
 
           {isError && (
             <ErrorState
-              title="Failed to load suppliers"
-              message={(error as Error)?.message ?? "An error occurred"}
+              title={t("table.loadFailed")}
+              message={(error as Error)?.message ?? ""}
               retry={() => void refetch()}
             />
           )}
@@ -182,9 +190,9 @@ export default function SuppliersPage() {
           {!isLoading && !isError && data && data.data.length === 0 && (
             <EmptyState
               icon={Truck}
-              title="No suppliers yet"
-              description="Add your first supplier to get started."
-              action={{ label: "Add Supplier", onClick: openCreate }}
+              title={t("table.emptyTitle")}
+              description={t("table.emptyDescription")}
+              action={{ label: t("addSupplier"), onClick: openCreate }}
             />
           )}
 
@@ -194,58 +202,44 @@ export default function SuppliersPage() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Name</TableHead>
-                      <TableHead>Email</TableHead>
-                      <TableHead>Phone</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Created</TableHead>
-                      <TableHead className="text-right">Actions</TableHead>
+                      <TableHead>{t("table.columns.name")}</TableHead>
+                      <TableHead>{t("table.columns.email")}</TableHead>
+                      <TableHead>{t("table.columns.phone")}</TableHead>
+                      <TableHead>{t("table.columns.status")}</TableHead>
+                      <TableHead>{t("table.columns.created")}</TableHead>
+                      <TableHead className="text-right">{t("table.columns.actions")}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {data.data.map((supplier) => (
                       <TableRow key={supplier.id}>
                         <TableCell className="font-medium">{supplier.name}</TableCell>
-                        <TableCell className="text-sm text-muted-foreground">
-                          {supplier.email ?? "—"}
-                        </TableCell>
-                        <TableCell className="text-sm text-muted-foreground">
-                          {supplier.phone ?? "—"}
-                        </TableCell>
+                        <TableCell className="text-sm text-muted-foreground">{supplier.email ?? "—"}</TableCell>
+                        <TableCell className="text-sm text-muted-foreground">{supplier.phone ?? "—"}</TableCell>
                         <TableCell>
                           {supplier.isActive ? (
-                            <Badge className="bg-green-100 text-green-800 hover:bg-green-100 text-xs">Active</Badge>
+                            <Badge variant="success" className="text-xs">{t("table.active")}</Badge>
                           ) : (
-                            <Badge variant="secondary" className="text-xs">Inactive</Badge>
+                            <Badge variant="secondary" className="text-xs">{t("table.inactive")}</Badge>
                           )}
                         </TableCell>
                         <TableCell className="whitespace-nowrap text-xs text-muted-foreground">
-                          {new Date(supplier.createdAt).toLocaleDateString()}
+                          {formatDate(new Date(supplier.createdAt), locale)}
                         </TableCell>
                         <TableCell className="text-right">
                           <div className="flex items-center justify-end gap-2">
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="h-8 w-8"
-                              title="Edit"
-                              onClick={() => openEdit(supplier)}
-                            >
+                            <Button variant="ghost" size="icon" className="h-8 w-8" title={t("table.edit")} onClick={() => openEdit(supplier)}>
                               <Pencil className="h-4 w-4" />
                             </Button>
                             <Button
                               variant="ghost"
                               size="icon"
-                              className={`h-8 w-8 ${supplier.isActive ? "text-muted-foreground hover:text-destructive" : "text-muted-foreground hover:text-green-600"}`}
-                              title={supplier.isActive ? "Deactivate" : "Activate"}
+                              className={`h-8 w-8 ${supplier.isActive ? "text-muted-foreground hover:text-destructive" : "text-muted-foreground hover:text-semantic-success-text"}`}
+                              title={supplier.isActive ? t("table.deactivate") : t("table.activate")}
                               disabled={togglingId === supplier.id}
                               onClick={() => void handleToggle(supplier)}
                             >
-                              {supplier.isActive ? (
-                                <PowerOff className="h-4 w-4" />
-                              ) : (
-                                <Power className="h-4 w-4" />
-                              )}
+                              {supplier.isActive ? <PowerOff className="h-4 w-4" /> : <Power className="h-4 w-4" />}
                             </Button>
                           </div>
                         </TableCell>
@@ -255,28 +249,15 @@ export default function SuppliersPage() {
                 </Table>
               </div>
 
-              {/* Pagination */}
               {totalPages > 1 && (
                 <div className="mt-4 flex items-center justify-between">
-                  <p className="text-sm text-muted-foreground">
-                    Page {page} of {totalPages}
-                  </p>
+                  <p className="text-sm text-muted-foreground">{t("table.pageOf", undefined, { page, totalPages })}</p>
                   <div className="flex gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      disabled={page <= 1}
-                      onClick={() => setPage((p) => p - 1)}
-                    >
-                      Previous
+                    <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
+                      {t("table.previous")}
                     </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      disabled={page >= totalPages}
-                      onClick={() => setPage((p) => p + 1)}
-                    >
-                      Next
+                    <Button variant="outline" size="sm" disabled={page >= totalPages} onClick={() => setPage((p) => p + 1)}>
+                      {t("table.next")}
                     </Button>
                   </div>
                 </div>
@@ -286,22 +267,23 @@ export default function SuppliersPage() {
         </CardContent>
       </Card>
 
-      {/* Create / Edit Dialog */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>{editingSupplier ? "Edit Supplier" : "Add Supplier"}</DialogTitle>
+            <DialogTitle>{editingSupplier ? t("dialog.editTitle") : t("dialog.addTitle")}</DialogTitle>
             <DialogDescription>
-              {editingSupplier
-                ? "Update supplier information below."
-                : "Fill in the details to add a new supplier."}
+              {editingSupplier ? t("dialog.editDescription") : t("dialog.addDescription")}
             </DialogDescription>
           </DialogHeader>
 
           {dialogError && (
             <Alert variant="destructive">
               <AlertTitle>
-                {dialogError.status === 422 ? "Validation Error" : dialogError.status === 409 ? "Conflict" : "Error"}
+                {dialogError.status === 422
+                  ? t("errors.validation")
+                  : dialogError.status === 409
+                    ? t("errors.conflict")
+                    : t("errors.generic")}
               </AlertTitle>
               <AlertDescription className="space-y-1">
                 <p>{dialogError.message}</p>
@@ -312,63 +294,32 @@ export default function SuppliersPage() {
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="sup-name">
-                Name <span className="text-destructive">*</span>
-              </Label>
-              <Input
-                id="sup-name"
-                placeholder="e.g. ABC Supplier Co."
-                className="h-10"
-                disabled={isPending}
-                {...register("name")}
-              />
-              {errors.name && (
-                <p className="mt-1 text-xs text-destructive">{errors.name.message}</p>
-              )}
+              <Label htmlFor="sup-name">{t("dialog.name")} <span className="text-destructive">*</span></Label>
+              <Input id="sup-name" placeholder={t("dialog.namePlaceholder")} className="h-10" disabled={isPending} {...register("name")} />
+              {errors.name && <p className="mt-1 text-xs text-destructive">{errors.name.message}</p>}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="sup-email">Email (Optional)</Label>
-              <Input
-                id="sup-email"
-                type="email"
-                placeholder="supplier@example.com"
-                className="h-10"
-                disabled={isPending}
-                {...register("email")}
-              />
-              {errors.email && (
-                <p className="mt-1 text-xs text-destructive">{errors.email.message}</p>
-              )}
+              <Label htmlFor="sup-email">{t("dialog.email")}</Label>
+              <Input id="sup-email" type="email" placeholder={t("dialog.emailPlaceholder")} className="h-10" disabled={isPending} {...register("email")} />
+              {errors.email && <p className="mt-1 text-xs text-destructive">{errors.email.message}</p>}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="sup-phone">Phone (Optional)</Label>
-              <Input
-                id="sup-phone"
-                type="tel"
-                placeholder="+66 81 234 5678"
-                className="h-10"
-                disabled={isPending}
-                {...register("phone")}
-              />
+              <Label htmlFor="sup-phone">{t("dialog.phone")}</Label>
+              <Input id="sup-phone" type="tel" placeholder={t("dialog.phonePlaceholder")} className="h-10" disabled={isPending} {...register("phone")} />
             </div>
 
             <Separator />
 
             <DialogFooter className="gap-2">
-              <Button
-                type="button"
-                variant="outline"
-                disabled={isPending}
-                onClick={() => setDialogOpen(false)}
-              >
-                Cancel
+              <Button type="button" variant="outline" disabled={isPending} onClick={() => setDialogOpen(false)}>
+                {t("dialog.cancel")}
               </Button>
               <Button type="submit" disabled={isPending}>
                 {isPending
-                  ? editingSupplier ? "Saving..." : "Creating..."
-                  : editingSupplier ? "Save Changes" : "Add Supplier"}
+                  ? editingSupplier ? t("dialog.saving") : t("dialog.creating")
+                  : editingSupplier ? t("dialog.saveChanges") : t("dialog.create")}
               </Button>
             </DialogFooter>
           </form>

@@ -1,0 +1,36 @@
+{
+  "title": "แดชบอร์ดคลังสินค้า",
+  "subtitle": "ภาพรวมสถานะสต็อกและกิจกรรมล่าสุด",
+  "refresh": "รีเฟรช",
+  "kpis": {
+    "lowStockItems": "สินค้าสต็อกต่ำ",
+    "belowReorder": "ต่ำกว่าจุดสั่งซื้อ",
+    "inboundToday": "รับเข้า วันนี้",
+    "inboundTransactions": "รายการรับเข้า",
+    "adjustmentsToday": "ปรับสต็อก วันนี้",
+    "adjustTransactions": "รายการปรับสต็อก",
+    "totalMovements": "การเคลื่อนไหวทั้งหมด วันนี้",
+    "allTransactionTypes": "ทุกประเภทรายการ"
+  },
+  "lowStock": {
+    "title": "แจ้งเตือนสต็อกต่ำ",
+    "description": "รายการที่ต่ำกว่าจุดสั่งซื้อ",
+    "items": "รายการ",
+    "item": "รายการ",
+    "allGood": "สินค้าทุกรายการสูงกว่าจุดสั่งซื้อ",
+    "loadFailed": "โหลดข้อมูลสต็อกต่ำไม่สำเร็จ",
+    "columns": {
+      "sku": "SKU",
+      "warehouse": "คลัง",
+      "available": "คงเหลือ",
+      "reorderPoint": "จุดสั่งซื้อ",
+      "shortage": "ขาด"
+    }
+  },
+  "activity": {
+    "title": "กิจกรรมสต็อกล่าสุด",
+    "description": "การเคลื่อนไหวสต็อกล่าสุดวันนี้",
+    "loadFailed": "โหลดรายการเคลื่อนไหวไม่สำเร็จ",
+    "empty": "วันนี้ยังไม่มีรายการเคลื่อนไหว"
+  }
+}

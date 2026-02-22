@@ -1,0 +1,49 @@
+{
+  "title": "Stock Transactions",
+  "subtitle": "Complete history of all inventory movements",
+  "filters": {
+    "title": "Search & Filter",
+    "description": "Filter transactions by variant, warehouse, type, or date range",
+    "variantId": "Variant ID",
+    "warehouseId": "Warehouse ID",
+    "transactionType": "Transaction Type",
+    "allTypes": "All Types",
+    "fromDate": "From Date",
+    "toDate": "To Date",
+    "apply": "Apply",
+    "reset": "Reset filters",
+    "variantPlaceholder": "e.g. clvar001",
+    "warehousePlaceholder": "e.g. clwh001"
+  },
+  "table": {
+    "title": "Transaction History",
+    "loading": "Loading...",
+    "totalRecords": "total records",
+    "pageOf": "Page {{page}} of {{totalPages}}",
+    "loadFailed": "Failed to load transactions",
+    "emptyTitle": "No transactions found",
+    "emptyDescription": "Try adjusting your filters or date range.",
+    "columns": {
+      "type": "Type",
+      "variantId": "Variant ID",
+      "warehouseId": "Warehouse ID",
+      "before": "Before",
+      "qty": "Qty",
+      "after": "After",
+      "reason": "Reason",
+      "note": "Note",
+      "date": "Date"
+    },
+    "showing": "Showing {{start}}-{{end}} of {{total}}"
+  },
+  "typeLabels": {
+    "INBOUND": "Inbound",
+    "OUTBOUND": "Outbound",
+    "ADJUST": "Adjustment",
+    "INITIALIZE": "Initialize",
+    "RESERVE": "Reserve",
+    "RELEASE": "Release",
+    "TRANSFER_IN": "Transfer In",
+    "TRANSFER_OUT": "Transfer Out"
+  }
+}

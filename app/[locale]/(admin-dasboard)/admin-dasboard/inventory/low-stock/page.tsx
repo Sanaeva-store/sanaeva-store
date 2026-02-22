@@ -17,8 +17,10 @@ import {
 } from "@/components/ui/table";
 import { LoadingSkeleton, ErrorState, EmptyState } from "@/shared/ui";
 import { useLowStockQuery } from "@/features/inventory/hooks/use-inventory";
+import { useBackofficeTranslations } from "@/shared/lib/i18n";
 
 export default function LowStockPage() {
+  const { t } = useBackofficeTranslations("inventory-low-stock");
   const [warehouseId, setWarehouseId] = useState("");
   const [appliedWarehouseId, setAppliedWarehouseId] = useState<string | undefined>(undefined);
 
@@ -44,60 +46,54 @@ export default function LowStockPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">Low Stock Alerts</h1>
-          <p className="mt-2 text-muted-foreground">
-            Items below their reorder point that need restocking
-          </p>
+          <h1 className="text-3xl font-bold">{t("title")}</h1>
+          <p className="mt-2 text-muted-foreground">{t("subtitle")}</p>
         </div>
         {data && (
           <Badge variant="destructive" className="text-sm">
             <AlertTriangle className="mr-1 h-3 w-3" />
-            {data.length} item{data.length !== 1 ? "s" : ""}
+            {data.length} {data.length === 1 ? t("badge.item") : t("badge.items")}
           </Badge>
         )}
       </div>
 
-      {/* Filter */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">Filter</CardTitle>
+          <CardTitle className="text-base">{t("filter.title")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap items-end gap-3">
             <div className="space-y-2">
-              <Label htmlFor="wh-filter">Warehouse ID</Label>
+              <Label htmlFor="wh-filter">{t("filter.warehouseId")}</Label>
               <Input
                 id="wh-filter"
-                placeholder="e.g. clwh001"
+                placeholder={t("filter.warehousePlaceholder")}
                 className="h-10 w-[200px]"
                 value={warehouseId}
                 onChange={(e) => setWarehouseId(e.target.value)}
                 onKeyDown={(e) => { if (e.key === "Enter") applyFilter(); }}
               />
             </div>
-            <Button onClick={applyFilter} className="h-10">Apply</Button>
-            <Button variant="outline" size="icon" className="h-10 w-10" onClick={resetFilter} title="Reset">
+            <Button onClick={applyFilter} className="h-10">{t("filter.apply")}</Button>
+            <Button variant="outline" size="icon" className="h-10 w-10" onClick={resetFilter} title={t("filter.reset")}>
               <RotateCcw className="h-4 w-4" />
             </Button>
           </div>
         </CardContent>
       </Card>
 
-      {/* Low Stock Table */}
       <Card>
         <CardHeader>
-          <CardTitle>Low Stock Items</CardTitle>
-          <CardDescription>
-            Products below their reorder point — sorted by shortage severity
-          </CardDescription>
+          <CardTitle>{t("table.title")}</CardTitle>
+          <CardDescription>{t("table.description")}</CardDescription>
         </CardHeader>
         <CardContent>
           {isLoading && <LoadingSkeleton variant="table" count={8} />}
 
           {isError && (
             <ErrorState
-              title="Failed to load low stock data"
-              message={(error as Error)?.message ?? "An error occurred"}
+              title={t("table.loadFailed")}
+              message={(error as Error)?.message ?? undefined}
               retry={() => void refetch()}
             />
           )}
@@ -105,8 +101,8 @@ export default function LowStockPage() {
           {!isLoading && !isError && data && data.length === 0 && (
             <EmptyState
               icon={TrendingDown}
-              title="No low stock items"
-              description="All products are above their reorder points."
+              title={t("table.emptyTitle")}
+              description={t("table.emptyDescription")}
             />
           )}
 
@@ -115,13 +111,13 @@ export default function LowStockPage() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>SKU</TableHead>
-                    <TableHead>Variant ID</TableHead>
-                    <TableHead>Warehouse ID</TableHead>
-                    <TableHead className="text-right">Available</TableHead>
-                    <TableHead className="text-right">Reorder Point</TableHead>
-                    <TableHead className="text-right">Shortage</TableHead>
-                    <TableHead>Severity</TableHead>
+                    <TableHead>{t("table.columns.sku")}</TableHead>
+                    <TableHead>{t("table.columns.variantId")}</TableHead>
+                    <TableHead>{t("table.columns.warehouseId")}</TableHead>
+                    <TableHead className="text-right">{t("table.columns.available")}</TableHead>
+                    <TableHead className="text-right">{t("table.columns.reorderPoint")}</TableHead>
+                    <TableHead className="text-right">{t("table.columns.shortage")}</TableHead>
+                    <TableHead>{t("table.columns.severity")}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -136,18 +132,16 @@ export default function LowStockPage() {
                           <TableCell className="font-mono text-xs text-muted-foreground">{item.warehouseId}</TableCell>
                           <TableCell className="text-right tabular-nums">{item.available}</TableCell>
                           <TableCell className="text-right tabular-nums text-muted-foreground">{item.reorderPoint}</TableCell>
-                          <TableCell className="text-right tabular-nums font-semibold text-destructive">
-                            -{item.shortage}
-                          </TableCell>
+                          <TableCell className="text-right tabular-nums font-semibold text-destructive">-{item.shortage}</TableCell>
                           <TableCell>
                             {severity === "critical" && (
-                              <Badge variant="destructive" className="text-xs">Critical</Badge>
+                              <Badge variant="destructive" className="text-xs">{t("table.severityValues.critical")}</Badge>
                             )}
                             {severity === "warning" && (
-                              <Badge className="bg-yellow-100 text-yellow-800 text-xs hover:bg-yellow-100">Warning</Badge>
+                              <Badge variant="warning" className="text-xs">{t("table.severityValues.warning")}</Badge>
                             )}
                             {severity === "low" && (
-                              <Badge variant="secondary" className="text-xs">Low</Badge>
+                              <Badge variant="secondary" className="text-xs">{t("table.severityValues.low")}</Badge>
                             )}
                           </TableCell>
                         </TableRow>

@@ -18,10 +18,13 @@ import {
   useLowStockQuery,
   useTransactionsQuery,
 } from "@/features/inventory/hooks/use-inventory";
+import { useBackofficeTranslations } from "@/shared/lib/i18n";
 
 const today = new Date().toISOString().split("T")[0];
 
 export default function InventoryDashboardPage() {
+  const { t } = useBackofficeTranslations("inventory-dashboard");
+
   const {
     data: lowStockData,
     isLoading: lowStockLoading,
@@ -37,103 +40,79 @@ export default function InventoryDashboardPage() {
   } = useTransactionsQuery({ from: today, limit: 10, page: 1 });
 
   const lowStockCount = lowStockData?.length ?? 0;
-  const inboundToday = txnData?.data.filter((t) => t.type === "INBOUND").length ?? 0;
-  const adjustmentsToday = txnData?.data.filter((t) => t.type === "ADJUST").length ?? 0;
+  const inboundToday = txnData?.data.filter((txn) => txn.type === "INBOUND").length ?? 0;
+  const adjustmentsToday = txnData?.data.filter((txn) => txn.type === "ADJUST").length ?? 0;
   const totalTxnToday = txnData?.total ?? 0;
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">Inventory Dashboard</h1>
-          <p className="mt-2 text-muted-foreground">
-            Overview of your inventory status and recent activity
-          </p>
+          <h1 className="text-3xl font-bold">{t("title")}</h1>
+          <p className="mt-2 text-muted-foreground">{t("subtitle")}</p>
         </div>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => { void refetchLowStock(); void refetchTxn(); }}
-        >
+        <Button variant="outline" size="sm" onClick={() => { void refetchLowStock(); void refetchTxn(); }}>
           <RefreshCw className="mr-2 h-4 w-4" />
-          Refresh
+          {t("refresh")}
         </Button>
       </div>
 
-      {/* KPI Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Low Stock Items</CardTitle>
+            <CardTitle className="text-sm font-medium">{t("kpis.lowStockItems")}</CardTitle>
             <AlertTriangle className="h-4 w-4 text-destructive" />
           </CardHeader>
           <CardContent>
-            {lowStockLoading ? (
-              <Skeleton className="h-8 w-16" />
-            ) : (
-              <div className="text-2xl font-bold text-destructive">{lowStockCount}</div>
-            )}
-            <p className="text-xs text-muted-foreground">Below reorder point</p>
+            {lowStockLoading ? <Skeleton className="h-8 w-16" /> : <div className="text-2xl font-bold text-destructive">{lowStockCount}</div>}
+            <p className="text-xs text-muted-foreground">{t("kpis.belowReorder")}</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Inbound Today</CardTitle>
-            <TrendingUp className="h-4 w-4 text-green-600" />
+            <CardTitle className="text-sm font-medium">{t("kpis.inboundToday")}</CardTitle>
+            <TrendingUp className="h-4 w-4 text-semantic-success-text" />
           </CardHeader>
           <CardContent>
-            {txnLoading ? (
-              <Skeleton className="h-8 w-16" />
-            ) : (
-              <div className="text-2xl font-bold">{inboundToday}</div>
-            )}
-            <p className="text-xs text-muted-foreground">INBOUND transactions</p>
+            {txnLoading ? <Skeleton className="h-8 w-16" /> : <div className="text-2xl font-bold">{inboundToday}</div>}
+            <p className="text-xs text-muted-foreground">{t("kpis.inboundTransactions")}</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Adjustments Today</CardTitle>
-            <Package className="h-4 w-4 text-yellow-600" />
+            <CardTitle className="text-sm font-medium">{t("kpis.adjustmentsToday")}</CardTitle>
+            <Package className="h-4 w-4 text-semantic-warning-text" />
           </CardHeader>
           <CardContent>
-            {txnLoading ? (
-              <Skeleton className="h-8 w-16" />
-            ) : (
-              <div className="text-2xl font-bold">{adjustmentsToday}</div>
-            )}
-            <p className="text-xs text-muted-foreground">ADJUST transactions</p>
+            {txnLoading ? <Skeleton className="h-8 w-16" /> : <div className="text-2xl font-bold">{adjustmentsToday}</div>}
+            <p className="text-xs text-muted-foreground">{t("kpis.adjustTransactions")}</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Movements Today</CardTitle>
+            <CardTitle className="text-sm font-medium">{t("kpis.totalMovements")}</CardTitle>
             <Package className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            {txnLoading ? (
-              <Skeleton className="h-8 w-16" />
-            ) : (
-              <div className="text-2xl font-bold">{totalTxnToday}</div>
-            )}
-            <p className="text-xs text-muted-foreground">All transaction types</p>
+            {txnLoading ? <Skeleton className="h-8 w-16" /> : <div className="text-2xl font-bold">{totalTxnToday}</div>}
+            <p className="text-xs text-muted-foreground">{t("kpis.allTransactionTypes")}</p>
           </CardContent>
         </Card>
       </div>
 
-      {/* Low Stock Preview */}
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle>Low Stock Alerts</CardTitle>
-              <CardDescription>Items below their reorder point</CardDescription>
+              <CardTitle>{t("lowStock.title")}</CardTitle>
+              <CardDescription>{t("lowStock.description")}</CardDescription>
             </div>
             {lowStockData && lowStockData.length > 0 && (
               <Badge variant="destructive" className="text-xs">
-                {lowStockData.length} item{lowStockData.length !== 1 ? "s" : ""}
+                {lowStockData.length} {lowStockData.length === 1 ? t("lowStock.item") : t("lowStock.items")}
               </Badge>
             )}
           </div>
@@ -148,25 +127,23 @@ export default function InventoryDashboardPage() {
           )}
           {lowStockError && (
             <ErrorState
-              title="Failed to load low stock data"
+              title={t("lowStock.loadFailed")}
               retry={() => void refetchLowStock()}
               className="min-h-[120px]"
             />
           )}
           {!lowStockLoading && !lowStockError && lowStockData && lowStockData.length === 0 && (
-            <p className="py-6 text-center text-sm text-muted-foreground">
-              All products are above their reorder points.
-            </p>
+            <p className="py-6 text-center text-sm text-muted-foreground">{t("lowStock.allGood")}</p>
           )}
           {!lowStockLoading && !lowStockError && lowStockData && lowStockData.length > 0 && (
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>SKU</TableHead>
-                  <TableHead>Warehouse</TableHead>
-                  <TableHead className="text-right">Available</TableHead>
-                  <TableHead className="text-right">Reorder Point</TableHead>
-                  <TableHead className="text-right">Shortage</TableHead>
+                  <TableHead>{t("lowStock.columns.sku")}</TableHead>
+                  <TableHead>{t("lowStock.columns.warehouse")}</TableHead>
+                  <TableHead className="text-right">{t("lowStock.columns.available")}</TableHead>
+                  <TableHead className="text-right">{t("lowStock.columns.reorderPoint")}</TableHead>
+                  <TableHead className="text-right">{t("lowStock.columns.shortage")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -179,9 +156,7 @@ export default function InventoryDashboardPage() {
                       <TableCell className="font-mono text-xs text-muted-foreground">{item.warehouseId}</TableCell>
                       <TableCell className="text-right tabular-nums">{item.available}</TableCell>
                       <TableCell className="text-right tabular-nums text-muted-foreground">{item.reorderPoint}</TableCell>
-                      <TableCell className="text-right tabular-nums font-semibold text-destructive">
-                        -{item.shortage}
-                      </TableCell>
+                      <TableCell className="text-right tabular-nums font-semibold text-destructive">-{item.shortage}</TableCell>
                     </TableRow>
                   ))}
               </TableBody>
@@ -190,11 +165,10 @@ export default function InventoryDashboardPage() {
         </CardContent>
       </Card>
 
-      {/* Recent Activity */}
       <Card>
         <CardHeader>
-          <CardTitle>Recent Stock Activity</CardTitle>
-          <CardDescription>Latest inventory movements today</CardDescription>
+          <CardTitle>{t("activity.title")}</CardTitle>
+          <CardDescription>{t("activity.description")}</CardDescription>
         </CardHeader>
         <CardContent>
           {txnLoading && (
@@ -206,29 +180,24 @@ export default function InventoryDashboardPage() {
           )}
           {txnError && (
             <ErrorState
-              title="Failed to load transactions"
+              title={t("activity.loadFailed")}
               retry={() => void refetchTxn()}
               className="min-h-[120px]"
             />
           )}
           {!txnLoading && !txnError && txnData && txnData.data.length === 0 && (
-            <p className="py-6 text-center text-sm text-muted-foreground">
-              No transactions recorded today.
-            </p>
+            <p className="py-6 text-center text-sm text-muted-foreground">{t("activity.empty")}</p>
           )}
           {!txnLoading && !txnError && txnData && txnData.data.length > 0 && (
             <div className="space-y-2">
               {txnData.data.slice(0, 8).map((txn) => (
-                <div
-                  key={txn.id}
-                  className="flex items-center justify-between rounded-lg border px-4 py-3"
-                >
+                <div key={txn.id} className="flex items-center justify-between rounded-lg border px-4 py-3">
                   <div className="flex items-center gap-3">
-                    <div className={`rounded-full p-1.5 ${txn.qty > 0 ? "bg-green-100" : "bg-red-100"}`}>
+                    <div className={`rounded-full p-1.5 ${txn.qty > 0 ? "bg-semantic-success-bg" : "bg-semantic-error-bg"}`}>
                       {txn.qty > 0 ? (
-                        <ArrowUpRight className="h-3.5 w-3.5 text-green-700" />
+                        <ArrowUpRight className="h-3.5 w-3.5 text-semantic-success-text" />
                       ) : (
-                        <ArrowDownLeft className="h-3.5 w-3.5 text-red-700" />
+                        <ArrowDownLeft className="h-3.5 w-3.5 text-semantic-error-text" />
                       )}
                     </div>
                     <div>
@@ -237,8 +206,9 @@ export default function InventoryDashboardPage() {
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className={`text-sm font-semibold tabular-nums ${txn.qty > 0 ? "text-green-600" : "text-destructive"}`}>
-                      {txn.qty > 0 ? "+" : ""}{txn.qty}
+                    <p className={`text-sm font-semibold tabular-nums ${txn.qty > 0 ? "text-semantic-success-text" : "text-destructive"}`}>
+                      {txn.qty > 0 ? "+" : ""}
+                      {txn.qty}
                     </p>
                     <p className="text-xs text-muted-foreground">
                       {txn.beforeQty} → {txn.afterQty}

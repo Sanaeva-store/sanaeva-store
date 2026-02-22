@@ -1,0 +1,10 @@
+{
+  "meta": {
+    "title": "Order Management",
+    "description": "Manage customer orders and fulfillment status"
+  },
+  "title": "Order Management",
+  "subtitle": "Track order lifecycle, payment, and fulfillment",
+  "queueTitle": "Order Queue",
+  "queueDescription": "Pending, processing, and completed orders"
+}

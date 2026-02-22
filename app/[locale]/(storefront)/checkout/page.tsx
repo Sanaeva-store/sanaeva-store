@@ -384,7 +384,7 @@ export default function CheckoutPage() {
                   <span>{shipping === 0 ? "Free" : `฿${shipping.toLocaleString("th-TH")}`}</span>
                 </div>
                 {shipping === 0 && (
-                  <p className="text-xs text-green-600">Free shipping on orders over ฿1,000</p>
+                  <p className="text-xs text-semantic-success-text">Free shipping on orders over ฿1,000</p>
                 )}
                 <Separator />
                 <div className="flex justify-between font-semibold">

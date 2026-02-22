@@ -1,0 +1,30 @@
+{
+  "groups": {
+    "overview": "ภาพรวม",
+    "inventory": "คลังสินค้า",
+    "management": "การจัดการ",
+    "settings": "การตั้งค่า"
+  },
+  "items": {
+    "dashboard": "แดชบอร์ด",
+    "analytics": "การวิเคราะห์",
+    "inventoryDashboard": "แดชบอร์ด",
+    "productSku": "สินค้าและ SKU",
+    "initialStock": "สต็อกตั้งต้น",
+    "adjustment": "ปรับสต็อก",
+    "receiving": "รับสินค้า",
+    "lowStock": "สต็อกต่ำ",
+    "transactions": "รายการเคลื่อนไหว",
+    "suppliers": "ซัพพลายเออร์",
+    "orders": "คำสั่งซื้อ",
+    "customers": "ลูกค้า",
+    "general": "ทั่วไป",
+    "reports": "รายงาน"
+  },
+  "account": {
+    "name": "ผู้ดูแลระบบ",
+    "email": "admin@sanaeva.com",
+    "accountSettings": "ตั้งค่าบัญชี",
+    "logout": "ออกจากระบบ"
+  }
+}

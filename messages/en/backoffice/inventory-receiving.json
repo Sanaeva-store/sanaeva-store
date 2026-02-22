@@ -1,0 +1,51 @@
+{
+  "title": "Goods Receiving",
+  "subtitle": "Process incoming inventory shipments (GRN)",
+  "successTitle": "GRN Created — {{code}}",
+  "status": "Status",
+  "id": "ID",
+  "errors": {
+    "validation": "Validation Error",
+    "permission": "Permission Denied",
+    "generic": "Error"
+  },
+  "validation": {
+    "variantRequired": "Variant ID required",
+    "qtyInteger": "Must be integer",
+    "qtyGreaterThanZero": "Qty must be > 0",
+    "expiryDateFormat": "Expiry date must be YYYY-MM-DD",
+    "warehouseRequired": "Warehouse ID is required",
+    "atLeastOneItem": "At least one item is required"
+  },
+  "headerInfo": {
+    "title": "Receiving Information",
+    "description": "Enter shipment details and receiving location",
+    "warehouseId": "Warehouse ID",
+    "locationId": "Location ID (Optional)",
+    "poReference": "PO Reference (Optional)",
+    "invoiceNumber": "Invoice Number (Optional)",
+    "note": "Note (Optional)",
+    "warehousePlaceholder": "e.g. clwh001",
+    "locationPlaceholder": "e.g. clloc001",
+    "poPlaceholder": "e.g. clpo001",
+    "invoicePlaceholder": "e.g. INV-2026-001",
+    "notePlaceholder": "Add receiving notes..."
+  },
+  "items": {
+    "title": "Receiving Items",
+    "description": "Add products and quantities being received",
+    "addItem": "Add Item",
+    "variantId": "Variant ID",
+    "qty": "Qty",
+    "unitCost": "Unit Cost",
+    "lotNumber": "Lot Number",
+    "expiryDate": "Expiry Date",
+    "itemsToReceive": "{{count}} item(s) to receive",
+    "clear": "Clear",
+    "submit": "Submit Receiving",
+    "submitting": "Submitting..."
+  },
+  "common": {
+    "required": "required"
+  }
+}

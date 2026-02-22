@@ -4,49 +4,62 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { LoadingSkeleton } from "@/shared/ui";
+import { createBackofficeTranslator, type Locale } from "@/shared/lib/i18n";
 
-export const metadata: Metadata = {
-  title: "Products & SKUs - Sanaeva Store",
-  description: "Manage product catalog and variants",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = (await params) as { locale: Locale };
+  const t = createBackofficeTranslator(locale, "product-sku");
 
-export default function ProductsPage() {
+  return {
+    title: `${t("meta.title")} - Sanaeva Store`,
+    description: t("meta.description"),
+  };
+}
+
+export default async function ProductsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = (await params) as { locale: Locale };
+  const t = createBackofficeTranslator(locale, "product-sku");
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">Products & SKUs</h1>
-          <p className="mt-2 text-muted-foreground">
-            Manage your product catalog and variants
-          </p>
+          <h1 className="text-3xl font-bold">{t("title")}</h1>
+          <p className="mt-2 text-muted-foreground">{t("subtitle")}</p>
         </div>
         <Button>
           <Plus className="mr-2 h-4 w-4" />
-          Add Product
+          {t("addProduct")}
         </Button>
       </div>
 
-      {/* Search and Filters */}
       <Card>
         <CardHeader>
-          <CardTitle>Search Products</CardTitle>
+          <CardTitle>{t("searchTitle")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex gap-4">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Search by name, SKU, or barcode..." className="pl-9" />
+              <Input placeholder={t("searchPlaceholder")} className="pl-9" />
             </div>
-            <Button variant="outline">Filter</Button>
+            <Button variant="outline">{t("filter")}</Button>
           </div>
         </CardContent>
       </Card>
 
-      {/* Products Table */}
       <Card>
         <CardHeader>
-          <CardTitle>All Products</CardTitle>
-          <CardDescription>Complete list of products and their variants</CardDescription>
+          <CardTitle>{t("allProducts")}</CardTitle>
+          <CardDescription>{t("allProductsDescription")}</CardDescription>
         </CardHeader>
         <CardContent>
           <LoadingSkeleton variant="table" count={8} />

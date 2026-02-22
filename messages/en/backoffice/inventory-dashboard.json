@@ -1,0 +1,36 @@
+{
+  "title": "Inventory Dashboard",
+  "subtitle": "Overview of your inventory status and recent activity",
+  "refresh": "Refresh",
+  "kpis": {
+    "lowStockItems": "Low Stock Items",
+    "belowReorder": "Below reorder point",
+    "inboundToday": "Inbound Today",
+    "inboundTransactions": "INBOUND transactions",
+    "adjustmentsToday": "Adjustments Today",
+    "adjustTransactions": "ADJUST transactions",
+    "totalMovements": "Total Movements Today",
+    "allTransactionTypes": "All transaction types"
+  },
+  "lowStock": {
+    "title": "Low Stock Alerts",
+    "description": "Items below their reorder point",
+    "items": "items",
+    "item": "item",
+    "allGood": "All products are above their reorder points.",
+    "loadFailed": "Failed to load low stock data",
+    "columns": {
+      "sku": "SKU",
+      "warehouse": "Warehouse",
+      "available": "Available",
+      "reorderPoint": "Reorder Point",
+      "shortage": "Shortage"
+    }
+  },
+  "activity": {
+    "title": "Recent Stock Activity",
+    "description": "Latest inventory movements today",
+    "loadFailed": "Failed to load transactions",
+    "empty": "No transactions recorded today."
+  }
+}

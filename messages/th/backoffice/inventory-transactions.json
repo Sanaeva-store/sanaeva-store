@@ -1,0 +1,49 @@
+{
+  "title": "รายการเคลื่อนไหวสต็อก",
+  "subtitle": "ประวัติการเคลื่อนไหวสต็อกทั้งหมด",
+  "filters": {
+    "title": "ค้นหาและกรอง",
+    "description": "กรองรายการตามตัวเลือกสินค้า คลัง ประเภท หรือช่วงวันที่",
+    "variantId": "รหัสตัวเลือก",
+    "warehouseId": "รหัสคลัง",
+    "transactionType": "ประเภทรายการ",
+    "allTypes": "ทุกประเภท",
+    "fromDate": "จากวันที่",
+    "toDate": "ถึงวันที่",
+    "apply": "ใช้งาน",
+    "reset": "ล้างตัวกรอง",
+    "variantPlaceholder": "เช่น clvar001",
+    "warehousePlaceholder": "เช่น clwh001"
+  },
+  "table": {
+    "title": "ประวัติรายการ",
+    "loading": "กำลังโหลด...",
+    "totalRecords": "รายการทั้งหมด",
+    "pageOf": "หน้า {{page}} จาก {{totalPages}}",
+    "loadFailed": "โหลดรายการไม่สำเร็จ",
+    "emptyTitle": "ไม่พบรายการ",
+    "emptyDescription": "ลองปรับตัวกรองหรือช่วงวันที่",
+    "columns": {
+      "type": "ประเภท",
+      "variantId": "รหัสตัวเลือก",
+      "warehouseId": "รหัสคลัง",
+      "before": "ก่อนหน้า",
+      "qty": "จำนวน",
+      "after": "หลังรายการ",
+      "reason": "เหตุผล",
+      "note": "หมายเหตุ",
+      "date": "วันที่"
+    },
+    "showing": "แสดง {{start}}-{{end}} จาก {{total}}"
+  },
+  "typeLabels": {
+    "INBOUND": "รับเข้า",
+    "OUTBOUND": "จ่ายออก",
+    "ADJUST": "ปรับสต็อก",
+    "INITIALIZE": "ตั้งต้น",
+    "RESERVE": "จอง",
+    "RELEASE": "คืนจอง",
+    "TRANSFER_IN": "โอนเข้า",
+    "TRANSFER_OUT": "โอนออก"
+  }
+}

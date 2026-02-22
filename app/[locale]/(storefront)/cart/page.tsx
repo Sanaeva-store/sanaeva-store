@@ -154,7 +154,7 @@ export default function CartPage() {
                   <span>{shipping === 0 ? dict.cart.free : formatCurrency(shipping, locale)}</span>
                 </div>
                 {shipping === 0 && (
-                  <p className="text-xs text-green-600">{dict.cart.freeShippingNote}</p>
+                  <p className="text-xs text-semantic-success-text">{dict.cart.freeShippingNote}</p>
                 )}
                 <Separator />
                 <div className="flex justify-between font-semibold">

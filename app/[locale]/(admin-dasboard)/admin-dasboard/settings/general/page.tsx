@@ -3,29 +3,44 @@ import { Settings } from "lucide-react";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { LoadingSkeleton } from "@/shared/ui";
+import { createBackofficeTranslator, type Locale } from "@/shared/lib/i18n";
 
-export const metadata: Metadata = {
-  title: "General Settings - Sanaeva Store",
-  description: "Configure store-wide administrative settings",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = (await params) as { locale: Locale };
+  const t = createBackofficeTranslator(locale, "settings-general");
 
-export default function GeneralSettingsPage() {
+  return {
+    title: `${t("meta.title")} - Sanaeva Store`,
+    description: t("meta.description"),
+  };
+}
+
+export default async function GeneralSettingsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = (await params) as { locale: Locale };
+  const t = createBackofficeTranslator(locale, "settings-general");
+
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
         <Settings className="h-7 w-7 text-primary" />
         <div>
-          <h1 className="text-3xl font-bold">General Settings</h1>
-          <p className="mt-2 text-muted-foreground">
-            Manage store profile, preferences, and operational defaults
-          </p>
+          <h1 className="text-3xl font-bold">{t("title")}</h1>
+          <p className="mt-2 text-muted-foreground">{t("subtitle")}</p>
         </div>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>Store Configuration</CardTitle>
-          <CardDescription>Business profile and default preferences</CardDescription>
+          <CardTitle>{t("configTitle")}</CardTitle>
+          <CardDescription>{t("configDescription")}</CardDescription>
         </CardHeader>
         <CardContent>
           <LoadingSkeleton variant="form" count={6} />

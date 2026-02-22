@@ -1,0 +1,12 @@
+{
+  "searchPlaceholder": "Search products, orders, customers...",
+  "toggleTheme": "Toggle theme",
+  "notifications": "Notifications",
+  "profile": "Profile",
+  "settings": "Settings",
+  "billing": "Billing",
+  "logout": "Log out",
+  "role": "Super Admin",
+  "name": "Admin User",
+  "email": "admin@sanaeva.com"
+}

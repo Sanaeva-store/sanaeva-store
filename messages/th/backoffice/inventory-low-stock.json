@@ -1,0 +1,36 @@
+{
+  "title": "แจ้งเตือนสต็อกต่ำ",
+  "subtitle": "รายการที่ต่ำกว่าจุดสั่งซื้อและควรเติมสต็อก",
+  "filter": {
+    "title": "ตัวกรอง",
+    "warehouseId": "รหัสคลัง",
+    "warehousePlaceholder": "เช่น clwh001",
+    "apply": "ใช้งาน",
+    "reset": "รีเซ็ต"
+  },
+  "badge": {
+    "item": "รายการ",
+    "items": "รายการ"
+  },
+  "table": {
+    "title": "รายการสต็อกต่ำ",
+    "description": "สินค้าที่ต่ำกว่าจุดสั่งซื้อ เรียงตามระดับการขาด",
+    "loadFailed": "โหลดข้อมูลสต็อกต่ำไม่สำเร็จ",
+    "emptyTitle": "ไม่พบรายการสต็อกต่ำ",
+    "emptyDescription": "สินค้าทั้งหมดสูงกว่าจุดสั่งซื้อ",
+    "columns": {
+      "sku": "SKU",
+      "variantId": "รหัสตัวเลือก",
+      "warehouseId": "รหัสคลัง",
+      "available": "คงเหลือ",
+      "reorderPoint": "จุดสั่งซื้อ",
+      "shortage": "ขาด",
+      "severity": "ระดับ"
+    },
+    "severityValues": {
+      "critical": "วิกฤต",
+      "warning": "เตือน",
+      "low": "ต่ำ"
+    }
+  }
+}

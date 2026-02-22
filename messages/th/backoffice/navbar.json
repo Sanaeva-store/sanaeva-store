@@ -1,0 +1,12 @@
+{
+  "searchPlaceholder": "ค้นหาสินค้า คำสั่งซื้อ ลูกค้า...",
+  "toggleTheme": "สลับธีม",
+  "notifications": "การแจ้งเตือน",
+  "profile": "โปรไฟล์",
+  "settings": "การตั้งค่า",
+  "billing": "การชำระเงิน",
+  "logout": "ออกจากระบบ",
+  "role": "ผู้ดูแลสูงสุด",
+  "name": "ผู้ดูแลระบบ",
+  "email": "admin@sanaeva.com"
+}

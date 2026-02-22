@@ -1,0 +1,50 @@
+{
+  "title": "Initial Stock",
+  "subtitle": "Set opening stock levels for product variants",
+  "validation": {
+    "variantRequired": "Variant ID is required",
+    "warehouseRequired": "Warehouse ID is required",
+    "qtyInteger": "Quantity must be a whole number",
+    "qtyGreaterThanZero": "Quantity must be greater than 0"
+  },
+  "success": {
+    "title": "Stock Initialized",
+    "message": "Variant {{variantId}} initialized with {{afterQty}} units. TXN: {{id}}"
+  },
+  "errors": {
+    "alreadyInitialized": "Already Initialized",
+    "validation": "Validation Error",
+    "permission": "Permission Denied",
+    "generic": "Error"
+  },
+  "form": {
+    "title": "Initialize Stock",
+    "description": "Set the opening inventory quantity for a product variant. Each variant can only be initialized once per warehouse.",
+    "variantId": "Variant ID",
+    "warehouseId": "Warehouse ID",
+    "qty": "Quantity",
+    "unitCost": "Unit Cost (Optional)",
+    "locationId": "Location ID (Optional)",
+    "note": "Note (Optional)",
+    "variantPlaceholder": "e.g. clvar001",
+    "warehousePlaceholder": "e.g. clwh001",
+    "qtyPlaceholder": "0",
+    "unitCostPlaceholder": "0.00",
+    "locationPlaceholder": "e.g. clloc001",
+    "notePlaceholder": "e.g. Opening stock — initial setup",
+    "submit": "Initialize Stock",
+    "submitting": "Initializing...",
+    "clear": "Clear"
+  },
+  "info": {
+    "howItWorks": "How it works",
+    "requiredFields": "Required Fields",
+    "rule1": "Each variant can only be initialized once per warehouse",
+    "rule2": "Quantity must be a positive integer (≥ 1)",
+    "rule3": "Unit cost is optional and stored as reference",
+    "rule4": "Location ID narrows the stock to a specific bin/shelf",
+    "required": "Required",
+    "optional": "Optional",
+    "requiredInteger": "Required · integer > 0"
+  }
+}

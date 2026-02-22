@@ -42,102 +42,62 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useBackofficeTranslations, useLocale } from "@/shared/lib/i18n"
 
-const menuItems = [
+type MenuItem = {
+  titleKey: string
+  url: string
+  icon: React.ComponentType<{ className?: string }>
+}
+
+type MenuGroup = {
+  titleKey: string
+  items: MenuItem[]
+}
+
+const menuItems: MenuGroup[] = [
   {
-    title: "Overview",
+    titleKey: "groups.overview",
     items: [
-      {
-        title: "Dashboard",
-        url: "/admin-dasboard",
-        icon: Home,
-      },
-      {
-        title: "Analytics",
-        url: "/admin-dasboard/analytics",
-        icon: BarChart3,
-      },
+      { titleKey: "items.dashboard", url: "/admin-dasboard", icon: Home },
+      { titleKey: "items.analytics", url: "/admin-dasboard/analytics", icon: BarChart3 },
     ],
   },
   {
-    title: "Inventory",
+    titleKey: "groups.inventory",
     items: [
-      {
-        title: "Dashboard",
-        url: "/admin-dasboard/inventory/dashboard",
-        icon: Warehouse,
-      },
-      {
-        title: "Products & SKUs",
-        url: "/admin-dasboard/inventory/products",
-        icon: Package,
-      },
-      {
-        title: "Initial Stock",
-        url: "/admin-dasboard/inventory/initial-stock",
-        icon: PackagePlus,
-      },
-      {
-        title: "Adjustment",
-        url: "/admin-dasboard/inventory/adjustment",
-        icon: PackageMinus,
-      },
-      {
-        title: "Receiving",
-        url: "/admin-dasboard/inventory/receiving",
-        icon: Truck,
-      },
-      {
-        title: "Low Stock",
-        url: "/admin-dasboard/inventory/low-stock",
-        icon: TrendingDown,
-      },
-      {
-        title: "Transactions",
-        url: "/admin-dasboard/inventory/transactions",
-        icon: History,
-      },
-      {
-        title: "Suppliers",
-        url: "/admin-dasboard/inventory/suppliers",
-        icon: Users,
-      },
+      { titleKey: "items.inventoryDashboard", url: "/admin-dasboard/inventory/dashboard", icon: Warehouse },
+      { titleKey: "items.productSku", url: "/admin-dasboard/inventory/products", icon: Package },
+      { titleKey: "items.initialStock", url: "/admin-dasboard/inventory/initial-stock", icon: PackagePlus },
+      { titleKey: "items.adjustment", url: "/admin-dasboard/inventory/adjustment", icon: PackageMinus },
+      { titleKey: "items.receiving", url: "/admin-dasboard/inventory/receiving", icon: Truck },
+      { titleKey: "items.lowStock", url: "/admin-dasboard/inventory/low-stock", icon: TrendingDown },
+      { titleKey: "items.transactions", url: "/admin-dasboard/inventory/transactions", icon: History },
+      { titleKey: "items.suppliers", url: "/admin-dasboard/inventory/suppliers", icon: Users },
     ],
   },
   {
-    title: "Management",
+    titleKey: "groups.management",
     items: [
-      {
-        title: "Orders",
-        url: "/admin-dasboard/order-management",
-        icon: ShoppingCart,
-      },
-      {
-        title: "Customers",
-        url: "/admin-dasboard/customers",
-        icon: Users,
-      },
+      { titleKey: "items.orders", url: "/admin-dasboard/order-management", icon: ShoppingCart },
+      { titleKey: "items.customers", url: "/admin-dasboard/customers", icon: Users },
     ],
   },
   {
-    title: "Settings",
+    titleKey: "groups.settings",
     items: [
-      {
-        title: "General",
-        url: "/admin-dasboard/settings/general",
-        icon: Settings,
-      },
-      {
-        title: "Reports",
-        url: "/admin-dasboard/settings/reports",
-        icon: FileText,
-      },
+      { titleKey: "items.general", url: "/admin-dasboard/settings/general", icon: Settings },
+      { titleKey: "items.reports", url: "/admin-dasboard/settings/reports", icon: FileText },
     ],
   },
 ]
 
 export function AdminSidebar() {
   const pathname = usePathname()
+  const locale = useLocale()
+  const { t } = useBackofficeTranslations("sidebar")
+
+  const toLocaleUrl = (url: string) => `/${locale}${url}`
 
   return (
     <Sidebar collapsible="icon">
@@ -151,46 +111,31 @@ export function AdminSidebar() {
               className="relative h-5 w-5 text-primary-foreground"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <path
-                d="M12 2L2 7L12 12L22 7L12 2Z"
-                fill="currentColor"
-                fillOpacity="0.9"
-              />
-              <path
-                d="M2 17L12 22L22 17"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M2 12L12 17L22 12"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
+              <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor" fillOpacity="0.9" />
+              <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </div>
-          <span className="text-lg font-semibold group-data-[collapsible=icon]:hidden">
-            Sanaeva
-          </span>
+          <span className="text-lg font-semibold group-data-[collapsible=icon]:hidden">Sanaeva</span>
         </div>
       </SidebarHeader>
+
       <SidebarContent>
         {menuItems.map((group) => (
-          <SidebarGroup key={group.title}>
-            <SidebarGroupLabel>{group.title}</SidebarGroupLabel>
+          <SidebarGroup key={group.titleKey}>
+            <SidebarGroupLabel>{t(group.titleKey)}</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {group.items.map((item) => {
-                  const isActive = pathname === item.url
+                  const localizedUrl = toLocaleUrl(item.url)
+                  const isActive = pathname === localizedUrl
+
                   return (
-                    <SidebarMenuItem key={item.title}>
-                      <SidebarMenuButton asChild isActive={isActive} tooltip={item.title}>
-                        <Link href={item.url}>
+                    <SidebarMenuItem key={item.titleKey}>
+                      <SidebarMenuButton asChild isActive={isActive} tooltip={t(item.titleKey)}>
+                        <Link href={localizedUrl}>
                           <item.icon className="size-4" />
-                          <span>{item.title}</span>
+                          <span>{t(item.titleKey)}</span>
                         </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -201,6 +146,7 @@ export function AdminSidebar() {
           </SidebarGroup>
         ))}
       </SidebarContent>
+
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -211,14 +157,12 @@ export function AdminSidebar() {
                   className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                 >
                   <Avatar className="size-8 rounded-lg">
-                    <AvatarImage src="/avatars/shadcn.jpg" alt="Admin User" />
+                    <AvatarImage src="/avatars/shadcn.jpg" alt={t("account.name")} />
                     <AvatarFallback className="rounded-lg">AD</AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
-                    <span className="truncate font-semibold">Admin User</span>
-                    <span className="truncate text-xs text-muted-foreground">
-                      admin@sanaeva.com
-                    </span>
+                    <span className="truncate font-semibold">{t("account.name")}</span>
+                    <span className="truncate text-xs text-muted-foreground">{t("account.email")}</span>
                   </div>
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
@@ -231,25 +175,23 @@ export function AdminSidebar() {
                 <DropdownMenuLabel className="p-0 font-normal">
                   <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                     <Avatar className="size-8 rounded-lg">
-                      <AvatarImage src="/avatars/shadcn.jpg" alt="Admin User" />
+                      <AvatarImage src="/avatars/shadcn.jpg" alt={t("account.name")} />
                       <AvatarFallback className="rounded-lg">AD</AvatarFallback>
                     </Avatar>
                     <div className="grid flex-1 text-left text-sm leading-tight">
-                      <span className="truncate font-semibold">Admin User</span>
-                      <span className="truncate text-xs text-muted-foreground">
-                        admin@sanaeva.com
-                      </span>
+                      <span className="truncate font-semibold">{t("account.name")}</span>
+                      <span className="truncate text-xs text-muted-foreground">{t("account.email")}</span>
                     </div>
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
                   <Settings className="mr-2 size-4" />
-                  Account Settings
+                  {t("account.accountSettings")}
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <LogOut className="mr-2 size-4" />
-                  Log out
+                  {t("account.logout")}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

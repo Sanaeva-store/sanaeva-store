@@ -1,0 +1,60 @@
+{
+  "title": "Suppliers",
+  "subtitle": "Manage your supplier directory",
+  "addSupplier": "Add Supplier",
+  "successTitle": "Success",
+  "toggleFailed": "Toggle Failed",
+  "table": {
+    "title": "All Suppliers",
+    "loading": "Loading...",
+    "totalSuppliers": "total suppliers",
+    "pageOf": "Page {{page}} of {{totalPages}}",
+    "loadFailed": "Failed to load suppliers",
+    "emptyTitle": "No suppliers yet",
+    "emptyDescription": "Add your first supplier to get started.",
+    "columns": {
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "status": "Status",
+      "created": "Created",
+      "actions": "Actions"
+    },
+    "active": "Active",
+    "inactive": "Inactive",
+    "edit": "Edit",
+    "deactivate": "Deactivate",
+    "activate": "Activate",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "dialog": {
+    "addTitle": "Add Supplier",
+    "editTitle": "Edit Supplier",
+    "addDescription": "Fill in the details to add a new supplier.",
+    "editDescription": "Update supplier information below.",
+    "name": "Name",
+    "email": "Email (Optional)",
+    "phone": "Phone (Optional)",
+    "namePlaceholder": "e.g. ABC Supplier Co.",
+    "emailPlaceholder": "supplier@example.com",
+    "phonePlaceholder": "+66 81 234 5678",
+    "cancel": "Cancel",
+    "create": "Add Supplier",
+    "creating": "Creating...",
+    "saveChanges": "Save Changes",
+    "saving": "Saving..."
+  },
+  "errors": {
+    "validation": "Validation Error",
+    "conflict": "Conflict",
+    "generic": "Error",
+    "nameRequired": "Name is required",
+    "invalidEmail": "Invalid email"
+  },
+  "messages": {
+    "created": "Supplier \"{{name}}\" created.",
+    "updated": "Supplier \"{{name}}\" updated.",
+    "statusNow": "{{name}} is now {{status}}."
+  }
+}

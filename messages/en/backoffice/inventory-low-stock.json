@@ -1,0 +1,36 @@
+{
+  "title": "Low Stock Alerts",
+  "subtitle": "Items below their reorder point that need restocking",
+  "filter": {
+    "title": "Filter",
+    "warehouseId": "Warehouse ID",
+    "warehousePlaceholder": "e.g. clwh001",
+    "apply": "Apply",
+    "reset": "Reset"
+  },
+  "badge": {
+    "item": "item",
+    "items": "items"
+  },
+  "table": {
+    "title": "Low Stock Items",
+    "description": "Products below their reorder point — sorted by shortage severity",
+    "loadFailed": "Failed to load low stock data",
+    "emptyTitle": "No low stock items",
+    "emptyDescription": "All products are above their reorder points.",
+    "columns": {
+      "sku": "SKU",
+      "variantId": "Variant ID",
+      "warehouseId": "Warehouse ID",
+      "available": "Available",
+      "reorderPoint": "Reorder Point",
+      "shortage": "Shortage",
+      "severity": "Severity"
+    },
+    "severityValues": {
+      "critical": "Critical",
+      "warning": "Warning",
+      "low": "Low"
+    }
+  }
+}

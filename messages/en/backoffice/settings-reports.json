@@ -1,0 +1,10 @@
+{
+  "meta": {
+    "title": "Report Settings",
+    "description": "Configure report exports and schedules"
+  },
+  "title": "Report Settings",
+  "subtitle": "Configure reporting templates, exports, and delivery preferences",
+  "configTitle": "Reporting Configuration",
+  "configDescription": "Export format, delivery schedule, and recipients"
+}

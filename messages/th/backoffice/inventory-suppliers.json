@@ -1,0 +1,60 @@
+{
+  "title": "ซัพพลายเออร์",
+  "subtitle": "จัดการรายชื่อซัพพลายเออร์ของคุณ",
+  "addSupplier": "เพิ่มซัพพลายเออร์",
+  "successTitle": "สำเร็จ",
+  "toggleFailed": "เปลี่ยนสถานะไม่สำเร็จ",
+  "table": {
+    "title": "ซัพพลายเออร์ทั้งหมด",
+    "loading": "กำลังโหลด...",
+    "totalSuppliers": "ซัพพลายเออร์ทั้งหมด",
+    "pageOf": "หน้า {{page}} จาก {{totalPages}}",
+    "loadFailed": "โหลดข้อมูลซัพพลายเออร์ไม่สำเร็จ",
+    "emptyTitle": "ยังไม่มีซัพพลายเออร์",
+    "emptyDescription": "เพิ่มซัพพลายเออร์รายการแรกเพื่อเริ่มต้น",
+    "columns": {
+      "name": "ชื่อ",
+      "email": "อีเมล",
+      "phone": "โทรศัพท์",
+      "status": "สถานะ",
+      "created": "วันที่สร้าง",
+      "actions": "การทำงาน"
+    },
+    "active": "ใช้งาน",
+    "inactive": "ปิดใช้งาน",
+    "edit": "แก้ไข",
+    "deactivate": "ปิดใช้งาน",
+    "activate": "เปิดใช้งาน",
+    "previous": "ก่อนหน้า",
+    "next": "ถัดไป"
+  },
+  "dialog": {
+    "addTitle": "เพิ่มซัพพลายเออร์",
+    "editTitle": "แก้ไขซัพพลายเออร์",
+    "addDescription": "กรอกข้อมูลเพื่อเพิ่มซัพพลายเออร์ใหม่",
+    "editDescription": "อัปเดตข้อมูลซัพพลายเออร์ด้านล่าง",
+    "name": "ชื่อ",
+    "email": "อีเมล (ไม่บังคับ)",
+    "phone": "โทรศัพท์ (ไม่บังคับ)",
+    "namePlaceholder": "เช่น ABC Supplier Co.",
+    "emailPlaceholder": "supplier@example.com",
+    "phonePlaceholder": "+66 81 234 5678",
+    "cancel": "ยกเลิก",
+    "create": "เพิ่มซัพพลายเออร์",
+    "creating": "กำลังสร้าง...",
+    "saveChanges": "บันทึกการแก้ไข",
+    "saving": "กำลังบันทึก..."
+  },
+  "errors": {
+    "validation": "ข้อมูลไม่ถูกต้อง",
+    "conflict": "ข้อมูลขัดแย้ง",
+    "generic": "เกิดข้อผิดพลาด",
+    "nameRequired": "ต้องระบุชื่อ",
+    "invalidEmail": "รูปแบบอีเมลไม่ถูกต้อง"
+  },
+  "messages": {
+    "created": "สร้างซัพพลายเออร์ \"{{name}}\" แล้ว",
+    "updated": "อัปเดตซัพพลายเออร์ \"{{name}}\" แล้ว",
+    "statusNow": "{{name}} อยู่ในสถานะ {{status}}"
+  }
+}

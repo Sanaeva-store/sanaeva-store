@@ -1,13 +1,23 @@
 "use client"
 
-import { LucideIcon } from "lucide-react"
+import { Package, Layers, ShoppingCart, DollarSign, TrendingUp, Users, BarChart2, type LucideIcon } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
+
+const ICON_MAP: Record<string, LucideIcon> = {
+  Package,
+  Layers,
+  ShoppingCart,
+  DollarSign,
+  TrendingUp,
+  Users,
+  BarChart2,
+}
 
 interface StatCardProps {
   title: string
   value: string | number
-  icon: LucideIcon
+  icon: keyof typeof ICON_MAP
   trend?: string
   trendLabel?: string
   updateDate?: string
@@ -18,13 +28,14 @@ interface StatCardProps {
 export function StatCard({
   title,
   value,
-  icon: Icon,
+  icon,
   trend,
   trendLabel,
   updateDate,
   className,
   iconClassName,
 }: Readonly<StatCardProps>) {
+  const Icon = ICON_MAP[icon] ?? Package
   const isPositiveTrend = trend?.startsWith("+")
 
   return (
@@ -35,11 +46,11 @@ export function StatCard({
             <div className="flex items-center gap-2 mb-3">
               <div
                 className={cn(
-                  "flex h-10 w-10 items-center justify-center rounded-lg bg-orange-100",
+                  "flex h-10 w-10 items-center justify-center rounded-lg bg-primary-100",
                   iconClassName
                 )}
               >
-                <Icon className="h-5 w-5 text-orange-600" />
+                <Icon className="h-5 w-5 text-primary" />
               </div>
               <h3 className="text-sm font-medium text-muted-foreground">
                 {title}
@@ -55,15 +66,18 @@ export function StatCard({
             </div>
           </div>
           {trend && (
-            <div
-              className={cn(
-                "flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium",
-                isPositiveTrend
-                  ? "bg-green-50 text-green-600"
-                  : "bg-red-50 text-red-600"
-              )}
-            >
-              <span>{trend}</span>
+            <div className="flex flex-col items-end gap-1">
+              <div
+                className={cn(
+                  "flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium",
+                  isPositiveTrend
+                    ? "bg-semantic-success-bg text-semantic-success-text"
+                    : "bg-semantic-error-bg text-semantic-error-text"
+                )}
+              >
+                <span>{trend}</span>
+              </div>
+              {trendLabel && <span className="text-xs text-muted-foreground">{trendLabel}</span>}
             </div>
           )}
         </div>

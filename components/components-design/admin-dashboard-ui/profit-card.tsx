@@ -25,10 +25,8 @@ export function ProfitCard({
 
   return (
     <Card
-      className={cn(
-        "relative overflow-hidden bg-gradient-to-br from-orange-500 to-orange-600 text-white",
-        className
-      )}
+      className={cn("relative overflow-hidden text-white", className)}
+      style={{ background: "linear-gradient(135deg, var(--primary-600) 0%, var(--primary-500) 100%)" }}
     >
       <CardContent className="p-6">
         <div className="relative z-10 space-y-4">
@@ -41,7 +39,7 @@ export function ProfitCard({
                   "rounded-full px-2 py-0.5 text-xs font-medium",
                   isPositiveTrend
                     ? "bg-white/20 text-white"
-                    : "bg-red-500/20 text-red-100"
+                    : "bg-semantic-error-bg text-semantic-error-text"
                 )}
               >
                 {trend}

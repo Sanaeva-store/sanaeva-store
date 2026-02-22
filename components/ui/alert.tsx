@@ -11,6 +11,13 @@ const alertVariants = cva(
         default: "bg-card text-card-foreground",
         destructive:
           "text-destructive bg-card [&>svg]:text-current *:data-[slot=alert-description]:text-destructive/90",
+        info: "bg-[var(--semantic-info-bg)] text-[var(--semantic-info-text)] border-[var(--semantic-info-border)] [&>svg]:text-current",
+        success:
+          "bg-[var(--semantic-success-bg)] text-[var(--semantic-success-text)] border-[var(--semantic-success-border)] [&>svg]:text-current",
+        warning:
+          "bg-[var(--semantic-warning-bg)] text-[var(--semantic-warning-text)] border-[var(--semantic-warning-border)] [&>svg]:text-current",
+        error:
+          "bg-[var(--semantic-error-bg)] text-[var(--semantic-error-text)] border-[var(--semantic-error-border)] [&>svg]:text-current",
       },
     },
     defaultVariants: {

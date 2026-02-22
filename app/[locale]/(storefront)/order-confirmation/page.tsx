@@ -21,8 +21,8 @@ export default async function OrderConfirmationPage({ searchParams }: OrderConfi
       <div className="mx-auto max-w-lg space-y-8 text-center">
         {/* Success icon */}
         <div className="flex justify-center">
-          <div className="rounded-full bg-green-100 p-4 dark:bg-green-900/30">
-            <CheckCircle2 className="h-16 w-16 text-green-600 dark:text-green-400" />
+          <div className="rounded-full bg-semantic-success-bg p-4">
+            <CheckCircle2 className="h-16 w-16 text-semantic-success-text" />
           </div>
         </div>
 

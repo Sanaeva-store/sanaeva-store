@@ -36,10 +36,10 @@ export function TargetPredictionCard({
               <span>{percentage}%</span>
               <span>{currentAmount}</span>
             </div>
-            <div className="relative h-2 w-full overflow-hidden rounded-full bg-gray-100">
+            <div className="relative h-2 w-full overflow-hidden rounded-full bg-muted">
               <div
-                className="h-full rounded-full bg-gradient-to-r from-orange-500 to-orange-600 transition-all"
-                style={{ width: `${percentage}%` }}
+                className="h-full rounded-full transition-all"
+                style={{ width: `${percentage}%`, background: "linear-gradient(90deg, var(--primary-600) 0%, var(--primary-500) 100%)" }}
               />
             </div>
           </div>
@@ -49,7 +49,7 @@ export function TargetPredictionCard({
           {description}
         </p>
 
-        <Button className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700">
+        <Button className="w-full">
           See More
         </Button>
       </CardContent>

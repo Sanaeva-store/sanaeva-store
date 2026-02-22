@@ -1,5 +1,4 @@
 import { render, screen } from "@testing-library/react"
-import { Package } from "lucide-react"
 import { describe, expect, it } from "vitest"
 import { StatCard } from "@/components/components-design/admin-dashboard-ui/stat-card"
 
@@ -9,7 +8,7 @@ describe("StatCard", () => {
       <StatCard
         title="Total Products"
         value="25"
-        icon={Package}
+        icon="Package"
         trend="+15%"
         updateDate="20 July 2024"
       />

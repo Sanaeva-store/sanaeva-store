@@ -1,0 +1,51 @@
+{
+  "title": "รับสินค้าเข้า",
+  "subtitle": "บันทึกรับสินค้าคงคลังเข้า (GRN)",
+  "successTitle": "สร้าง GRN แล้ว — {{code}}",
+  "status": "สถานะ",
+  "id": "ID",
+  "errors": {
+    "validation": "ข้อมูลไม่ถูกต้อง",
+    "permission": "ไม่มีสิทธิ์",
+    "generic": "เกิดข้อผิดพลาด"
+  },
+  "validation": {
+    "variantRequired": "ต้องระบุรหัสตัวเลือก",
+    "qtyInteger": "จำนวนต้องเป็นจำนวนเต็ม",
+    "qtyGreaterThanZero": "จำนวนต้องมากกว่า 0",
+    "expiryDateFormat": "วันหมดอายุต้องเป็น YYYY-MM-DD",
+    "warehouseRequired": "ต้องระบุรหัสคลัง",
+    "atLeastOneItem": "ต้องมีอย่างน้อย 1 รายการ"
+  },
+  "headerInfo": {
+    "title": "ข้อมูลการรับสินค้า",
+    "description": "กรอกรายละเอียดการจัดส่งและตำแหน่งรับสินค้า",
+    "warehouseId": "รหัสคลัง",
+    "locationId": "รหัสตำแหน่ง (ไม่บังคับ)",
+    "poReference": "อ้างอิง PO (ไม่บังคับ)",
+    "invoiceNumber": "เลขที่ใบแจ้งหนี้ (ไม่บังคับ)",
+    "note": "หมายเหตุ (ไม่บังคับ)",
+    "warehousePlaceholder": "เช่น clwh001",
+    "locationPlaceholder": "เช่น clloc001",
+    "poPlaceholder": "เช่น clpo001",
+    "invoicePlaceholder": "เช่น INV-2026-001",
+    "notePlaceholder": "เพิ่มหมายเหตุการรับสินค้า..."
+  },
+  "items": {
+    "title": "รายการรับสินค้า",
+    "description": "เพิ่มสินค้าและจำนวนที่รับเข้า",
+    "addItem": "เพิ่มรายการ",
+    "variantId": "รหัสตัวเลือก",
+    "qty": "จำนวน",
+    "unitCost": "ต้นทุนต่อหน่วย",
+    "lotNumber": "เลขล็อต",
+    "expiryDate": "วันหมดอายุ",
+    "itemsToReceive": "รับเข้า {{count}} รายการ",
+    "clear": "ล้างข้อมูล",
+    "submit": "ยืนยันรับสินค้า",
+    "submitting": "กำลังส่ง..."
+  },
+  "common": {
+    "required": "จำเป็น"
+  }
+}

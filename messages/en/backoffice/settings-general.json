@@ -1,0 +1,10 @@
+{
+  "meta": {
+    "title": "General Settings",
+    "description": "Configure store-wide administrative settings"
+  },
+  "title": "General Settings",
+  "subtitle": "Manage store profile, preferences, and operational defaults",
+  "configTitle": "Store Configuration",
+  "configDescription": "Business profile and default preferences"
+}

@@ -1,0 +1,62 @@
+{
+  "title": "Stock Adjustment",
+  "subtitle": "Increase or decrease inventory levels with full traceability",
+  "notice": "All adjustments are tracked and require a reason code for audit purposes. Quantity cannot be zero.",
+  "validation": {
+    "variantRequired": "Variant ID is required",
+    "warehouseRequired": "Warehouse ID is required",
+    "directionRequired": "Select adjustment direction",
+    "qtyInteger": "Quantity must be a whole number",
+    "qtyMin": "Quantity must be at least 1",
+    "reasonRequired": "Reason code is required"
+  },
+  "success": {
+    "title": "Adjustment Submitted",
+    "message": "Stock changed from {{beforeQty}} to {{afterQty}} ({{qty}} units). TXN: {{id}}"
+  },
+  "errors": {
+    "validation": "Validation Error",
+    "permission": "Permission Denied",
+    "conflict": "Conflict",
+    "generic": "Error"
+  },
+  "form": {
+    "title": "Adjustment Form",
+    "description": "Adjust stock levels for a specific variant and warehouse location",
+    "variantId": "Variant ID",
+    "warehouseId": "Warehouse ID",
+    "direction": "Direction",
+    "selectDirection": "Select direction...",
+    "increase": "Increase",
+    "decrease": "Decrease",
+    "qty": "Quantity",
+    "reasonCode": "Reason Code",
+    "selectReason": "Select reason...",
+    "locationId": "Location ID (Optional)",
+    "note": "Note (Optional)",
+    "submit": "Submit Adjustment",
+    "submitting": "Submitting...",
+    "clear": "Clear",
+    "variantPlaceholder": "e.g. clvar001",
+    "warehousePlaceholder": "e.g. clwh001",
+    "locationPlaceholder": "e.g. clloc001",
+    "notePlaceholder": "Add details about this adjustment..."
+  },
+  "rules": {
+    "title": "Adjustment Rules",
+    "item1": "Quantity cannot be zero — use at least 1",
+    "item2": "Decrease will send a negative qty to the API",
+    "item3": "Reason code must match one of the backend enums exactly",
+    "item4": "Each submission generates a unique idempotency key",
+    "item5": "Backend will reject if stock would go below zero"
+  },
+  "reasonCodes": {
+    "title": "Reason Codes"
+  },
+  "reasonLabels": {
+    "DAMAGE": "Damaged Goods",
+    "LOST": "Loss/Theft",
+    "FOUND": "Found Stock",
+    "MANUAL_CORRECTION": "Inventory Correction"
+  }
+}

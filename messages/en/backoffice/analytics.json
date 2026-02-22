@@ -1,0 +1,16 @@
+{
+  "meta": {
+    "title": "Analytics",
+    "description": "Sales and operational analytics overview"
+  },
+  "title": "Analytics",
+  "subtitle": "Track revenue, orders, and operations performance",
+  "kpis": {
+    "revenue": "Revenue",
+    "orders": "Orders",
+    "aov": "AOV",
+    "conversion": "Conversion"
+  },
+  "trendTitle": "Trend Charts",
+  "trendDescription": "Daily and monthly performance trends"
+}

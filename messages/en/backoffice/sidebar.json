@@ -1,0 +1,30 @@
+{
+  "groups": {
+    "overview": "Overview",
+    "inventory": "Inventory",
+    "management": "Management",
+    "settings": "Settings"
+  },
+  "items": {
+    "dashboard": "Dashboard",
+    "analytics": "Analytics",
+    "inventoryDashboard": "Dashboard",
+    "productSku": "Products & SKUs",
+    "initialStock": "Initial Stock",
+    "adjustment": "Adjustment",
+    "receiving": "Receiving",
+    "lowStock": "Low Stock",
+    "transactions": "Transactions",
+    "suppliers": "Suppliers",
+    "orders": "Orders",
+    "customers": "Customers",
+    "general": "General",
+    "reports": "Reports"
+  },
+  "account": {
+    "name": "Admin User",
+    "email": "admin@sanaeva.com",
+    "accountSettings": "Account Settings",
+    "logout": "Log out"
+  }
+}
