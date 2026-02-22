@@ -10,6 +10,7 @@
         "@elysiajs/openapi": "^1.4.14",
         "@elysiajs/opentelemetry": "^1.4.10",
         "@hookform/resolvers": "^5.2.2",
+        "@modelcontextprotocol/sdk": "^1.26.0",
         "@paralleldrive/cuid2": "^3.3.0",
         "@prisma/adapter-libsql": "^7.4.1",
         "@prisma/adapter-pg": "^7.4.1",

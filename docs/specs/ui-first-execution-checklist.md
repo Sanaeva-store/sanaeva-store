@@ -52,6 +52,11 @@
    - Do not create Next.js API route handlers (`app/api/*`, `route.ts`) for business endpoints
    - Backend APIs are owned by NestJS only; frontend must call NestJS via shared API client
    - If an endpoint is missing, document contract gap and stop; do not implement API in frontend
+5. Color semantics rule (strict):
+   - Cancel button uses neutral/outline, not red
+   - Red is reserved for destructive and error states only
+   - Notification colors must map to semantic type: info (blue), success (green), warning (amber), error (red)
+   - Follow `docs/specs/color-semantics-instruction.md` and token contract in `shared/config/design-tokens.ts`
 
 ## Week 1: Foundation + System UI
 

@@ -9,6 +9,7 @@ export const stockTxnTypeOptions = [
   { value: "INBOUND", label: "Inbound" },
   { value: "OUTBOUND", label: "Outbound" },
   { value: "ADJUST", label: "Adjustment" },
+  { value: "INITIALIZE", label: "Initialize" },
   { value: "RESERVE", label: "Reserve" },
   { value: "RELEASE", label: "Release" },
   { value: "TRANSFER_IN", label: "Transfer In" },

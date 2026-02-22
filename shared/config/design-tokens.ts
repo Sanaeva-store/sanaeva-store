@@ -78,6 +78,51 @@ export const designTokens = {
     xl: "1280px",
     "2xl": "1536px",
   },
+
+  /**
+   * Semantic color contract (global)
+   * Use these roles in UI logic instead of picking random colors.
+   */
+  semanticColors: {
+    primary: {
+      bg: "#0A6EE1",
+      text: "#FFFFFF",
+      border: "#0A6EE1",
+      hoverBg: "#074E9F",
+    },
+    neutral: {
+      bg: "#FFFFFF",
+      text: "#232C62",
+      border: "#D1D7E7",
+      hoverBg: "#F7F9FF",
+    },
+    info: {
+      bg: "#EAF4FF",
+      text: "#0B5CAD",
+      border: "#A8CCF4",
+    },
+    success: {
+      bg: "#EAF8E7",
+      text: "#237804",
+      border: "#B7E0A3",
+    },
+    warning: {
+      bg: "#FFF4DD",
+      text: "#AD6800",
+      border: "#FFD666",
+    },
+    error: {
+      bg: "#FFF1F0",
+      text: "#A8071A",
+      border: "#FFCCC7",
+    },
+    destructive: {
+      bg: "#D92D20",
+      text: "#FFFFFF",
+      border: "#D92D20",
+      hoverBg: "#B42318",
+    },
+  },
 } as const;
 
 /**

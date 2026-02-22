@@ -18,6 +18,8 @@ Last synced: 2026-02-22
    สเปก input field, ชนิดข้อมูล, validation, enum, query params ราย endpoint
 3. `frontend-gap-checklist.md`
    รายการจุดที่ frontend ปัจจุบันยังไม่ตรงกับ backend contract
+4. `inventory-integration-task.md`
+   task checklist สำหรับทีม frontend implement inventory integration ได้ทันที (พร้อม DoD)
 
 ## Source of truth (backend)
 

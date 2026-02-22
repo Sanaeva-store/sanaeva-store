@@ -23,6 +23,7 @@
 6. Accessibility baseline: keyboard, focus ring, contrast, semantic landmarks
 7. Performance budget: LCP < 2.5s, CLS < 0.1, INP ดีบน mobile จริง
 8. ห้ามสร้าง business API route handlers ใน Next.js; ใช้ NestJS API เท่านั้น
+9. Semantic color rules are mandatory (primary/cancel/info/warning/error/destructive)
 
 ## Delivery Strategy (UI First, Then Feature Wiring)
 
@@ -213,3 +214,4 @@ core/
 3. `docs/specs/admin/architecture/overview.md`
 4. `docs/specs/store-front/architecture/overview.md`
 5. `docs/specs/charting-strategy.md`
+6. `docs/specs/color-semantics-instruction.md`
