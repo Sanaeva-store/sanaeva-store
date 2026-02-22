@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { ShoppingCart, Heart, Share2 } from "lucide-react";
+import { Heart, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { LoadingSkeleton } from "@/shared/ui";
+import { AddToCartButton } from "@/components/components-design/storefront/add-to-cart-button";
 
 export const metadata: Metadata = {
   title: "Product Details - Sanaeva Store",
@@ -101,14 +102,18 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
 
           {/* Actions */}
           <div className="flex gap-2">
-            <Button className="flex-1" size="lg">
-              <ShoppingCart className="mr-2 h-5 w-5" />
-              Add to Cart
-            </Button>
-            <Button variant="outline" size="lg">
+            <AddToCartButton
+              item={{
+                itemId: slug,
+                variantId: slug,
+                productName: `Product - ${slug}`,
+                unitPrice: 1299,
+              }}
+            />
+            <Button variant="outline" size="lg" aria-label="Add to wishlist">
               <Heart className="h-5 w-5" />
             </Button>
-            <Button variant="outline" size="lg">
+            <Button variant="outline" size="lg" aria-label="Share product">
               <Share2 className="h-5 w-5" />
             </Button>
           </div>

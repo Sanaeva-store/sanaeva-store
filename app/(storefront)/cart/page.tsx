@@ -1,65 +1,39 @@
-import type { Metadata } from "next";
+"use client";
+
 import Link from "next/link";
-import { Trash2, Plus, Minus } from "lucide-react";
+import Image from "next/image";
+import { Trash2, Plus, Minus, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Input } from "@/components/ui/input";
-import { EmptyState } from "@/shared/ui";
-
-export const metadata: Metadata = {
-  title: "Shopping Cart - Sanaeva Store",
-  description: "Review your cart and proceed to checkout",
-};
+import { useCartItems, useCartTotals, useCartActions } from "@/features/cart/store/cart.selectors";
 
 export default function CartPage() {
-  // Mock cart items - will be replaced with Zustand store
-  const cartItems = [
-    {
-      id: "1",
-      name: "Product A",
-      variant: "Size M, Black",
-      price: 1299,
-      quantity: 2,
-      image: "/placeholder.jpg",
-    },
-    {
-      id: "2",
-      name: "Product B",
-      variant: "Size L, White",
-      price: 899,
-      quantity: 1,
-      image: "/placeholder.jpg",
-    },
-  ];
+  const cartItems = useCartItems();
+  const { subtotal, totalItems } = useCartTotals();
+  const { removeItem, updateQuantity } = useCartActions();
 
-  const isEmpty = cartItems.length === 0;
+  const shipping = subtotal > 1000 ? 0 : 100;
+  const total = subtotal + shipping;
 
-  if (isEmpty) {
+  if (cartItems.length === 0) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <EmptyState
-          title="Your cart is empty"
-          description="Add some products to get started"
-          action={{
-            label: "Continue Shopping",
-            onClick: () => {},
-          }}
-        />
+      <div className="container mx-auto px-4 py-16">
+        <div className="flex flex-col items-center gap-4 text-center">
+          <ShoppingBag className="h-16 w-16 text-muted-foreground" />
+          <h1 className="text-2xl font-bold">Your cart is empty</h1>
+          <p className="text-muted-foreground">Add some products to get started</p>
+          <Button asChild>
+            <Link href="/products">Continue Shopping</Link>
+          </Button>
+        </div>
       </div>
     );
   }
 
-  const subtotal = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
-  const shipping = 100;
-  const total = subtotal + shipping;
-
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="mb-8 text-3xl font-bold">Shopping Cart</h1>
+      <h1 className="mb-8 text-3xl font-bold">Shopping Cart ({totalItems})</h1>
 
       <div className="grid gap-8 lg:grid-cols-3">
         {/* Cart Items */}
@@ -70,46 +44,69 @@ export default function CartPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               {cartItems.map((item) => (
-                <div key={item.id}>
+                <div key={item.itemId}>
                   <div className="flex gap-4">
                     {/* Product Image */}
-                    <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border bg-muted">
-                      <div className="flex h-full items-center justify-center">
-                        <p className="text-xs text-muted-foreground">Image</p>
-                      </div>
+                    <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-md border bg-muted">
+                      {item.imageUrl ? (
+                        <Image
+                          src={item.imageUrl}
+                          alt={item.productName}
+                          fill
+                          className="object-cover"
+                          sizes="96px"
+                        />
+                      ) : (
+                        <div className="flex h-full items-center justify-center">
+                          <p className="text-xs text-muted-foreground">No image</p>
+                        </div>
+                      )}
                     </div>
 
                     {/* Product Info */}
                     <div className="flex flex-1 flex-col justify-between">
                       <div>
-                        <h3 className="font-semibold">{item.name}</h3>
-                        <p className="text-sm text-muted-foreground">
-                          {item.variant}
-                        </p>
+                        <h3 className="font-semibold">{item.productName}</h3>
                         <p className="mt-1 font-semibold">
-                          ฿{item.price.toLocaleString()}
+                          ฿{item.unitPrice.toLocaleString()}
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          Subtotal: ฿{(item.unitPrice * item.quantity).toLocaleString()}
                         </p>
                       </div>
 
                       {/* Quantity Controls */}
                       <div className="flex items-center gap-2">
-                        <Button variant="outline" size="icon" className="h-8 w-8">
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="h-8 w-8"
+                          onClick={() => updateQuantity(item.itemId, item.quantity - 1)}
+                          disabled={item.quantity <= 1}
+                        >
                           <Minus className="h-4 w-4" />
                         </Button>
-                        <Input
-                          type="number"
-                          value={item.quantity}
-                          className="h-8 w-16 text-center"
-                          readOnly
-                        />
-                        <Button variant="outline" size="icon" className="h-8 w-8">
+                        <span className="flex h-8 w-12 items-center justify-center rounded-md border text-sm font-medium">
+                          {item.quantity}
+                        </span>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="h-8 w-8"
+                          onClick={() => updateQuantity(item.itemId, item.quantity + 1)}
+                        >
                           <Plus className="h-4 w-4" />
                         </Button>
                       </div>
                     </div>
 
                     {/* Remove Button */}
-                    <Button variant="ghost" size="icon">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => removeItem(item.itemId)}
+                      aria-label={`Remove ${item.productName}`}
+                    >
                       <Trash2 className="h-4 w-4" />
                     </Button>
                   </div>
@@ -134,8 +131,11 @@ export default function CartPage() {
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Shipping</span>
-                  <span>฿{shipping.toLocaleString()}</span>
+                  <span>{shipping === 0 ? "Free" : `฿${shipping.toLocaleString()}`}</span>
                 </div>
+                {shipping === 0 && (
+                  <p className="text-xs text-green-600">Free shipping on orders over ฿1,000</p>
+                )}
                 <Separator />
                 <div className="flex justify-between font-semibold">
                   <span>Total</span>
@@ -144,11 +144,11 @@ export default function CartPage() {
               </div>
 
               <Button className="w-full" size="lg" asChild>
-                <Link href="/(storefront)/checkout">Proceed to Checkout</Link>
+                <Link href="/checkout">Proceed to Checkout</Link>
               </Button>
 
               <Button variant="outline" className="w-full" asChild>
-                <Link href="/(storefront)/products">Continue Shopping</Link>
+                <Link href="/products">Continue Shopping</Link>
               </Button>
             </CardContent>
           </Card>

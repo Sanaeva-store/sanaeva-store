@@ -19,7 +19,7 @@ export function StorefrontFooter() {
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
-                  href="/(storefront)/products"
+                  href="/products"
                   className="text-muted-foreground hover:text-foreground"
                 >
                   All Products
@@ -27,7 +27,7 @@ export function StorefrontFooter() {
               </li>
               <li>
                 <Link
-                  href="/(storefront)/categories"
+                  href="/products"
                   className="text-muted-foreground hover:text-foreground"
                 >
                   Categories
@@ -42,7 +42,7 @@ export function StorefrontFooter() {
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
-                  href="/(user)/account"
+                  href="/account"
                   className="text-muted-foreground hover:text-foreground"
                 >
                   My Account
@@ -50,7 +50,7 @@ export function StorefrontFooter() {
               </li>
               <li>
                 <Link
-                  href="/(user)/orders"
+                  href="/orders"
                   className="text-muted-foreground hover:text-foreground"
                 >
                   Order History

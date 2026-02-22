@@ -27,13 +27,13 @@ export default function StorefrontHomePage() {
             </p>
             <div className="flex justify-center gap-4">
               <Button size="lg" asChild>
-                <Link href="/(storefront)/products">
+                <Link href="/products">
                   Shop Now
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <Link href="/(storefront)/products">View Collection</Link>
+                <Link href="/products">View Collection</Link>
               </Button>
             </div>
           </div>
@@ -80,7 +80,7 @@ export default function StorefrontHomePage() {
               </p>
             </div>
             <Button variant="outline" asChild>
-              <Link href="/(storefront)/products">View All</Link>
+              <Link href="/products">View All</Link>
             </Button>
           </div>
           <LoadingSkeleton variant="card" count={4} />

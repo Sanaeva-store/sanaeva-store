@@ -23,7 +23,7 @@ const accountNavItems = [
     href: "/settings",
     icon: Settings,
   },
-];
+] as const;
 
 export function UserAccountShell({ children }: PropsWithChildren) {
   const pathname = usePathname();
@@ -44,12 +44,12 @@ export function UserAccountShell({ children }: PropsWithChildren) {
             <nav className="flex flex-col gap-1">
               {accountNavItems.map((item) => {
                 const Icon = item.icon;
-                const isActive = pathname === `/(user)${item.href}`;
-                
+                const isActive = pathname === item.href;
+
                 return (
                   <Link
                     key={item.href}
-                    href={`/(user)${item.href}`}
+                    href={item.href}
                     className={cn(
                       "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
                       isActive

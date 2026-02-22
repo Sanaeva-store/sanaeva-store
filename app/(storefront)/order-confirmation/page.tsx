@@ -121,13 +121,13 @@ export default function OrderConfirmationPage() {
         {/* Actions */}
         <div className="flex gap-4">
           <Button className="flex-1" asChild>
-            <Link href="/(user)/orders">
+            <Link href="/orders">
               <Package className="mr-2 h-4 w-4" />
               View Order Status
             </Link>
           </Button>
           <Button variant="outline" className="flex-1" asChild>
-            <Link href="/(storefront)/products">Continue Shopping</Link>
+            <Link href="/products">Continue Shopping</Link>
           </Button>
         </div>
       </div>

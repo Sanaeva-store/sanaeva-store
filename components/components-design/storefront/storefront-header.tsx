@@ -8,8 +8,11 @@ import {
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { useCartTotals } from "@/features/cart/store/cart.selectors";
 
 export function StorefrontHeader() {
+  const { totalItems } = useCartTotals();
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
       <div className="container flex h-16 items-center justify-between px-4">
@@ -23,37 +26,28 @@ export function StorefrontHeader() {
           </SheetTrigger>
           <SheetContent side="left">
             <nav className="flex flex-col gap-4">
-              <Link href="/(storefront)" className="text-lg font-semibold">
+              <Link href="/" className="text-lg font-semibold">
                 Home
               </Link>
-              <Link href="/(storefront)/products" className="text-lg">
+              <Link href="/products" className="text-lg">
                 Products
-              </Link>
-              <Link href="/(storefront)/categories" className="text-lg">
-                Categories
               </Link>
             </nav>
           </SheetContent>
         </Sheet>
 
         {/* Logo */}
-        <Link href="/(storefront)" className="flex items-center space-x-2">
+        <Link href="/" className="flex items-center space-x-2">
           <span className="text-xl font-bold">Sanaeva</span>
         </Link>
 
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex lg:gap-6">
           <Link
-            href="/(storefront)/products"
+            href="/products"
             className="text-sm font-medium transition-colors hover:text-primary"
           >
             Products
-          </Link>
-          <Link
-            href="/(storefront)/categories"
-            className="text-sm font-medium transition-colors hover:text-primary"
-          >
-            Categories
           </Link>
         </nav>
 
@@ -64,15 +58,20 @@ export function StorefrontHeader() {
             <span className="sr-only">Search</span>
           </Button>
           <Button variant="ghost" size="icon" asChild>
-            <Link href="/(user)/account">
+            <Link href="/account">
               <User className="h-5 w-5" />
               <span className="sr-only">Account</span>
             </Link>
           </Button>
-          <Button variant="ghost" size="icon" asChild>
-            <Link href="/(storefront)/cart">
+          <Button variant="ghost" size="icon" asChild className="relative">
+            <Link href="/cart">
               <ShoppingCart className="h-5 w-5" />
-              <span className="sr-only">Cart</span>
+              {totalItems > 0 && (
+                <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+                  {totalItems > 99 ? "99+" : totalItems}
+                </span>
+              )}
+              <span className="sr-only">Cart ({totalItems} items)</span>
             </Link>
           </Button>
         </div>
