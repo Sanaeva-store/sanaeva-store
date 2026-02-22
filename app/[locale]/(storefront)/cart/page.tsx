@@ -7,11 +7,31 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useCartItems, useCartTotals, useCartActions } from "@/features/cart/store/cart.selectors";
+import { useLocale, formatCurrency } from "@/shared/lib/i18n";
+import { useMemo } from "react";
 
 export default function CartPage() {
+  const locale = useLocale();
   const cartItems = useCartItems();
   const { subtotal, totalItems } = useCartTotals();
   const { removeItem, updateQuantity } = useCartActions();
+
+  const dict = useMemo(() => ({
+    cart: {
+      title: locale === "th" ? "ตะกร้าสินค้า" : "Shopping Cart",
+      empty: locale === "th" ? "ตะกร้าสินค้าว่างเปล่า" : "Your cart is empty",
+      continueShopping: locale === "th" ? "เลือกซื้อสินค้าต่อ" : "Continue Shopping",
+      checkout: locale === "th" ? "ชำระเงิน" : "Checkout",
+      subtotal: locale === "th" ? "ยอดรวมสินค้า" : "Subtotal",
+      shipping: locale === "th" ? "ค่าจัดส่ง" : "Shipping",
+      total: locale === "th" ? "ยอดรวมทั้งหมด" : "Total",
+      free: locale === "th" ? "ฟรี" : "Free",
+      freeShippingNote: locale === "th" ? "จัดส่งฟรีสำหรับคำสั่งซื้อมากกว่า ฿1,000" : "Free shipping on orders over $30",
+      itemSubtotal: locale === "th" ? "ยอดรวม" : "Subtotal",
+      items: locale === "th" ? "รายการ" : "Cart Items",
+      addProducts: locale === "th" ? "เพิ่มสินค้าเพื่อเริ่มต้น" : "Add some products to get started",
+    },
+  }), [locale]);
 
   const shipping = subtotal > 1000 ? 0 : 100;
   const total = subtotal + shipping;
@@ -21,10 +41,10 @@ export default function CartPage() {
       <div className="container mx-auto px-4 py-16">
         <div className="flex flex-col items-center gap-4 text-center">
           <ShoppingBag className="h-16 w-16 text-muted-foreground" />
-          <h1 className="text-2xl font-bold">Your cart is empty</h1>
-          <p className="text-muted-foreground">Add some products to get started</p>
+          <h1 className="text-2xl font-bold">{dict.cart.empty}</h1>
+          <p className="text-muted-foreground">{dict.cart.addProducts}</p>
           <Button asChild>
-            <Link href="/products">Continue Shopping</Link>
+            <Link href={`/${locale}/products`}>{dict.cart.continueShopping}</Link>
           </Button>
         </div>
       </div>
@@ -33,14 +53,14 @@ export default function CartPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="mb-8 text-3xl font-bold">Shopping Cart ({totalItems})</h1>
+      <h1 className="mb-8 text-3xl font-bold">{dict.cart.title} ({totalItems})</h1>
 
       <div className="grid gap-8 lg:grid-cols-3">
         {/* Cart Items */}
         <div className="lg:col-span-2">
           <Card>
             <CardHeader>
-              <CardTitle>Cart Items ({cartItems.length})</CardTitle>
+              <CardTitle>{dict.cart.items} ({cartItems.length})</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               {cartItems.map((item) => (
@@ -68,10 +88,10 @@ export default function CartPage() {
                       <div>
                         <h3 className="font-semibold">{item.productName}</h3>
                         <p className="mt-1 font-semibold">
-                          ฿{item.unitPrice.toLocaleString()}
+                          {formatCurrency(item.unitPrice, locale)}
                         </p>
                         <p className="text-sm text-muted-foreground">
-                          Subtotal: ฿{(item.unitPrice * item.quantity).toLocaleString()}
+                          {dict.cart.itemSubtotal}: {formatCurrency(item.unitPrice * item.quantity, locale)}
                         </p>
                       </div>
 
@@ -121,34 +141,34 @@ export default function CartPage() {
         <div>
           <Card className="sticky top-4">
             <CardHeader>
-              <CardTitle>Order Summary</CardTitle>
+              <CardTitle>{locale === "th" ? "สรุปคำสั่งซื้อ" : "Order Summary"}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Subtotal</span>
-                  <span>฿{subtotal.toLocaleString()}</span>
+                  <span className="text-muted-foreground">{dict.cart.subtotal}</span>
+                  <span>{formatCurrency(subtotal, locale)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Shipping</span>
-                  <span>{shipping === 0 ? "Free" : `฿${shipping.toLocaleString()}`}</span>
+                  <span className="text-muted-foreground">{dict.cart.shipping}</span>
+                  <span>{shipping === 0 ? dict.cart.free : formatCurrency(shipping, locale)}</span>
                 </div>
                 {shipping === 0 && (
-                  <p className="text-xs text-green-600">Free shipping on orders over ฿1,000</p>
+                  <p className="text-xs text-green-600">{dict.cart.freeShippingNote}</p>
                 )}
                 <Separator />
                 <div className="flex justify-between font-semibold">
-                  <span>Total</span>
-                  <span>฿{total.toLocaleString()}</span>
+                  <span>{dict.cart.total}</span>
+                  <span>{formatCurrency(total, locale)}</span>
                 </div>
               </div>
 
               <Button className="w-full" size="lg" asChild>
-                <Link href="/checkout">Proceed to Checkout</Link>
+                <Link href={`/${locale}/checkout`}>{dict.cart.checkout}</Link>
               </Button>
 
               <Button variant="outline" className="w-full" asChild>
-                <Link href="/products">Continue Shopping</Link>
+                <Link href={`/${locale}/products`}>{dict.cart.continueShopping}</Link>
               </Button>
             </CardContent>
           </Card>

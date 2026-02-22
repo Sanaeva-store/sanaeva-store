@@ -4,6 +4,9 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ShoppingCart, Menu, User, LogOut, Package, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { LanguageSwitcher } from "@/components/common/language-switcher";
+import { useLocale } from "@/shared/lib/i18n";
+import { useMemo } from "react";
 import {
   Sheet,
   SheetContent,
@@ -23,13 +26,28 @@ import { useCurrentUserQuery, useSignOutMutation } from "@/features/account/hook
 
 export function StorefrontHeader() {
   const router = useRouter();
+  const locale = useLocale();
   const { totalItems } = useCartTotals();
   const { data: user, isLoading } = useCurrentUserQuery();
   const { mutate: signOut, isPending: isSigningOut } = useSignOutMutation();
 
+  const dict = useMemo(() => ({
+    nav: {
+      home: locale === "th" ? "หน้าแรก" : "Home",
+      products: locale === "th" ? "สินค้า" : "Products",
+      account: locale === "th" ? "บัญชีของฉัน" : "My Account",
+      orders: locale === "th" ? "คำสั่งซื้อของฉัน" : "My Orders",
+      signin: locale === "th" ? "เข้าสู่ระบบ" : "Sign In",
+      signout: locale === "th" ? "ออกจากระบบ" : "Sign Out",
+      accountSettings: locale === "th" ? "ตั้งค่าบัญชี" : "Account Settings",
+      cart: locale === "th" ? "ตรวจสอบตะกร้า" : "Cart",
+      items: locale === "th" ? "รายการ" : "items",
+    },
+  }), [locale]);
+
   const handleSignOut = () => {
     signOut(undefined, {
-      onSuccess: () => router.push("/"),
+      onSuccess: () => router.push(`/${locale}`),
     });
   };
 
@@ -50,19 +68,19 @@ export function StorefrontHeader() {
           </SheetTrigger>
           <SheetContent side="left">
             <nav className="flex flex-col gap-4 pt-4">
-              <Link href="/" className="text-lg font-semibold">
-                Home
+              <Link href={`/${locale}`} className="text-lg font-semibold">
+                {dict.nav.home}
               </Link>
-              <Link href="/products" className="text-lg">
-                Products
+              <Link href={`/${locale}/products`} className="text-lg">
+                {dict.nav.products}
               </Link>
               {user && (
                 <>
-                  <Link href="/account" className="text-lg">
-                    My Account
+                  <Link href={`/${locale}/account`} className="text-lg">
+                    {dict.nav.account}
                   </Link>
-                  <Link href="/orders" className="text-lg">
-                    My Orders
+                  <Link href={`/${locale}/orders`} className="text-lg">
+                    {dict.nav.orders}
                   </Link>
                 </>
               )}
@@ -71,22 +89,24 @@ export function StorefrontHeader() {
         </Sheet>
 
         {/* Logo */}
-        <Link href="/" className="flex items-center space-x-2">
+        <Link href={`/${locale}`} className="flex items-center space-x-2">
           <span className="text-xl font-bold">Sanaeva</span>
         </Link>
 
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex lg:gap-6">
           <Link
-            href="/products"
+            href={`/${locale}/products`}
             className="text-sm font-medium transition-colors hover:text-primary"
           >
-            Products
+            {dict.nav.products}
           </Link>
         </nav>
 
         {/* Actions */}
         <div className="flex items-center gap-2">
+          {/* Language Switcher */}
+          <LanguageSwitcher />
           {/* Account */}
           {isLoading ? (
             <div className="h-9 w-9 animate-pulse rounded-full bg-muted" />
@@ -108,15 +128,15 @@ export function StorefrontHeader() {
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <Link href="/account">
+                  <Link href={`/${locale}/account`}>
                     <Settings className="mr-2 h-4 w-4" />
-                    Account Settings
+                    {dict.nav.accountSettings}
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link href="/orders">
+                  <Link href={`/${locale}/orders`}>
                     <Package className="mr-2 h-4 w-4" />
-                    My Orders
+                    {dict.nav.orders}
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
@@ -126,29 +146,29 @@ export function StorefrontHeader() {
                   className="text-destructive focus:text-destructive"
                 >
                   <LogOut className="mr-2 h-4 w-4" />
-                  Sign Out
+                  {dict.nav.signout}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
             <Button variant="ghost" size="sm" asChild>
-              <Link href="/auth/signin">
+              <Link href={`/${locale}/auth/signin`}>
                 <User className="mr-2 h-4 w-4" />
-                Sign In
+                {dict.nav.signin}
               </Link>
             </Button>
           )}
 
           {/* Cart */}
           <Button variant="ghost" size="icon" asChild className="relative">
-            <Link href="/cart">
+            <Link href={`/${locale}/cart`}>
               <ShoppingCart className="h-5 w-5" />
               {totalItems > 0 && (
                 <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
                   {totalItems > 99 ? "99+" : totalItems}
                 </span>
               )}
-              <span className="sr-only">Cart ({totalItems} items)</span>
+              <span className="sr-only">{dict.nav.cart} ({totalItems} {dict.nav.items})</span>
             </Link>
           </Button>
         </div>

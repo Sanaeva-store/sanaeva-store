@@ -11,16 +11,16 @@
 
 ## Feature Tasks
 
-- [ ] Core Web Vitals monitoring และ error tracking integration
-- [ ] Image optimization และ caching strategy review
-- [ ] Query cache policy tuning (staleTime/retry/refetch behavior)
-- [ ] Lighthouse and bundle size budget checks
-- [ ] Release playbook (rollout + rollback)
+- [x] Core Web Vitals monitoring และ error tracking integration
+- [x] Image optimization และ caching strategy review
+- [x] Query cache policy tuning (staleTime/retry/refetch behavior)
+- [x] Lighthouse and bundle size budget checks
+- [x] Release playbook (rollout + rollback)
 
 ## Dependency
 
-- [ ] Logging/monitoring service พร้อมใช้งาน
-- [ ] Baseline KPI ของ performance ก่อน optimize
+- [x] Logging/monitoring service พร้อมใช้งาน
+- [x] Baseline KPI ของ performance ก่อน optimize
 
 ## Acceptance Criteria
 

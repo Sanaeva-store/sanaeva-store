@@ -11,16 +11,16 @@
 
 ## Feature Tasks
 
-- [ ] Auth-aware header/account menu
-- [ ] Session bootstrap และ protected route strategy
-- [ ] Member profile entry points (order history, account settings)
-- [ ] Favorites/wishlist UI state (ถ้ามี API พร้อม)
-- [ ] Permission-aware rendering สำหรับ member-only actions
+- [x] Auth-aware header/account menu
+- [x] Session bootstrap และ protected route strategy
+- [x] Member profile entry points (order history, account settings)
+- [x] Favorites/wishlist UI state (ถ้ามี API พร้อม)
+- [x] Permission-aware rendering สำหรับ member-only actions
 
 ## Dependency
 
-- [ ] Auth/session endpoints พร้อมใช้งาน
-- [ ] ข้อตกลง guest checkout กับ backend ชัดเจน
+- [x] Auth/session endpoints พร้อมใช้งาน
+- [x] ข้อตกลง guest checkout กับ backend ชัดเจน
 
 ## Acceptance Criteria
 

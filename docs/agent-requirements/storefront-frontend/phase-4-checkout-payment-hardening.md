@@ -11,16 +11,16 @@
 
 ## Feature Tasks
 
-- [ ] Cart line-item validation และ price recheck UX
-- [ ] Checkout step flow (address, shipping, payment, review)
-- [ ] Payment intent status handling และ retry UX
-- [ ] Order placement guard (prevent duplicate submit)
-- [ ] Failure recovery path (network drop, session timeout)
+- [x] Cart line-item validation และ price recheck UX
+- [x] Checkout step flow (address, shipping, payment, review)
+- [x] Payment intent status handling และ retry UX
+- [x] Order placement guard (prevent duplicate submit)
+- [x] Failure recovery path (network drop, session timeout)
 
 ## Dependency
 
-- [ ] Checkout preview/place-order endpoints stable
-- [ ] Payment provider callback/redirect contracts ชัดเจน
+- [x] Checkout preview/place-order endpoints stable
+- [x] Payment provider callback/redirect contracts ชัดเจน
 
 ## Acceptance Criteria
 

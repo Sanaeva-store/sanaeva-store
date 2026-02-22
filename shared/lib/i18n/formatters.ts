@@ -1,14 +1,15 @@
-const DEFAULT_LOCALE = "th-TH";
-const DEFAULT_CURRENCY = "THB";
+import type { Locale } from "./config";
+import { localeFormats, localeCurrencies, defaultLocale } from "./config";
 
 export function formatCurrency(
   amount: number,
-  options?: { locale?: string; currency?: string },
+  locale?: Locale,
 ): string {
-  const locale = options?.locale ?? DEFAULT_LOCALE;
-  const currency = options?.currency ?? DEFAULT_CURRENCY;
+  const selectedLocale = locale ?? defaultLocale;
+  const localeFormat = localeFormats[selectedLocale];
+  const currency = localeCurrencies[selectedLocale];
 
-  return new Intl.NumberFormat(locale, {
+  return new Intl.NumberFormat(localeFormat, {
     style: "currency",
     currency,
     minimumFractionDigits: 0,
@@ -18,27 +19,29 @@ export function formatCurrency(
 
 export function formatNumber(
   value: number,
-  options?: { locale?: string },
+  locale?: Locale,
 ): string {
-  return new Intl.NumberFormat(options?.locale ?? DEFAULT_LOCALE).format(value);
+  const selectedLocale = locale ?? defaultLocale;
+  return new Intl.NumberFormat(localeFormats[selectedLocale]).format(value);
 }
 
 export function formatDate(
   date: string | Date,
+  locale?: Locale,
   options?: {
-    locale?: string;
     dateStyle?: Intl.DateTimeFormatOptions["dateStyle"];
     timeStyle?: Intl.DateTimeFormatOptions["timeStyle"];
   },
 ): string {
   const d = typeof date === "string" ? new Date(date) : date;
-  return new Intl.DateTimeFormat(options?.locale ?? DEFAULT_LOCALE, {
+  const selectedLocale = locale ?? defaultLocale;
+  return new Intl.DateTimeFormat(localeFormats[selectedLocale], {
     dateStyle: options?.dateStyle ?? "long",
     timeStyle: options?.timeStyle,
   }).format(d);
 }
 
-export function formatRelativeTime(date: string | Date, locale?: string): string {
+export function formatRelativeTime(date: string | Date, locale?: Locale): string {
   const d = typeof date === "string" ? new Date(date) : date;
   const now = Date.now();
   const diffMs = d.getTime() - now;
@@ -47,7 +50,8 @@ export function formatRelativeTime(date: string | Date, locale?: string): string
   const diffHour = Math.round(diffMin / 60);
   const diffDay = Math.round(diffHour / 24);
 
-  const rtf = new Intl.RelativeTimeFormat(locale ?? DEFAULT_LOCALE, { numeric: "auto" });
+  const selectedLocale = locale ?? defaultLocale;
+  const rtf = new Intl.RelativeTimeFormat(localeFormats[selectedLocale], { numeric: "auto" });
 
   if (Math.abs(diffDay) >= 1) return rtf.format(diffDay, "day");
   if (Math.abs(diffHour) >= 1) return rtf.format(diffHour, "hour");

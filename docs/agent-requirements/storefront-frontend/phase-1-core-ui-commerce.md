@@ -12,16 +12,16 @@
 
 ## Feature Tasks
 
-- [ ] Layout และ navigation สำหรับ storefront
-- [ ] Product listing page (loading/empty/error state)
-- [ ] Product detail page (gallery, variant selector, stock message)
-- [ ] Shared query key conventions และ query hooks พื้นฐาน
-- [ ] Generic HTTP client layer (TanStack Query + Axios/Fetch adapter)
+- [x] Layout และ navigation สำหรับ storefront
+- [x] Product listing page (loading/empty/error state)
+- [x] Product detail page (gallery, variant selector, stock message)
+- [x] Shared query key conventions และ query hooks พื้นฐาน
+- [x] Generic HTTP client layer (TanStack Query + Axios/Fetch adapter)
 
 ## Dependency
 
-- [ ] Backend endpoints สำหรับ product list/detail พร้อมใช้งาน
-- [ ] Contract ของราคา/stock/variant ชัดเจน
+- [x] Backend endpoints สำหรับ product list/detail พร้อมใช้งาน
+- [x] Contract ของราคา/stock/variant ชัดเจน
 
 ## Acceptance Criteria
 

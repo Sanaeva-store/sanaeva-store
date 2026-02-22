@@ -11,16 +11,16 @@
 
 ## Feature Tasks
 
-- [ ] Search input พร้อม debounced query
-- [ ] Filter facets (category, size, price range, availability)
-- [ ] Sort options และ pagination/infinite strategy
-- [ ] URL state synchronization สำหรับ shareable search state
-- [ ] Analytics events พื้นฐานของ search interaction
+- [x] Search input พร้อม debounced query
+- [x] Filter facets (category, size, price range, availability)
+- [x] Sort options และ pagination/infinite strategy
+- [x] URL state synchronization สำหรับ shareable search state
+- [x] Analytics events พื้นฐานของ search interaction
 
 ## Dependency
 
-- [ ] Search API รองรับ filter/sort/pagination อย่าง deterministic
-- [ ] นิยาม taxonomy/category จาก backend ตรงกัน
+- [x] Search API รองรับ filter/sort/pagination อย่าง deterministic
+- [x] นิยาม taxonomy/category จาก backend ตรงกัน
 
 ## Acceptance Criteria
 

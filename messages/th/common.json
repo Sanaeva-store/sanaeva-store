@@ -1,0 +1,109 @@
+{
+  "nav": {
+    "home": "หน้าแรก",
+    "products": "สินค้า",
+    "cart": "ตรวจสอบตะกร้า",
+    "account": "บัญชี",
+    "orders": "คำสั่งซื้อ",
+    "signin": "เข้าสู่ระบบ",
+    "signup": "สมัครสมาชิก",
+    "signout": "ออกจากระบบ"
+  },
+  "common": {
+    "loading": "กำลังโหลด...",
+    "error": "เกิดข้อผิดพลาด",
+    "retry": "ลองอีกครั้ง",
+    "cancel": "ยกเลิก",
+    "confirm": "ยืนยัน",
+    "save": "บันทึก",
+    "delete": "ลบ",
+    "edit": "แก้ไข",
+    "search": "ค้นหา",
+    "filter": "กรอง",
+    "sort": "เรียงลำดับ",
+    "viewAll": "ดูทั้งหมด",
+    "noResults": "ไม่พบผลลัพธ์",
+    "emptyState": "ไม่มีข้อมูล"
+  },
+  "cart": {
+    "title": "ตะกร้าสินค้า",
+    "empty": "ตะกร้าสินค้าว่างเปล่า",
+    "continueShopping": "เลือกซื้อสินค้าต่อ",
+    "checkout": "ชำระเงิน",
+    "subtotal": "ยอดรวมสินค้า",
+    "shipping": "ค่าจัดส่ง",
+    "total": "ยอดรวมทั้งหมด",
+    "free": "ฟรี",
+    "freeShippingNote": "จัดส่งฟรีสำหรับคำสั่งซื้อมากกว่า ฿1,000",
+    "quantity": "จำนวน",
+    "remove": "ลบ",
+    "itemSubtotal": "ยอดรวม"
+  },
+  "product": {
+    "addToCart": "เพิ่มลงตะกร้า",
+    "outOfStock": "สินค้าหมด",
+    "inStock": "มีสินค้า",
+    "price": "ราคา",
+    "description": "รายละเอียด",
+    "specifications": "ข้อมูลจำเพาะ",
+    "reviews": "รีวิว",
+    "relatedProducts": "สินค้าที่เกี่ยวข้อง"
+  },
+  "checkout": {
+    "title": "ชำระเงิน",
+    "shippingAddress": "ที่อยู่จัดส่ง",
+    "paymentMethod": "วิธีการชำระเงิน",
+    "orderSummary": "สรุปคำสั่งซื้อ",
+    "placeOrder": "สั่งซื้อ",
+    "processing": "กำลังดำเนินการ...",
+    "success": "สั่งซื้อสำเร็จ",
+    "failed": "การสั่งซื้อล้มเหลว"
+  },
+  "account": {
+    "profile": "โปรไฟล์",
+    "orders": "คำสั่งซื้อของฉัน",
+    "settings": "ตั้งค่า",
+    "language": "ภาษา",
+    "logout": "ออกจากระบบ"
+  },
+  "orders": {
+    "title": "คำสั่งซื้อของฉัน",
+    "orderNumber": "หมายเลขคำสั่งซื้อ",
+    "date": "วันที่",
+    "status": "สถานะ",
+    "total": "ยอดรวม",
+    "viewDetails": "ดูรายละเอียด",
+    "empty": "คุณยังไม่มีคำสั่งซื้อ",
+    "items": "รายการ",
+    "placedOn": "สั่งซื้อเมื่อ"
+  },
+  "auth": {
+    "signin": "เข้าสู่ระบบ",
+    "signup": "สมัครสมาชิก",
+    "email": "อีเมล",
+    "password": "รหัสผ่าน",
+    "confirmPassword": "ยืนยันรหัสผ่าน",
+    "forgotPassword": "ลืมรหัสผ่าน?",
+    "noAccount": "ยังไม่มีบัญชี?",
+    "hasAccount": "มีบัญชีแล้ว?",
+    "signupNow": "สมัครเลย",
+    "signinNow": "เข้าสู่ระบบเลย"
+  },
+  "filter": {
+    "category": "หมวดหมู่",
+    "priceRange": "ช่วงราคา",
+    "availability": "สถานะสินค้า",
+    "size": "ขนาด",
+    "color": "สี",
+    "brand": "แบรนด์",
+    "clearAll": "ล้างทั้งหมด",
+    "apply": "ใช้งาน"
+  },
+  "sort": {
+    "featured": "แนะนำ",
+    "priceLowToHigh": "ราคา: ต่ำไปสูง",
+    "priceHighToLow": "ราคา: สูงไปต่ำ",
+    "newest": "ใหม่ล่าสุด",
+    "bestSelling": "ขายดี"
+  }
+}

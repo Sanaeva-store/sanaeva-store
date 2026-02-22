@@ -1,0 +1,135 @@
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { LoadingSkeleton } from "@/shared/ui";
+import type { Locale } from "@/shared/lib/i18n";
+
+export default async function StorefrontHomePage({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}) {
+  const { locale } = await params;
+  
+  const dict = {
+    hero: {
+      badge: locale === "th" ? "คอลเลกชันใหม่ 2024" : "New Collection 2024",
+      title: locale === "th" ? "ค้นพบสไตล์ของคุณ" : "Discover Your Style",
+      description: locale === "th" ? "สำรวจคอลเลกชันแฟชั่นและไลฟ์สไตล์ที่คัดสรรมาเพื่อคุณ" : "Explore our curated collection of fashion and lifestyle products",
+      shopNow: locale === "th" ? "ช้อปเลย" : "Shop Now",
+      viewCollection: locale === "th" ? "ดูคอลเลกชัน" : "View Collection",
+    },
+    categories: {
+      title: locale === "th" ? "ช้อปตามหมวดหมู่" : "Shop by Category",
+      description: locale === "th" ? "ค้นหาสิ่งที่คุณต้องการ" : "Find what you're looking for",
+      explore: locale === "th" ? "สำรวจ" : "Explore",
+    },
+    newArrivals: {
+      title: locale === "th" ? "สินค้ามาใหม่" : "New Arrivals",
+      description: locale === "th" ? "ดูสินค้าล่าสุดของเรา" : "Check out our latest products",
+      viewAll: locale === "th" ? "ดูทั้งหมด" : "View All",
+    },
+    trust: {
+      freeShipping: locale === "th" ? "จัดส่งฟรี" : "Free Shipping",
+      freeShippingDesc: locale === "th" ? "สำหรับคำสั่งซื้อมากกว่า ฿1,000" : "On orders over $30",
+      easyReturns: locale === "th" ? "คืนสินค้าง่าย" : "Easy Returns",
+      easyReturnsDesc: locale === "th" ? "นโยบายคืนสินค้า 30 วัน" : "30-day return policy",
+      securePayment: locale === "th" ? "ชำระเงินปลอดภัย" : "Secure Payment",
+      securePaymentDesc: locale === "th" ? "ชำระเงินปลอดภัย 100%" : "100% secure checkout",
+    },
+  };
+  return (
+    <div>
+      {/* Hero Section */}
+      <section className="relative bg-gradient-to-r from-primary/10 via-primary/5 to-background py-20">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-3xl text-center">
+            <Badge className="mb-4">{dict.hero.badge}</Badge>
+            <h1 className="mb-6 text-5xl font-bold tracking-tight">
+              {dict.hero.title}
+            </h1>
+            <p className="mb-8 text-xl text-muted-foreground">
+              {dict.hero.description}
+            </p>
+            <div className="flex justify-center gap-4">
+              <Button size="lg" asChild>
+                <Link href={`/${locale}/products`}>
+                  {dict.hero.shopNow}
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
+              </Button>
+              <Button size="lg" variant="outline" asChild>
+                <Link href={`/${locale}/products`}>{dict.hero.viewCollection}</Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Categories */}
+      <section className="container mx-auto px-4 py-16">
+        <div className="mb-8 text-center">
+          <h2 className="text-3xl font-bold">{dict.categories.title}</h2>
+          <p className="mt-2 text-muted-foreground">
+            {dict.categories.description}
+          </p>
+        </div>
+        <div className="grid gap-6 md:grid-cols-3">
+          {["Women", "Men", "Accessories"].map((category) => (
+            <Card key={category} className="group cursor-pointer overflow-hidden transition-shadow hover:shadow-lg">
+              <CardContent className="p-0">
+                <div className="aspect-square bg-muted">
+                  <div className="flex h-full items-center justify-center">
+                    <p className="text-muted-foreground">{category}</p>
+                  </div>
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold">{category}</h3>
+                  <Button variant="link" className="mt-2 p-0">
+                    {dict.categories.explore} <ArrowRight className="ml-1 h-4 w-4" />
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      {/* New Arrivals */}
+      <section className="bg-muted/30 py-16">
+        <div className="container mx-auto px-4">
+          <div className="mb-8 flex items-center justify-between">
+            <div>
+              <h2 className="text-3xl font-bold">{dict.newArrivals.title}</h2>
+              <p className="mt-2 text-muted-foreground">
+                {dict.newArrivals.description}
+              </p>
+            </div>
+            <Button variant="outline" asChild>
+              <Link href={`/${locale}/products`}>{dict.newArrivals.viewAll}</Link>
+            </Button>
+          </div>
+          <LoadingSkeleton variant="card" count={4} />
+        </div>
+      </section>
+
+      {/* Trust Signals */}
+      <section className="container mx-auto px-4 py-16">
+        <div className="grid gap-8 md:grid-cols-3">
+          {[
+            { title: dict.trust.freeShipping, desc: dict.trust.freeShippingDesc },
+            { title: dict.trust.easyReturns, desc: dict.trust.easyReturnsDesc },
+            { title: dict.trust.securePayment, desc: dict.trust.securePaymentDesc },
+          ].map((item) => (
+            <div key={item.title} className="text-center">
+              <h3 className="mb-2 text-lg font-semibold">{item.title}</h3>
+              <p className="text-sm text-muted-foreground">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+}
