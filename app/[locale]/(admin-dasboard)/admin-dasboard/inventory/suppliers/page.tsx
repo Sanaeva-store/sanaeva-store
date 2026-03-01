@@ -35,6 +35,7 @@ import {
   useUpdateSupplierMutation,
   useToggleSupplierStatusMutation,
 } from "@/features/inventory/hooks/use-suppliers";
+import { INVENTORY_FORM_UI } from "@/features/inventory/constants/form-ui";
 import type { Supplier } from "@/features/inventory/api/suppliers.api";
 import type { ApiError } from "@/shared/lib/http/api-client";
 import { formatDate, useBackofficeTranslations } from "@/shared/lib/i18n";
@@ -295,19 +296,19 @@ export default function SuppliersPage() {
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="sup-name">{t("dialog.name")} <span className="text-destructive">*</span></Label>
-              <Input id="sup-name" placeholder={t("dialog.namePlaceholder")} className="h-10" disabled={isPending} {...register("name")} />
+              <Input id="sup-name" placeholder={t("dialog.namePlaceholder")} className={INVENTORY_FORM_UI.control} disabled={isPending} {...register("name")} />
               {errors.name && <p className="mt-1 text-xs text-destructive">{errors.name.message}</p>}
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="sup-email">{t("dialog.email")}</Label>
-              <Input id="sup-email" type="email" placeholder={t("dialog.emailPlaceholder")} className="h-10" disabled={isPending} {...register("email")} />
+              <Input id="sup-email" type="email" placeholder={t("dialog.emailPlaceholder")} className={INVENTORY_FORM_UI.control} disabled={isPending} {...register("email")} />
               {errors.email && <p className="mt-1 text-xs text-destructive">{errors.email.message}</p>}
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="sup-phone">{t("dialog.phone")}</Label>
-              <Input id="sup-phone" type="tel" placeholder={t("dialog.phonePlaceholder")} className="h-10" disabled={isPending} {...register("phone")} />
+              <Input id="sup-phone" type="tel" placeholder={t("dialog.phonePlaceholder")} className={INVENTORY_FORM_UI.control} disabled={isPending} {...register("phone")} />
             </div>
 
             <Separator />

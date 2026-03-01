@@ -79,6 +79,28 @@ export type CreateVariantPayload = {
 
 export type UpdateVariantPayload = Partial<CreateVariantPayload>;
 
+/**
+ * ProductImageResponseDto — returned by image endpoints.
+ */
+export type ProductImage = {
+  id: string;
+  productId: string;
+  url: string;
+  sortOrder: number;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type CreateProductImagePayload = {
+  url: string;
+  sortOrder?: number;
+};
+
+export type UpdateProductImagePayload = {
+  url?: string;
+  sortOrder?: number;
+};
+
 export async function fetchProductsList(
   params: ProductListParams = {},
 ): Promise<ProductListResponse> {
@@ -129,6 +151,56 @@ export async function updateVariant(
 
 export async function deleteVariant(productId: string, variantId: string): Promise<void> {
   return apiRequest<void>(`/api/catalog/products/${productId}/variants/${variantId}`, {
+    method: "DELETE",
+  });
+}
+
+/**
+ * Hard-delete a product (status = INACTIVE). Requires SUPER_ADMIN role.
+ */
+export async function deleteProduct(productId: string): Promise<Product> {
+  return apiRequest<Product>(`/api/catalog/products/${productId}`, { method: "DELETE" });
+}
+
+export async function fetchVariantsList(productId: string): Promise<ProductVariant[]> {
+  return apiRequest<ProductVariant[]>(`/api/catalog/products/${productId}/variants`);
+}
+
+export async function fetchVariantById(productId: string, variantId: string): Promise<ProductVariant> {
+  return apiRequest<ProductVariant>(
+    `/api/catalog/products/${productId}/variants/${variantId}`,
+  );
+}
+
+// ─── Product Images ──────────────────────────────────────────────────────────
+
+export async function fetchProductImages(productId: string): Promise<ProductImage[]> {
+  return apiRequest<ProductImage[]>(`/api/catalog/products/${productId}/images`);
+}
+
+export async function createProductImage(
+  productId: string,
+  payload: CreateProductImagePayload,
+): Promise<ProductImage> {
+  return apiRequest<ProductImage>(`/api/catalog/products/${productId}/images`, {
+    method: "POST",
+    body: payload,
+  });
+}
+
+export async function updateProductImage(
+  productId: string,
+  imageId: string,
+  payload: UpdateProductImagePayload,
+): Promise<ProductImage> {
+  return apiRequest<ProductImage>(
+    `/api/catalog/products/${productId}/images/${imageId}`,
+    { method: "PATCH", body: payload },
+  );
+}
+
+export async function deleteProductImage(productId: string, imageId: string): Promise<void> {
+  return apiRequest<void>(`/api/catalog/products/${productId}/images/${imageId}`, {
     method: "DELETE",
   });
 }

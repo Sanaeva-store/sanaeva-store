@@ -10,5 +10,93 @@
   "searchPlaceholder": "Search by name, SKU, or barcode...",
   "filter": "Filter",
   "allProducts": "All Products",
-  "allProductsDescription": "Complete list of products and their variants"
+  "allProductsDescription": "Complete list of products and their variants",
+  "noProducts": "No products found",
+  "noProductsDescription": "No products match your search. Try adjusting your filters or add a new product.",
+  "loadError": "Failed to load products",
+  "table": {
+    "name": "Name",
+    "brand": "Brand",
+    "status": "Status",
+    "variants": "Variants",
+    "createdAt": "Created",
+    "actions": "Actions",
+    "viewDetail": "View"
+  },
+  "statusLabels": {
+    "DRAFT": "Draft",
+    "ACTIVE": "Active",
+    "INACTIVE": "Inactive"
+  },
+  "create": {
+    "title": "Create Product",
+    "subtitle": "Add a new product to the catalog",
+    "backToList": "Back to Products",
+    "form": {
+      "title": "Product Details",
+      "description": "Fill in the details below to create a new product",
+      "name": "Product Name",
+      "namePlaceholder": "e.g. Premium Cotton T-Shirt",
+      "descriptionField": "Description",
+      "descriptionPlaceholder": "Describe the product...",
+      "brand": "Brand",
+      "brandPlaceholder": "e.g. Sanaeva",
+      "status": "Status",
+      "selectStatus": "Select status...",
+      "categoryIds": "Category IDs",
+      "categoryIdsPlaceholder": "e.g. cat001, cat002",
+      "categoryIdsHelper": "Optional — enter category IDs separated by commas",
+      "submit": "Create Product",
+      "submitting": "Creating...",
+      "cancel": "Cancel"
+    },
+    "validation": {
+      "titleRequired": "Product name is required",
+      "titleMax": "Product name must be 255 characters or less",
+      "descriptionMax": "Description must be 2000 characters or less",
+      "brandMax": "Brand must be 100 characters or less"
+    },
+    "success": {
+      "title": "Product Created",
+      "message": "Product '{{title}}' was created successfully."
+    },
+    "errors": {
+      "validation": "Validation Error",
+      "permission": "Permission Denied",
+      "generic": "Error"
+    }
+  },
+  "detail": {
+    "backToList": "Back to Products",
+    "notFound": "Product not found",
+    "notFoundDescription": "The product you are looking for does not exist or has been deleted.",
+    "info": {
+      "title": "Product Information",
+      "name": "Name",
+      "brand": "Brand",
+      "status": "Status",
+      "description": "Description",
+      "created": "Created",
+      "updated": "Last Updated",
+      "noDescription": "No description provided",
+      "categories": "Categories",
+      "noCategories": "No categories"
+    },
+    "variants": {
+      "title": "Variants",
+      "description": "SKU variants associated with this product",
+      "sku": "SKU",
+      "barcode": "Barcode",
+      "color": "Color",
+      "size": "Size",
+      "price": "Price",
+      "cost": "Cost",
+      "reorderPoint": "Reorder Pt.",
+      "active": "Active",
+      "noVariants": "No variants added yet",
+      "noVariantsDescription": "Variants define the specific SKUs, sizes, and colors for this product.",
+      "yes": "Yes",
+      "no": "No"
+    }
+  }
 }

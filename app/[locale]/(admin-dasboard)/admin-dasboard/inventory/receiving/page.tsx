@@ -22,6 +22,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useReceiveStockMutation } from "@/features/inventory/hooks/use-inventory";
+import { INVENTORY_FORM_UI } from "@/features/inventory/constants/form-ui";
 import type { ApiError } from "@/shared/lib/http/api-client";
 import { useBackofficeTranslations } from "@/shared/lib/i18n";
 
@@ -150,30 +151,30 @@ export default function GoodsReceivingPage() {
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               <div className="space-y-2">
                 <Label htmlFor="warehouseId">{t("headerInfo.warehouseId")} <span className="text-destructive">*</span></Label>
-                <Input id="warehouseId" placeholder={t("headerInfo.warehousePlaceholder")} className="h-10" disabled={isPending} {...register("warehouseId")} />
+                <Input id="warehouseId" placeholder={t("headerInfo.warehousePlaceholder")} className={INVENTORY_FORM_UI.control} disabled={isPending} {...register("warehouseId")} />
                 {errors.warehouseId && <p className="mt-1 text-xs text-destructive">{errors.warehouseId.message}</p>}
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="locationId">{t("headerInfo.locationId")}</Label>
-                <Input id="locationId" placeholder={t("headerInfo.locationPlaceholder")} className="h-10" disabled={isPending} {...register("locationId")} />
+                <Input id="locationId" placeholder={t("headerInfo.locationPlaceholder")} className={INVENTORY_FORM_UI.control} disabled={isPending} {...register("locationId")} />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="poId">{t("headerInfo.poReference")}</Label>
-                <Input id="poId" placeholder={t("headerInfo.poPlaceholder")} className="h-10" disabled={isPending} {...register("poId")} />
+                <Input id="poId" placeholder={t("headerInfo.poPlaceholder")} className={INVENTORY_FORM_UI.control} disabled={isPending} {...register("poId")} />
               </div>
             </div>
 
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="invoiceNumber">{t("headerInfo.invoiceNumber")}</Label>
-                <Input id="invoiceNumber" placeholder={t("headerInfo.invoicePlaceholder")} className="h-10" disabled={isPending} {...register("invoiceNumber")} />
+                <Input id="invoiceNumber" placeholder={t("headerInfo.invoicePlaceholder")} className={INVENTORY_FORM_UI.control} disabled={isPending} {...register("invoiceNumber")} />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="note">{t("headerInfo.note")}</Label>
-                <Input id="note" placeholder={t("headerInfo.notePlaceholder")} className="h-10" disabled={isPending} {...register("note")} />
+                <Input id="note" placeholder={t("headerInfo.notePlaceholder")} className={INVENTORY_FORM_UI.control} disabled={isPending} {...register("note")} />
               </div>
             </div>
           </CardContent>
@@ -212,18 +213,18 @@ export default function GoodsReceivingPage() {
                   {fields.map((field, index) => (
                     <TableRow key={field.id}>
                       <TableCell className="align-top">
-                        <Input placeholder="clvar001" className="h-9" disabled={isPending} {...register(`items.${index}.variantId`)} />
+                        <Input placeholder="clvar001" className={INVENTORY_FORM_UI.control} disabled={isPending} {...register(`items.${index}.variantId`)} />
                         {errors.items?.[index]?.variantId && <p className="mt-1 text-xs text-destructive">{errors.items[index]?.variantId?.message}</p>}
                       </TableCell>
                       <TableCell className="align-top">
-                        <Input type="number" inputMode="numeric" placeholder="1" min="1" step="1" className="h-9" disabled={isPending} {...register(`items.${index}.qty`, { valueAsNumber: true })} />
+                        <Input type="number" inputMode="numeric" placeholder="1" min="1" step="1" className={INVENTORY_FORM_UI.control} disabled={isPending} {...register(`items.${index}.qty`, { valueAsNumber: true })} />
                         {errors.items?.[index]?.qty && <p className="mt-1 text-xs text-destructive">{errors.items[index]?.qty?.message}</p>}
                       </TableCell>
                       <TableCell className="align-top">
-                        <Input type="number" inputMode="decimal" placeholder="0.00" min="0" step="0.01" className="h-9" disabled={isPending} {...register(`items.${index}.unitCost`, { valueAsNumber: true })} />
+                        <Input type="number" inputMode="decimal" placeholder="0.00" min="0" step="0.01" className={INVENTORY_FORM_UI.control} disabled={isPending} {...register(`items.${index}.unitCost`, { valueAsNumber: true })} />
                       </TableCell>
                       <TableCell className="align-top">
-                        <Input placeholder="LOT-2026-001" className="h-9" disabled={isPending} {...register(`items.${index}.lotNumber`)} />
+                        <Input placeholder="LOT-2026-001" className={INVENTORY_FORM_UI.control} disabled={isPending} {...register(`items.${index}.lotNumber`)} />
                       </TableCell>
                       <TableCell className="align-top">
                         <Controller
@@ -234,7 +235,7 @@ export default function GoodsReceivingPage() {
                               value={field.value || undefined}
                               onChange={(v) => field.onChange(v ?? "")}
                               disabled={isPending}
-                              className="h-9"
+                              className={INVENTORY_FORM_UI.control}
                             />
                           )}
                         />
@@ -245,7 +246,7 @@ export default function GoodsReceivingPage() {
                           type="button"
                           variant="ghost"
                           size="icon"
-                          className="h-9 w-9 text-muted-foreground hover:text-destructive"
+                          className={`${INVENTORY_FORM_UI.iconButton} text-muted-foreground hover:text-destructive`}
                           disabled={isPending || fields.length === 1}
                           onClick={() => remove(index)}
                         >

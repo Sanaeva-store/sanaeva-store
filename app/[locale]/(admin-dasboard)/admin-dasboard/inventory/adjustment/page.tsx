@@ -22,6 +22,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { adjustmentReasonOptions } from "@/shared/constants/options";
 import { useAdjustStockMutation } from "@/features/inventory/hooks/use-inventory";
+import { INVENTORY_FORM_UI } from "@/features/inventory/constants/form-ui";
 import type { AdjustmentReason } from "@/features/inventory/api/inventory.api";
 import type { ApiError } from "@/shared/lib/http/api-client";
 import { useBackofficeTranslations } from "@/shared/lib/i18n";
@@ -152,13 +153,13 @@ export default function StockAdjustmentPage() {
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="variantId">{t("form.variantId")} <span className="text-destructive">*</span></Label>
-                  <Input id="variantId" placeholder={t("form.variantPlaceholder")} className="h-10" disabled={isPending} {...register("variantId")} />
+                  <Input id="variantId" placeholder={t("form.variantPlaceholder")} className={INVENTORY_FORM_UI.control} disabled={isPending} {...register("variantId")} />
                   {errors.variantId && <p className="mt-1 text-xs text-destructive">{errors.variantId.message}</p>}
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="warehouseId">{t("form.warehouseId")} <span className="text-destructive">*</span></Label>
-                  <Input id="warehouseId" placeholder={t("form.warehousePlaceholder")} className="h-10" disabled={isPending} {...register("warehouseId")} />
+                  <Input id="warehouseId" placeholder={t("form.warehousePlaceholder")} className={INVENTORY_FORM_UI.control} disabled={isPending} {...register("warehouseId")} />
                   {errors.warehouseId && <p className="mt-1 text-xs text-destructive">{errors.warehouseId.message}</p>}
                 </div>
               </div>
@@ -171,7 +172,7 @@ export default function StockAdjustmentPage() {
                     control={control}
                     render={({ field }) => (
                       <Select value={field.value} onValueChange={field.onChange} disabled={isPending}>
-                        <SelectTrigger id="direction" className="h-10">
+                        <SelectTrigger id="direction" className={INVENTORY_FORM_UI.selectControl}>
                           <SelectValue placeholder={t("form.selectDirection")} />
                         </SelectTrigger>
                         <SelectContent>
@@ -203,7 +204,7 @@ export default function StockAdjustmentPage() {
                       </Badge>
                     )}
                   </Label>
-                  <Input id="qty" type="number" inputMode="numeric" placeholder="0" min="1" step="1" className="h-10" disabled={isPending} {...register("qty", { valueAsNumber: true })} />
+                  <Input id="qty" type="number" inputMode="numeric" placeholder="0" min="1" step="1" className={INVENTORY_FORM_UI.control} disabled={isPending} {...register("qty", { valueAsNumber: true })} />
                   {errors.qty && <p className="mt-1 text-xs text-destructive">{errors.qty.message}</p>}
                 </div>
               </div>
@@ -215,7 +216,7 @@ export default function StockAdjustmentPage() {
                   control={control}
                   render={({ field }) => (
                     <Select value={field.value} onValueChange={field.onChange} disabled={isPending}>
-                      <SelectTrigger id="reasonCode" className="h-10">
+                      <SelectTrigger id="reasonCode" className={INVENTORY_FORM_UI.selectControl}>
                         <SelectValue placeholder={t("form.selectReason")} />
                       </SelectTrigger>
                       <SelectContent>
@@ -233,7 +234,7 @@ export default function StockAdjustmentPage() {
 
               <div className="space-y-2">
                 <Label htmlFor="locationId">{t("form.locationId")}</Label>
-                <Input id="locationId" placeholder={t("form.locationPlaceholder")} className="h-10" disabled={isPending} {...register("locationId")} />
+                <Input id="locationId" placeholder={t("form.locationPlaceholder")} className={INVENTORY_FORM_UI.control} disabled={isPending} {...register("locationId")} />
               </div>
 
               <div className="space-y-2">
@@ -243,7 +244,7 @@ export default function StockAdjustmentPage() {
 
               <Separator />
 
-              <div className="flex gap-3">
+              <div className="flex flex-col gap-3 sm:flex-row">
                 <Button type="submit" className="flex-1" disabled={isPending}>
                   {isPending ? t("form.submitting") : t("form.submit")}
                 </Button>

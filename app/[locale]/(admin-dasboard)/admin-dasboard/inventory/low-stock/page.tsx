@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/table";
 import { LoadingSkeleton, ErrorState, EmptyState } from "@/shared/ui";
 import { useLowStockQuery } from "@/features/inventory/hooks/use-inventory";
+import { INVENTORY_FORM_UI } from "@/features/inventory/constants/form-ui";
 import { useBackofficeTranslations } from "@/shared/lib/i18n";
 
 export default function LowStockPage() {
@@ -63,19 +64,25 @@ export default function LowStockPage() {
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap items-end gap-3">
-            <div className="space-y-2">
+            <div className="min-w-[240px] flex-1 space-y-2 sm:max-w-sm">
               <Label htmlFor="wh-filter">{t("filter.warehouseId")}</Label>
-              <Input
-                id="wh-filter"
-                placeholder={t("filter.warehousePlaceholder")}
-                className="h-10 w-[200px]"
-                value={warehouseId}
-                onChange={(e) => setWarehouseId(e.target.value)}
-                onKeyDown={(e) => { if (e.key === "Enter") applyFilter(); }}
-              />
-            </div>
-            <Button onClick={applyFilter} className="h-10">{t("filter.apply")}</Button>
-            <Button variant="outline" size="icon" className="h-10 w-10" onClick={resetFilter} title={t("filter.reset")}>
+                <Input
+                  id="wh-filter"
+                  placeholder={t("filter.warehousePlaceholder")}
+                  className={`${INVENTORY_FORM_UI.control} w-full`}
+                  value={warehouseId}
+                  onChange={(e) => setWarehouseId(e.target.value)}
+                  onKeyDown={(e) => { if (e.key === "Enter") applyFilter(); }}
+                />
+              </div>
+            <Button onClick={applyFilter} className={INVENTORY_FORM_UI.control}>{t("filter.apply")}</Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className={INVENTORY_FORM_UI.iconButton}
+              onClick={resetFilter}
+              title={t("filter.reset")}
+            >
               <RotateCcw className="h-4 w-4" />
             </Button>
           </div>

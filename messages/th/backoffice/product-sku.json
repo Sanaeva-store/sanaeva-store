@@ -10,5 +10,93 @@
   "searchPlaceholder": "ค้นหาด้วยชื่อ SKU หรือบาร์โค้ด...",
   "filter": "กรอง",
   "allProducts": "สินค้าทั้งหมด",
-  "allProductsDescription": "รายการสินค้าทั้งหมดและตัวเลือก"
+  "allProductsDescription": "รายการสินค้าทั้งหมดและตัวเลือก",
+  "noProducts": "ไม่พบสินค้า",
+  "noProductsDescription": "ไม่มีสินค้าที่ตรงกับการค้นหา ลองปรับตัวกรองหรือเพิ่มสินค้าใหม่",
+  "loadError": "โหลดสินค้าล้มเหลว",
+  "table": {
+    "name": "ชื่อสินค้า",
+    "brand": "แบรนด์",
+    "status": "สถานะ",
+    "variants": "ตัวเลือก",
+    "createdAt": "สร้างเมื่อ",
+    "actions": "การดำเนินการ",
+    "viewDetail": "ดูรายละเอียด"
+  },
+  "statusLabels": {
+    "DRAFT": "แบบร่าง",
+    "ACTIVE": "ใช้งาน",
+    "INACTIVE": "ไม่ใช้งาน"
+  },
+  "create": {
+    "title": "สร้างสินค้า",
+    "subtitle": "เพิ่มสินค้าใหม่ในแคตตาล็อก",
+    "backToList": "กลับไปรายการสินค้า",
+    "form": {
+      "title": "รายละเอียดสินค้า",
+      "description": "กรอกข้อมูลด้านล่างเพื่อสร้างสินค้าใหม่",
+      "name": "ชื่อสินค้า",
+      "namePlaceholder": "เช่น เสื้อยืดคอตตอนพรีเมียม",
+      "descriptionField": "คำอธิบาย",
+      "descriptionPlaceholder": "อธิบายสินค้า...",
+      "brand": "แบรนด์",
+      "brandPlaceholder": "เช่น Sanaeva",
+      "status": "สถานะ",
+      "selectStatus": "เลือกสถานะ...",
+      "categoryIds": "รหัสหมวดหมู่",
+      "categoryIdsPlaceholder": "เช่น cat001, cat002",
+      "categoryIdsHelper": "ไม่บังคับ — กรอกรหัสหมวดหมู่คั่นด้วยเครื่องหมายจุลภาค",
+      "submit": "สร้างสินค้า",
+      "submitting": "กำลังสร้าง...",
+      "cancel": "ยกเลิก"
+    },
+    "validation": {
+      "titleRequired": "กรุณากรอกชื่อสินค้า",
+      "titleMax": "ชื่อสินค้าต้องไม่เกิน 255 ตัวอักษร",
+      "descriptionMax": "คำอธิบายต้องไม่เกิน 2000 ตัวอักษร",
+      "brandMax": "แบรนด์ต้องไม่เกิน 100 ตัวอักษร"
+    },
+    "success": {
+      "title": "สร้างสินค้าสำเร็จ",
+      "message": "สร้างสินค้า '{{title}}' เรียบร้อยแล้ว"
+    },
+    "errors": {
+      "validation": "ข้อผิดพลาดในการตรวจสอบ",
+      "permission": "ไม่มีสิทธิ์",
+      "generic": "เกิดข้อผิดพลาด"
+    }
+  },
+  "detail": {
+    "backToList": "กลับไปรายการสินค้า",
+    "notFound": "ไม่พบสินค้า",
+    "notFoundDescription": "ไม่พบสินค้าที่คุณต้องการ หรืออาจถูกลบไปแล้ว",
+    "info": {
+      "title": "ข้อมูลสินค้า",
+      "name": "ชื่อสินค้า",
+      "brand": "แบรนด์",
+      "status": "สถานะ",
+      "description": "คำอธิบาย",
+      "created": "สร้างเมื่อ",
+      "updated": "อัปเดตล่าสุด",
+      "noDescription": "ไม่มีคำอธิบาย",
+      "categories": "หมวดหมู่",
+      "noCategories": "ไม่มีหมวดหมู่"
+    },
+    "variants": {
+      "title": "ตัวเลือกสินค้า",
+      "description": "SKU ที่เชื่อมกับสินค้านี้",
+      "sku": "SKU",
+      "barcode": "บาร์โค้ด",
+      "color": "สี",
+      "size": "ขนาด",
+      "price": "ราคา",
+      "cost": "ต้นทุน",
+      "reorderPoint": "จุดสั่งซื้อ",
+      "active": "ใช้งาน",
+      "noVariants": "ยังไม่มีตัวเลือก",
+      "noVariantsDescription": "ตัวเลือกกำหนด SKU ขนาด และสีสำหรับสินค้านี้",
+      "yes": "ใช่",
+      "no": "ไม่"
+    }
+  }
 }

@@ -14,6 +14,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useInitializeStockMutation } from "@/features/inventory/hooks/use-inventory";
+import { INVENTORY_FORM_UI } from "@/features/inventory/constants/form-ui";
 import type { ApiError } from "@/shared/lib/http/api-client";
 import { useBackofficeTranslations } from "@/shared/lib/i18n";
 
@@ -125,13 +126,13 @@ export default function InitialStockPage() {
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="variantId">{t("form.variantId")} <span className="text-destructive">*</span></Label>
-                  <Input id="variantId" placeholder={t("form.variantPlaceholder")} className="h-10" disabled={isPending} {...register("variantId")} />
+                  <Input id="variantId" placeholder={t("form.variantPlaceholder")} className={INVENTORY_FORM_UI.control} disabled={isPending} {...register("variantId")} />
                   {errors.variantId && <p className="mt-1 text-xs text-destructive">{errors.variantId.message}</p>}
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="warehouseId">{t("form.warehouseId")} <span className="text-destructive">*</span></Label>
-                  <Input id="warehouseId" placeholder={t("form.warehousePlaceholder")} className="h-10" disabled={isPending} {...register("warehouseId")} />
+                  <Input id="warehouseId" placeholder={t("form.warehousePlaceholder")} className={INVENTORY_FORM_UI.control} disabled={isPending} {...register("warehouseId")} />
                   {errors.warehouseId && <p className="mt-1 text-xs text-destructive">{errors.warehouseId.message}</p>}
                 </div>
               </div>
@@ -139,20 +140,20 @@ export default function InitialStockPage() {
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="qty">{t("form.qty")} <span className="text-destructive">*</span></Label>
-                  <Input id="qty" type="number" inputMode="numeric" placeholder={t("form.qtyPlaceholder")} min="1" step="1" className="h-10" disabled={isPending} {...register("qty", { valueAsNumber: true })} />
+                  <Input id="qty" type="number" inputMode="numeric" placeholder={t("form.qtyPlaceholder")} min="1" step="1" className={INVENTORY_FORM_UI.control} disabled={isPending} {...register("qty", { valueAsNumber: true })} />
                   {errors.qty && <p className="mt-1 text-xs text-destructive">{errors.qty.message}</p>}
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="unitCost">{t("form.unitCost")}</Label>
-                  <Input id="unitCost" type="number" inputMode="decimal" placeholder={t("form.unitCostPlaceholder")} min="0" step="0.01" className="h-10" disabled={isPending} {...register("unitCost", { valueAsNumber: true })} />
+                  <Input id="unitCost" type="number" inputMode="decimal" placeholder={t("form.unitCostPlaceholder")} min="0" step="0.01" className={INVENTORY_FORM_UI.control} disabled={isPending} {...register("unitCost", { valueAsNumber: true })} />
                   {errors.unitCost && <p className="mt-1 text-xs text-destructive">{errors.unitCost.message}</p>}
                 </div>
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="locationId">{t("form.locationId")}</Label>
-                <Input id="locationId" placeholder={t("form.locationPlaceholder")} className="h-10" disabled={isPending} {...register("locationId")} />
+                <Input id="locationId" placeholder={t("form.locationPlaceholder")} className={INVENTORY_FORM_UI.control} disabled={isPending} {...register("locationId")} />
               </div>
 
               <div className="space-y-2">

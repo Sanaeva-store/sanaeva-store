@@ -26,6 +26,7 @@ import {
 import { LoadingSkeleton, ErrorState, EmptyState } from "@/shared/ui";
 import { stockTxnTypeOptions } from "@/shared/constants/options";
 import { useTransactionsQuery } from "@/features/inventory/hooks/use-inventory";
+import { INVENTORY_FORM_UI } from "@/features/inventory/constants/form-ui";
 import type { StockTxnType } from "@/features/inventory/api/inventory.api";
 import { formatDate, formatNumber, useBackofficeTranslations } from "@/shared/lib/i18n";
 
@@ -108,7 +109,7 @@ export default function StockTransactionsPage() {
               <Input
                 id="filter-variant"
                 placeholder={t("filters.variantPlaceholder")}
-                className="h-10"
+                className={INVENTORY_FORM_UI.control}
                 value={variantId}
                 onChange={(e) => setVariantId(e.target.value)}
               />
@@ -119,7 +120,7 @@ export default function StockTransactionsPage() {
               <Input
                 id="filter-warehouse"
                 placeholder={t("filters.warehousePlaceholder")}
-                className="h-10"
+                className={INVENTORY_FORM_UI.control}
                 value={warehouseId}
                 onChange={(e) => setWarehouseId(e.target.value)}
               />
@@ -128,7 +129,7 @@ export default function StockTransactionsPage() {
             <div className="space-y-2">
               <Label htmlFor="filter-type">{t("filters.transactionType")}</Label>
               <Select value={type} onValueChange={(v) => setType(v === "all" ? "" : (v as StockTxnType))}>
-                <SelectTrigger id="filter-type" className="h-10">
+                <SelectTrigger id="filter-type" className={INVENTORY_FORM_UI.selectControl}>
                   <SelectValue placeholder={t("filters.allTypes")} />
                 </SelectTrigger>
                 <SelectContent>
@@ -143,11 +144,17 @@ export default function StockTransactionsPage() {
             </div>
 
             <div className="flex items-end gap-2">
-              <Button onClick={applyFilters} className="h-10 flex-1">
+              <Button onClick={applyFilters} className={`${INVENTORY_FORM_UI.control} flex-1`}>
                 <Filter className="mr-2 h-4 w-4" />
                 {t("filters.apply")}
               </Button>
-              <Button variant="outline" size="icon" className="h-10 w-10 shrink-0" onClick={resetFilters} title={t("filters.reset")}>
+              <Button
+                variant="outline"
+                size="icon"
+                className={`${INVENTORY_FORM_UI.iconButton} shrink-0`}
+                onClick={resetFilters}
+                title={t("filters.reset")}
+              >
                 <RotateCcw className="h-4 w-4" />
               </Button>
             </div>

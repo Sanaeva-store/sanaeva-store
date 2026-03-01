@@ -4,54 +4,40 @@
 
 ## High Priority Gaps
 
-1. `features/inventory/api/inventory.api.ts`
-   - ใช้ชื่อ field payload ไม่ตรง DTO backend
-   - ปัจจุบัน: `quantity`, `delta`, `reason`, `poReference`
-   - ต้องเป็น: `qty`, `reasonCode`, `poId`
+> **Status updated: 2026-02-24 — All 11 high-priority gaps resolved (API layer + types corrected)**
 
-2. `features/inventory/api/inventory.api.ts`
-   - enum transaction type ไม่ตรง backend
-   - ปัจจุบัน: `initialize`, `adjust_increase`, `receive`, `commit` (lowercase/custom)
-   - backend ต้องการ `StockTxnType` แบบ uppercase (`INBOUND`, `OUTBOUND`, `ADJUST`, ...)
+1. ~~`features/inventory/api/inventory.api.ts` — ใช้ชื่อ field payload ไม่ตรง DTO backend~~
+   - **RESOLVED** ✅ — corrected to `qty`, `reasonCode`, `poId`
 
-3. `features/inventory/api/inventory.api.ts`
-   - query param ชื่อวันที่ไม่ตรง
-   - ปัจจุบันส่ง `fromDate`, `toDate`
-   - backend รับ `from`, `to`
+2. ~~`features/inventory/api/inventory.api.ts` — enum transaction type ไม่ตรง backend~~
+   - **RESOLVED** ✅ — `StockTxnType` uppercase (`INBOUND`, `OUTBOUND`, `ADJUST`, ...)
 
-4. `features/inventory/api/inventory.api.ts`
-   - response list key ไม่ตรง
-   - ปัจจุบันคาดหวัง `items`
-   - backend ส่ง `data` ใน paginated response
+3. ~~`features/inventory/api/inventory.api.ts` — query param ชื่อวันที่ไม่ตรง~~
+   - **RESOLVED** ✅ — corrected to `from`, `to`
 
-5. `features/inventory/api/inventory.api.ts`
-   - รับผลลัพธ์ `receiveStock` เป็น `StockTransaction[]`
-   - backend ส่ง `GoodsReceiptResponseDto` (มี `id`, `code`, `warehouseId`, `transactions[]`)
+4. ~~`features/inventory/api/inventory.api.ts` — response list key ไม่ตรง~~
+   - **RESOLVED** ✅ — uses `data` key per `PaginatedResponse<T>`
 
-6. `features/inventory/api/inventory.api.ts`
-   - `fetchStockBalance` คืนแค่ `{ available, reserved }`
-   - backend คืน `StockBalanceDto` (`variantId`, `warehouseId`, `locationId`, `onHand`, `reserved`, `available`)
+5. ~~`features/inventory/api/inventory.api.ts` — receiveStock คืน StockTransaction[]~~
+   - **RESOLVED** ✅ — typed as `GoodsReceiptResponseDto` with `id`, `code`, `warehouseId`, `transactions[]`
 
-7. `features/inventory/api/suppliers.api.ts`
-   - model supplier ยังอิง field ที่ backend ไม่มี (`code`, `contactName`, `address`, `note`)
-   - backend มี `id`, `name`, `email`, `phone`, `isActive`, timestamps
+6. ~~`features/inventory/api/inventory.api.ts` — fetchStockBalance คืนแค่ { available, reserved }~~
+   - **RESOLVED** ✅ — now typed as `StockBalanceDto` with full field set
 
-8. `features/inventory/api/suppliers.api.ts`
-   - list response key ไม่ตรง
-   - ปัจจุบันคาดหวัง `items`
-   - backend ส่ง `data`
+7. ~~`features/inventory/api/suppliers.api.ts` — อิง field ที่ backend ไม่มี~~
+   - **RESOLVED** ✅ — model corrected to `id`, `name`, `email`, `phone`, `isActive`, timestamps
 
-9. `features/inventory/api/suppliers.api.ts`
-   - query `search` ยังไม่ประกาศใน backend controller (`GET /api/suppliers`)
-   - backend รองรับแค่ `page`, `limit` ณ ตอนนี้
+8. ~~`features/inventory/api/suppliers.api.ts` — list response key ไม่ตรง~~
+   - **RESOLVED** ✅ — uses `data` key
 
-10. `features/storefront/api/products.api.ts`
-   - `ProductStatus` เป็น lowercase (`active`, `inactive`, `draft`)
-   - backend ใช้ uppercase enum (`ACTIVE`, `INACTIVE`, `DRAFT`)
+9. ~~`features/inventory/api/suppliers.api.ts` — query `search` ไม่มีใน backend~~
+   - **RESOLVED** ✅ — removed `search` param; standardized to `page`, `limit` only
 
-11. `features/storefront/api/products.api.ts`
-   - endpoint `GET /api/catalog/products/slug/:slug` ยังไม่พบใน backend controller
-   - frontend ควรใช้ `GET /api/catalog/products/:id` หรือทำ mapping ใหม่เมื่อ backend เพิ่ม endpoint slug
+10. ~~`features/storefront/api/products.api.ts` — ProductStatus lowercase~~
+    - **RESOLVED** ✅ — `ProductStatus` is now uppercase (`ACTIVE`, `INACTIVE`, `DRAFT`)
+
+11. ~~`features/storefront/api/products.api.ts` — endpoint slug ไม่มีใน backend~~
+    - **RESOLVED** ✅ — slug-based calls removed; uses `GET /api/catalog/products/:id`
 
 ## Medium Priority Gaps
 
@@ -74,3 +60,27 @@
 
 - controller บางจุดใช้ `@Roles('STAFF')` แต่เอกสารบางไฟล์ใช้ `INVENTORY_STAFF`
 - แนะนำให้ backend และ frontend sync role code ชุดเดียว แล้วล็อกใน constants กลาง
+- **Status**: Frontend API layer uses role codes from `AppRole` enum in `shared/types/api.ts`; awaiting backend confirmation before locking constants.
+
+---
+
+## API Layer Completion (2026-02-24)
+
+All API service functions and React Query hooks have been implemented for every backend section:
+
+| Domain | API File | Hook File | Unit Tests |
+|--------|----------|-----------|------------|
+| Inventory | `features/inventory/api/inventory.api.ts` | `use-inventory.ts` | ✅ |
+| Suppliers | `features/inventory/api/suppliers.api.ts` | `use-suppliers.ts` | ✅ |
+| Catalog / Products | `features/storefront/api/products.api.ts` | `use-catalog.ts` | ✅ |
+| Purchase Orders | `features/inventory/api/purchase-orders.api.ts` | `use-purchase-orders.ts` | ✅ |
+| Orders | `features/inventory/api/orders.api.ts` | `use-orders.ts` | ✅ |
+| Reports | `features/inventory/api/reports.api.ts` | `use-reports.ts` | ✅ |
+| Promotions | `features/inventory/api/promotions.api.ts` | `use-promotions.ts` | ✅ |
+| Admin Users + Audit + Approvals | `features/inventory/api/admin-users.api.ts` | `use-admin-users.ts` | ✅ |
+| Stock Transfers | `features/inventory/api/stock-transfers.api.ts` | `use-stock-transfers.ts` | ✅ |
+| Cycle Count | `features/inventory/api/cycle-count.api.ts` | `use-cycle-count.ts` | ✅ |
+| Pricing | `features/inventory/api/pricing.api.ts` | `use-pricing.ts` | ✅ |
+| Backoffice Auth | `features/inventory/api/backoffice-auth.api.ts` | `use-backoffice-auth.ts` | ✅ |
+
+**Remaining work**: UI pages and forms for each endpoint (see TASK-CHECKLIST.md).

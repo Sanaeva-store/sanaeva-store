@@ -25,11 +25,11 @@ _Based on: `frontend-integration-contract-v1.md` — Effective 2026-02-22_
 
 | Status | Endpoint | Page / Feature |
 |--------|----------|----------------|
-| [ ] | `POST /api/auth/login` | Login page |
-| [ ] | `POST /api/auth/refresh` | Token refresh (middleware) |
-| [ ] | `POST /api/auth/logout` | Logout action |
-| [ ] | `GET /api/auth/me` | Current user context |
-| [ ] | `GET /api/auth/sessions` | Sessions management |
+| [~] | `POST /api/auth/login` | Login page _(API layer ready — `backoffice-auth.api.ts`)_ |
+| [~] | `POST /api/auth/refresh` | Token refresh (middleware) _(API layer ready)_ |
+| [~] | `POST /api/auth/logout` | Logout action _(API layer ready)_ |
+| [~] | `GET /api/auth/me` | Current user context _(API layer ready)_ |
+| [~] | `GET /api/auth/sessions` | Sessions management _(API layer ready)_ |
 
 ---
 
@@ -37,9 +37,9 @@ _Based on: `frontend-integration-contract-v1.md` — Effective 2026-02-22_
 
 | Status | Endpoint | Page / Feature |
 |--------|----------|----------------|
-| [x] | `GET /api/catalog/products` | `/admin-dasboard/inventory/products` |
-| [ ] | `POST /api/catalog/products` | Create product form |
-| [ ] | `GET /api/catalog/products/:id` | Product detail page |
+| [x] | `GET /api/catalog/products` | `/admin-dasboard/inventory/products` (live, connected) |
+| [x] | `POST /api/catalog/products` | Create product form (`/admin-dasboard/inventory/products/new`) |
+| [x] | `GET /api/catalog/products/:id` | Product detail page (`/admin-dasboard/inventory/products/[id]`) |
 | [ ] | `PATCH /api/catalog/products/:id` | Edit product form |
 | [ ] | `DELETE /api/catalog/products/:id` | Delete product action (SUPER_ADMIN) |
 | [ ] | `POST /api/catalog/products/:productId/variants` | Create variant |
@@ -202,5 +202,5 @@ _Based on: `frontend-integration-contract-v1.md` — Effective 2026-02-22_
 | [x] | Date filters in Transactions page use `DatePicker` |
 | [x] | Expiry date in Receiving page uses `DatePicker` |
 | [x] | Sidebar expanded with all contract sections |
-| [ ] | API layer: feature hooks for all new sections |
+| [x] | API layer: feature hooks for all new sections |
 | [ ] | Auth guard / role-based access per endpoint |

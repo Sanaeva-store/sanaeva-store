@@ -2,7 +2,7 @@
 
 เอกสารชุดนี้สรุปจาก backend จริง (`../sanaeva-store-api`) เพื่อให้ frontend/agent ขึ้น UI และส่ง payload ได้ตรง contract โดยไม่เดา field เอง
 
-Last synced: 2026-02-22
+Last synced: 2026-02-24
 
 ## ใช้เอกสารนี้เมื่อไร
 
@@ -20,6 +20,11 @@ Last synced: 2026-02-22
    รายการจุดที่ frontend ปัจจุบันยังไม่ตรงกับ backend contract
 4. `inventory-integration-task.md`
    task checklist สำหรับทีม frontend implement inventory integration ได้ทันที (พร้อม DoD)
+5. `backoffice-api-handoff/`
+   ชุดเอกสาร handoff จาก backend สำหรับเริ่ม integration ทันที:
+   - `frontend-integration-contract-v1.md`
+   - `today-delivery-plan-2026-02-22.md`
+   - `CHANGELOG.md`
 
 ## Source of truth (backend)
 
