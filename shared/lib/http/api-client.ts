@@ -38,7 +38,18 @@ const buildUrl = (path: string) => {
     );
   }
 
-  return `${publicEnv.apiBaseUrl}${path.startsWith("/") ? path : `/${path}`}`;
+  const baseUrl = publicEnv.apiBaseUrl.replace(/\/+$/, "");
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+
+  // Allow NEXT_PUBLIC_API_BASE_URL to be either ".../api" or bare host.
+  if (
+    baseUrl.endsWith("/api") &&
+    (normalizedPath === "/api" || normalizedPath.startsWith("/api/"))
+  ) {
+    return `${baseUrl}${normalizedPath.slice(4)}`;
+  }
+
+  return `${baseUrl}${normalizedPath}`;
 };
 
 export async function apiRequest<TData>(

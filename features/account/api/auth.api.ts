@@ -33,8 +33,11 @@ export type ForgotPasswordPayload = {
 };
 
 const authBase = () => {
-  const base = publicEnv.apiBaseUrl || "";
-  return `${base}/api/auth/api`;
+  const base = (publicEnv.apiBaseUrl || "").replace(/\/+$/, "");
+  if (!base) {
+    return "/api/auth/api";
+  }
+  return base.endsWith("/api") ? `${base}/auth/api` : `${base}/api/auth/api`;
 };
 
 async function authFetch<T>(path: string, init?: RequestInit): Promise<T> {
