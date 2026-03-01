@@ -10,6 +10,8 @@ import {
 const PROTECTED_PATHS = ["/account", "/orders"];
 const AUTH_PATHS = ["/auth/signin", "/auth/signup", "/auth/forgot-password"];
 const BACKOFFICE_PATH_PREFIX = "/admin-dasboard";
+const BACKOFFICE_LOGIN_PATH = "/auth/admin-login";
+const BACKOFFICE_TOKEN_COOKIE = "backoffice_token" as const;
 const SESSION_COOKIE_NAMES = [
   "better-auth.session_token",
   "__Secure-better-auth.session_token",
@@ -41,6 +43,10 @@ function getSessionToken(request: NextRequest) {
     if (value) return value;
   }
   return null;
+}
+
+function getBackofficeToken(request: NextRequest) {
+  return request.cookies.get(BACKOFFICE_TOKEN_COOKIE)?.value ?? null;
 }
 
 function extractUserRoles(payload: unknown): string[] {
@@ -106,6 +112,8 @@ export async function proxy(request: NextRequest) {
   const isBackofficePath = pathWithoutLocale.startsWith(BACKOFFICE_PATH_PREFIX);
 
   const isAuthenticated = Boolean(getSessionToken(request));
+  const isBackofficeLoggedIn = Boolean(getBackofficeToken(request));
+  const isAdminLoginPage = pathWithoutLocale.startsWith(BACKOFFICE_LOGIN_PATH);
 
   if (isProtected && !isAuthenticated) {
     const signInUrl = new URL(`/${locale}/auth/signin`, request.url);
@@ -115,19 +123,19 @@ export async function proxy(request: NextRequest) {
 
   /**
    * Backoffice auth guard:
-   * 1) Require signed-in session.
+   * 1) Require backoffice JWT token cookie.
    * 2) Require allowed backoffice role.
    * 3) Enforce stricter role rules on sensitive sections.
    */
   if (isBackofficePath) {
-    if (!isAuthenticated) {
-      return NextResponse.redirect(new URL(`/${locale}`, request.url));
+    if (!isBackofficeLoggedIn) {
+      return NextResponse.redirect(new URL(`/${locale}/auth/admin-login`, request.url));
     }
 
     const userRoles = await fetchBackofficeRoles(request);
 
     if (!hasAnyRole(userRoles, BACKOFFICE_ALLOWED_ROLES)) {
-      return NextResponse.redirect(new URL(`/${locale}`, request.url));
+      return NextResponse.redirect(new URL(`/${locale}/auth/admin-login`, request.url));
     }
 
     const requiredRoles = getRequiredBackofficeRoles(pathWithoutLocale);
@@ -138,6 +146,10 @@ export async function proxy(request: NextRequest) {
 
   if (isAuthPage && isAuthenticated) {
     return NextResponse.redirect(new URL(`/${locale}`, request.url));
+  }
+
+  if (isAdminLoginPage && isBackofficeLoggedIn) {
+    return NextResponse.redirect(new URL(`/${locale}/admin-dasboard`, request.url));
   }
 
   return NextResponse.next();

@@ -23,12 +23,58 @@ type RequestOptions = {
   cache?: RequestCache;
 };
 
+function extractErrorInfo(payload: unknown): { message: string; code?: string } {
+  if (!payload || typeof payload !== "object") {
+    return { message: "Request failed unexpectedly" };
+  }
+
+  const record = payload as Record<string, unknown>;
+
+  // Contract shape: { success: false, error: { code, message } }
+  const nestedError =
+    record.error && typeof record.error === "object"
+      ? (record.error as Record<string, unknown>)
+      : null;
+  const nestedMessage =
+    nestedError && typeof nestedError.message === "string"
+      ? nestedError.message
+      : null;
+  const nestedCode =
+    nestedError && typeof nestedError.code === "string"
+      ? nestedError.code
+      : undefined;
+  if (nestedMessage) {
+    return { message: nestedMessage, code: nestedCode };
+  }
+
+  // Compatibility shape: { message, code }
+  const topMessage =
+    typeof record.message === "string" && record.message.trim().length > 0
+      ? record.message
+      : null;
+  const topCode =
+    typeof record.code === "string" && record.code.trim().length > 0
+      ? record.code
+      : undefined;
+
+  return {
+    message: topMessage ?? "Request failed unexpectedly",
+    code: topCode,
+  };
+}
+
 const defaultHeaders: HeadersInit = {
   "Content-Type": "application/json",
 };
 
 const buildUrl = (path: string) => {
   if (/^https?:\/\//.test(path)) {
+    return path;
+  }
+
+  // In browser, route all `/api/*` requests through Next.js route handlers.
+  // This enables secure server-side token forwarding from httpOnly cookies.
+  if (typeof window !== "undefined" && path.startsWith("/api/")) {
     return path;
   }
 
@@ -75,17 +121,19 @@ export async function apiRequest<TData>(
   }
 
   if (!response.ok) {
-    const message =
-      payload && !payload.success
-        ? payload.error.message
-        : "Request failed unexpectedly";
-    const code = payload && !payload.success ? payload.error.code : undefined;
+    const { message, code } = extractErrorInfo(payload);
     throw new ApiError(message, response.status, code);
   }
 
-  if (payload && !payload.success) {
-    throw new ApiError(payload.error.message, response.status, payload.error.code);
+  if (payload && typeof payload === "object" && "success" in payload) {
+    const typed = payload as ApiResponse<TData>;
+    if (!typed.success) {
+      const { message, code } = extractErrorInfo(payload);
+      throw new ApiError(message, response.status, code);
+    }
+    return typed.data;
   }
 
-  return payload?.data as TData;
+  // Compatibility: some endpoints return raw JSON payloads (without { success, data } envelope).
+  return payload as TData;
 }

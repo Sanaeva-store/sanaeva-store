@@ -5,6 +5,7 @@ import { AdminLayoutShell } from "@/app/[locale]/(admin-dasboard)/admin-layout-s
 import { BACKOFFICE_ALLOWED_ROLES, hasAnyRole } from "@/shared/lib/auth/backoffice-rbac";
 
 const SESSION_COOKIE_NAMES = [
+  "backoffice_token",
   "better-auth.session_token",
   "__Secure-better-auth.session_token",
 ] as const;
