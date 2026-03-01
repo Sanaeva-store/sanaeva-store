@@ -6,6 +6,9 @@
   "settings": "Settings",
   "billing": "Billing",
   "logout": "Log out",
+  "logoutConfirmTitle": "Sign out?",
+  "logoutConfirmDescription": "You will be signed out of the admin panel.",
+  "cancel": "Cancel",
   "role": "Super Admin",
   "name": "Admin User",
   "email": "admin@sanaeva.com"

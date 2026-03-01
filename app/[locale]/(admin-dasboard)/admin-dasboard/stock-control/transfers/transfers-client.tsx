@@ -25,6 +25,7 @@ import {
   useCancelStockTransferMutation,
 } from "@/features/inventory/hooks/use-stock-transfers";
 import { useBackofficeTranslations } from "@/shared/lib/i18n";
+import { PageHelp } from "@/components/common/page-help";
 
 export function TransfersClient() {
   const { t } = useBackofficeTranslations("sidebar");
@@ -50,6 +51,17 @@ export function TransfersClient() {
         <div>
           <h1 className="text-3xl font-bold">{t("items.stockTransfers")}</h1>
           <p className="mt-2 text-muted-foreground">{t("groups.stockControl")}</p>
+        </div>
+        <div className="ml-auto">
+          <PageHelp
+            title="Stock Transfers — Quick Guide"
+            items={[
+              { label: "Workflow", description: "PENDING → APPROVED → SHIPPED → COMPLETED" },
+              { label: "Approve", description: "Approve a pending transfer to proceed" },
+              { label: "Ship", description: "Mark an approved transfer as shipped" },
+              { label: "Cancel", description: "Cancel a pending or approved transfer with confirmation" },
+            ]}
+          />
         </div>
       </div>
 

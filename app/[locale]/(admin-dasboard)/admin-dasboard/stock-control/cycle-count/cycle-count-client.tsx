@@ -28,6 +28,7 @@ import {
   useCloseCycleCountMutation,
 } from "@/features/inventory/hooks/use-cycle-count";
 import { useBackofficeTranslations } from "@/shared/lib/i18n";
+import { PageHelp } from "@/components/common/page-help";
 
 const schema = z.object({
   warehouseId: z.string().min(1, "Warehouse ID is required"),
@@ -76,6 +77,17 @@ export function CycleCountClient() {
         <div>
           <h1 className="text-3xl font-bold">{t("items.cycleCount")}</h1>
           <p className="mt-2 text-muted-foreground">{t("groups.stockControl")}</p>
+        </div>
+        <div className="ml-auto">
+          <PageHelp
+            title="Cycle Count — Quick Guide"
+            items={[
+              { label: "Create", description: "Start a new cycle count session for a warehouse" },
+              { label: "Submit Count", description: "Enter counted quantities per variant and submit" },
+              { label: "Close Session", description: "Finalise the session after submitting counts" },
+              { label: "Variance", description: "View system vs counted qty difference per item" },
+            ]}
+          />
         </div>
       </div>
 

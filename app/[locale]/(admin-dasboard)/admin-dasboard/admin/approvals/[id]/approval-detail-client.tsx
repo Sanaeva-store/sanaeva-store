@@ -1,7 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { ArrowLeft, CheckSquare } from "lucide-react";
+import { CheckSquare } from "lucide-react";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -18,6 +17,8 @@ import {
   useRejectApprovalMutation,
 } from "@/features/inventory/hooks/use-admin-users";
 import { formatDate, useBackofficeTranslations } from "@/shared/lib/i18n";
+import { useLocale } from "@/shared/lib/i18n/use-locale";
+import { BackButton } from "@/components/common/back-button";
 
 const reasonSchema = z.object({ reason: z.string().optional() });
 type ReasonFormValues = z.infer<typeof reasonSchema>;
@@ -27,7 +28,7 @@ interface Props {
 }
 
 export function ApprovalDetailClient({ id }: Props) {
-  const router = useRouter();
+  const currentLocale = useLocale();
   const { locale } = useBackofficeTranslations("sidebar");
 
   const { data: approval, isLoading, isError, error, refetch } = useApprovalDetailQuery(id);
@@ -45,7 +46,7 @@ export function ApprovalDetailClient({ id }: Props) {
     approveMutation.mutate(
       { id, reason: values.reason },
       {
-        onSuccess: () => { toast.success("Approved"); router.back(); },
+        onSuccess: () => { toast.success("Approved"); },
         onError: (e) => toast.error((e as Error).message ?? "Approve failed"),
       },
     );
@@ -55,7 +56,7 @@ export function ApprovalDetailClient({ id }: Props) {
     rejectMutation.mutate(
       { id, reason: values.reason },
       {
-        onSuccess: () => { toast.success("Rejected"); router.back(); },
+        onSuccess: () => { toast.success("Rejected"); },
         onError: (e) => toast.error((e as Error).message ?? "Reject failed"),
       },
     );
@@ -77,9 +78,10 @@ export function ApprovalDetailClient({ id }: Props) {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <Button variant="ghost" size="sm" onClick={() => router.back()}>
-          <ArrowLeft className="h-4 w-4" />
-        </Button>
+        <BackButton
+          fallbackHref={`/${currentLocale}/admin-dasboard/admin/approvals`}
+          label="Back"
+        />
         <CheckSquare className="h-7 w-7 text-primary" />
         <div>
           <h1 className="text-2xl font-bold">Approval Request</h1>

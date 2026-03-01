@@ -28,6 +28,22 @@
     "ACTIVE": "Active",
     "INACTIVE": "Inactive"
   },
+  "help": {
+    "list": {
+      "title": "Products — Quick Guide",
+      "search": "Search products by name or SKU",
+      "status": "ACTIVE = live, DRAFT = hidden, INACTIVE = disabled",
+      "newProduct": "Click + New Product to create a new product with variants",
+      "detail": "Click a product row to view details, edit, or manage images"
+    },
+    "detail": {
+      "title": "Product Detail — Quick Guide",
+      "edit": "Click Edit to update product name, status, or description",
+      "delete": "Delete permanently removes this product and all its variants",
+      "variants": "Variants define specific SKUs, sizes, and colors",
+      "images": "Add image URLs. Lower sort order = displayed first"
+    }
+  },
   "create": {
     "title": "Create Product",
     "subtitle": "Add a new product to the catalog",
@@ -70,6 +86,17 @@
     "backToList": "Back to Products",
     "notFound": "Product not found",
     "notFoundDescription": "The product you are looking for does not exist or has been deleted.",
+    "editProduct": "Edit Product",
+    "deleteProduct": "Delete Product",
+    "cancelEdit": "Cancel",
+    "saveChanges": "Save Changes",
+    "saving": "Saving...",
+    "deleteConfirmTitle": "Delete Product?",
+    "deleteConfirmDescription": "This action cannot be undone. The product will be permanently deleted.",
+    "deleteSuccess": "Product deleted successfully.",
+    "updateSuccess": "Product updated successfully.",
+    "updateError": "Failed to update product.",
+    "deleteError": "Failed to delete product.",
     "info": {
       "title": "Product Information",
       "name": "Name",
@@ -97,6 +124,26 @@
       "noVariantsDescription": "Variants define the specific SKUs, sizes, and colors for this product.",
       "yes": "Yes",
       "no": "No"
+    },
+    "images": {
+      "title": "Product Images",
+      "description": "Manage images for this product",
+      "addImage": "Add Image",
+      "adding": "Adding...",
+      "urlLabel": "Image URL",
+      "urlPlaceholder": "https://example.com/image.jpg",
+      "sortOrderLabel": "Sort Order",
+      "noImages": "No images added yet",
+      "noImagesDescription": "Add image URLs to display product images.",
+      "deleteConfirmTitle": "Remove Image?",
+      "deleteConfirmDescription": "This image will be removed from the product.",
+      "removeImage": "Remove",
+      "cancel": "Cancel",
+      "loadError": "Failed to load images",
+      "addError": "Failed to add image",
+      "deleteError": "Failed to remove image",
+      "addSuccess": "Image added",
+      "deleteSuccess": "Image removed"
     }
   }
 }

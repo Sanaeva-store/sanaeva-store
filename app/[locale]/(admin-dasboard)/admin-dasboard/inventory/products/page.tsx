@@ -23,6 +23,7 @@ import { useCatalogProductsQuery } from "@/features/inventory/hooks/use-catalog"
 import { INVENTORY_FORM_UI } from "@/features/inventory/constants/form-ui";
 import type { Product, ProductStatus } from "@/features/storefront/api/products.api";
 import type { ApiError } from "@/shared/lib/http/api-client";
+import { PageHelp } from "@/components/common/page-help";
 
 const STATUS_VARIANTS: Record<ProductStatus, "success" | "secondary" | "outline"> = {
   ACTIVE: "success",
@@ -60,12 +61,22 @@ export default function ProductsPage() {
           <h1 className="text-3xl font-bold">{t("title")}</h1>
           <p className="mt-2 text-muted-foreground">{t("subtitle")}</p>
         </div>
-        <Button asChild>
-          <Link href={`/${currentLocale}/admin-dasboard/inventory/products/new`}>
-            <Plus className="mr-2 h-4 w-4" />
-            {t("addProduct")}
-          </Link>
-        </Button>
+        <div className="flex items-center gap-2">
+          <PageHelp
+            title={t("help.list.title")}
+            items={[
+              { label: t("searchTitle"), description: t("help.list.search") },
+              { label: "Status", description: t("help.list.status") },
+              { label: t("addProduct"), description: t("help.list.newProduct") },
+            ]}
+          />
+          <Button asChild>
+            <Link href={`/${currentLocale}/admin-dasboard/inventory/products/new`}>
+              <Plus className="mr-2 h-4 w-4" />
+              {t("addProduct")}
+            </Link>
+          </Button>
+        </div>
       </div>
 
       <Card>
@@ -122,7 +133,7 @@ export default function ProductsPage() {
               action={{
                 label: t("addProduct"),
                 onClick: () => {
-                  window.location.href = `/${currentLocale}/admin-dasboard/inventory/products/new`;
+                  globalThis.location.href = `/${currentLocale}/admin-dasboard/inventory/products/new`;
                 },
               }}
             />

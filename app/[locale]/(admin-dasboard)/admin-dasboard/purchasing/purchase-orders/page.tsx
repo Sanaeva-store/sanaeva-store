@@ -33,6 +33,7 @@ import { LoadingSkeleton, ErrorState, EmptyState } from "@/shared/ui";
 import { usePurchaseOrdersQuery } from "@/features/inventory/hooks/use-purchase-orders";
 import type { DocStatus } from "@/features/inventory/api/purchase-orders.api";
 import { useBackofficeTranslations, formatDate } from "@/shared/lib/i18n";
+import { PageHelp } from "@/components/common/page-help";
 
 const STATUS_VARIANT: Record<
   DocStatus,
@@ -85,9 +86,20 @@ export default function PurchaseOrdersPage() {
           <h1 className="text-3xl font-bold">{t("items.purchaseOrders")}</h1>
           <p className="mt-2 text-muted-foreground">{t("groups.purchasing")}</p>
         </div>
-        <Button asChild className="ml-auto">
-          <Link href={`/${routeLocale}/admin-dasboard/admin-dasboard/purchasing/purchase-orders/create`}>Create PO</Link>
-        </Button>
+        <div className="ml-auto flex items-center gap-2">
+          <PageHelp
+            title="Purchase Orders — Quick Guide"
+            items={[
+              { label: "Filter", description: "Filter orders by status (DRAFT, APPROVED, SENT, etc.)" },
+              { label: "Create PO", description: "Create a new purchase order for a supplier" },
+              { label: "Workflow", description: "PO goes: DRAFT → APPROVED → SENT → RECEIVED → CLOSED" },
+              { label: "Cancel", description: "Only DRAFT or APPROVED orders can be cancelled" },
+            ]}
+          />
+          <Button asChild>
+            <Link href={`/${routeLocale}/admin-dasboard/admin-dasboard/purchasing/purchase-orders/create`}>Create PO</Link>
+          </Button>
+        </div>
       </div>
 
       {/* Filters */}

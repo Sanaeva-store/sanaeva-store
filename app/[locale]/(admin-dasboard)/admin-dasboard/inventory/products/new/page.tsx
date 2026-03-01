@@ -1,11 +1,10 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeft, CheckCircle2, PackagePlus } from "lucide-react";
+import { CheckCircle2, PackagePlus } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -27,6 +26,7 @@ import { INVENTORY_FORM_UI } from "@/features/inventory/constants/form-ui";
 import { createProductSchema } from "@/features/inventory/schemas/create-product.schema";
 import type { CreateProductFormValues } from "@/features/inventory/schemas/create-product.schema";
 import type { ApiError } from "@/shared/lib/http/api-client";
+import { BackButton } from "@/components/common/back-button";
 
 const PRODUCT_STATUSES = ["DRAFT", "ACTIVE", "INACTIVE"] as const;
 
@@ -91,12 +91,10 @@ export default function CreateProductPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
-        <Button variant="outline" size="sm" asChild>
-          <Link href={`/${locale}/admin-dasboard/inventory/products`}>
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            {t("create.backToList")}
-          </Link>
-        </Button>
+        <BackButton
+          fallbackHref={`/${locale}/admin-dasboard/inventory/products`}
+          label={t("create.backToList")}
+        />
         <div>
           <h1 className="text-3xl font-bold">{t("create.title")}</h1>
           <p className="mt-1 text-muted-foreground">{t("create.subtitle")}</p>

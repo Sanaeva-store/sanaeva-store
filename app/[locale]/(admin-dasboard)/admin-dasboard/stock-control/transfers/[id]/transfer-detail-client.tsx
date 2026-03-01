@@ -1,7 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { ArrowLeft, ArrowLeftRight } from "lucide-react";
+import { useState } from "react";
+import { ArrowLeftRight } from "lucide-react";
 import { toast } from "sonner";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -18,14 +18,18 @@ import {
 } from "@/features/inventory/hooks/use-stock-transfers";
 import type { TransferStatus } from "@/features/inventory/api/stock-transfers.api";
 import { formatDate, useBackofficeTranslations } from "@/shared/lib/i18n";
+import { useLocale } from "@/shared/lib/i18n/use-locale";
+import { BackButton } from "@/components/common/back-button";
+import { ConfirmDialog } from "@/components/common/confirm-dialog";
 
 interface Props {
   id: string;
 }
 
 export function TransferDetailClient({ id }: Props) {
-  const router = useRouter();
+  const currentLocale = useLocale();
   const { locale } = useBackofficeTranslations("sidebar");
+  const [showCancelConfirm, setShowCancelConfirm] = useState(false);
 
   const { data: transfer, isLoading, isError, error, refetch } = useStockTransferDetailQuery(id);
   const approve = useApproveStockTransferMutation();
@@ -53,12 +57,20 @@ export function TransferDetailClient({ id }: Props) {
   const canComplete = transfer.status === "RECEIVED";
   const canCancel = !(["COMPLETED", "CANCELLED"] as TransferStatus[]).includes(transfer.status);
 
+  const onCancelConfirmed = () => {
+    cancel.mutate(id, {
+      onSuccess: () => { toast.success("Transfer cancelled"); setShowCancelConfirm(false); },
+      onError: (e) => { toast.error((e as Error).message ?? "Cancel failed"); setShowCancelConfirm(false); },
+    });
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <Button variant="ghost" size="sm" onClick={() => router.back()}>
-          <ArrowLeft className="h-4 w-4" />
-        </Button>
+        <BackButton
+          fallbackHref={`/${currentLocale}/admin-dasboard/stock-control/transfers`}
+          label="Back"
+        />
         <ArrowLeftRight className="h-7 w-7 text-primary" />
         <div>
           <h1 className="text-2xl font-bold">Transfer: {transfer.code}</h1>
@@ -132,14 +144,9 @@ export function TransferDetailClient({ id }: Props) {
           <Button
             variant="destructive"
             disabled={!canCancel || isMutating}
-            onClick={() =>
-              cancel.mutate(id, {
-                onSuccess: () => toast.success("Transfer cancelled"),
-                onError: (e) => toast.error((e as Error).message ?? "Cancel failed"),
-              })
-            }
+            onClick={() => setShowCancelConfirm(true)}
           >
-            Cancel
+            Cancel Transfer
           </Button>
         </CardContent>
       </Card>
@@ -192,6 +199,18 @@ export function TransferDetailClient({ id }: Props) {
           </div>
         </CardContent>
       </Card>
+
+      <ConfirmDialog
+        open={showCancelConfirm}
+        onOpenChange={setShowCancelConfirm}
+        title="Cancel Transfer?"
+        description="This action will cancel the stock transfer and cannot be undone."
+        confirmLabel="Cancel Transfer"
+        cancelLabel="Keep"
+        variant="destructive"
+        onConfirm={onCancelConfirmed}
+        isLoading={cancel.isPending}
+      />
     </div>
   );
 }

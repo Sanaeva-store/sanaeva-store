@@ -1,7 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { ArrowLeft, Shield } from "lucide-react";
+import { Shield } from "lucide-react";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,6 +19,8 @@ import {
 } from "@/features/inventory/hooks/use-admin-users";
 import type { AppRole } from "@/shared/types/api";
 import { formatDate, useBackofficeTranslations } from "@/shared/lib/i18n";
+import { useLocale } from "@/shared/lib/i18n/use-locale";
+import { BackButton } from "@/components/common/back-button";
 
 const assignSchema = z.object({
   roles: z.string().min(1, "Enter at least one role"),
@@ -32,7 +33,7 @@ interface Props {
 }
 
 export function AdminUserDetailClient({ id }: Props) {
-  const router = useRouter();
+  const currentLocale = useLocale();
   const { locale } = useBackofficeTranslations("sidebar");
 
   const { data: user, isLoading, isError, error, refetch } = useAdminUserDetailQuery(id);
@@ -71,9 +72,10 @@ export function AdminUserDetailClient({ id }: Props) {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <Button variant="ghost" size="sm" onClick={() => router.back()}>
-          <ArrowLeft className="h-4 w-4" />
-        </Button>
+        <BackButton
+          fallbackHref={`/${currentLocale}/admin-dasboard/admin/users`}
+          label="Back"
+        />
         <Shield className="h-7 w-7 text-primary" />
         <div>
           <h1 className="text-2xl font-bold">{user.name}</h1>

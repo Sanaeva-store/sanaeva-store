@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { ArrowLeft, ClipboardList } from "lucide-react";
+import { ClipboardList } from "lucide-react";
 import { toast } from "sonner";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,6 +22,9 @@ import {
 } from "@/features/inventory/hooks/use-purchase-orders";
 import type { DocStatus } from "@/features/inventory/api/purchase-orders.api";
 import { formatDate, useBackofficeTranslations } from "@/shared/lib/i18n";
+import { useLocale } from "@/shared/lib/i18n/use-locale";
+import { BackButton } from "@/components/common/back-button";
+import { ConfirmDialog } from "@/components/common/confirm-dialog";
 
 const STATUS_VARIANT: Record<DocStatus, "default" | "secondary" | "outline" | "destructive" | "success"> = {
   DRAFT: "secondary",
@@ -61,9 +63,10 @@ interface Props {
 }
 
 export function PurchaseOrderDetailClient({ id }: Props) {
-  const router = useRouter();
+  const currentLocale = useLocale();
   const { locale } = useBackofficeTranslations("sidebar");
   const [showReceiveForm, setShowReceiveForm] = useState(false);
+  const [showCancelConfirm, setShowCancelConfirm] = useState(false);
 
   const { data: po, isLoading, isError, error, refetch } = usePurchaseOrderDetailQuery(id);
   const approve = useApprovePurchaseOrderMutation();
@@ -117,9 +120,10 @@ export function PurchaseOrderDetailClient({ id }: Props) {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <Button variant="ghost" size="sm" onClick={() => router.back()}>
-          <ArrowLeft className="h-4 w-4" />
-        </Button>
+        <BackButton
+          fallbackHref={`/${currentLocale}/admin-dasboard/purchasing/purchase-orders`}
+          label="Back"
+        />
         <ClipboardList className="h-7 w-7 text-primary" />
         <div>
           <h1 className="text-2xl font-bold">PO: {po.code}</h1>
@@ -161,9 +165,9 @@ export function PurchaseOrderDetailClient({ id }: Props) {
           <Button
             variant="destructive"
             disabled={!canCancel || isMutating}
-            onClick={() => cancel.mutate(id, { onSuccess: () => toast.success("Cancelled"), onError: (e) => toast.error((e as Error).message ?? "Cancel failed") })}
+            onClick={() => setShowCancelConfirm(true)}
           >
-            Cancel
+            Cancel Order
           </Button>
         </CardContent>
       </Card>
@@ -235,6 +239,21 @@ export function PurchaseOrderDetailClient({ id }: Props) {
           </CardContent>
         </Card>
       )}
+
+      <ConfirmDialog
+        open={showCancelConfirm}
+        onOpenChange={setShowCancelConfirm}
+        title="Cancel Purchase Order?"
+        description="This action will cancel the purchase order and cannot be undone."
+        confirmLabel="Cancel Order"
+        cancelLabel="Keep"
+        variant="destructive"
+        onConfirm={() => cancel.mutate(id, {
+          onSuccess: () => { toast.success("Cancelled"); setShowCancelConfirm(false); },
+          onError: (e) => { toast.error((e as Error).message ?? "Cancel failed"); setShowCancelConfirm(false); },
+        })}
+        isLoading={cancel.isPending}
+      />
 
       {/* PO Details */}
       <Card>

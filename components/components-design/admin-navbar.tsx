@@ -21,6 +21,7 @@ import { Badge } from "@/components/ui/badge"
 import { useTheme } from "next-themes"
 import { useBackofficeTranslations, useLocale } from "@/shared/lib/i18n"
 import { LanguageSwitcher } from "@/components/common/language-switcher"
+import { ConfirmDialog } from "@/components/common/confirm-dialog"
 import { useBackofficeMeQuery } from "@/features/inventory/hooks/use-backoffice-auth"
 import { useSignOutMutation } from "@/features/account/hooks/use-auth"
 
@@ -32,6 +33,7 @@ export function AdminNavbar() {
   const { data: me } = useBackofficeMeQuery()
   const signOutMutation = useSignOutMutation()
   const [mounted, setMounted] = React.useState(false)
+  const [confirmSignOut, setConfirmSignOut] = React.useState(false)
 
   React.useEffect(() => {
     setMounted(true)
@@ -49,7 +51,7 @@ export function AdminNavbar() {
   }
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60 sm:px-6">
+    <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background/95 px-4 backdrop-blur supports-backdrop-filter:bg-background/60 sm:px-6">
       <div className="flex items-center gap-4">
         <SidebarTrigger />
       </div>
@@ -136,7 +138,7 @@ export function AdminNavbar() {
               disabled={signOutMutation.isPending}
               onSelect={(event) => {
                 event.preventDefault()
-                onSignOut()
+                setConfirmSignOut(true)
               }}
             >
               <LogOut className="h-4 w-4" />
@@ -145,6 +147,18 @@ export function AdminNavbar() {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
+
+      <ConfirmDialog
+        open={confirmSignOut}
+        onOpenChange={setConfirmSignOut}
+        title={t("logoutConfirmTitle")}
+        description={t("logoutConfirmDescription")}
+        confirmLabel={t("logout")}
+        cancelLabel={t("cancel")}
+        variant="destructive"
+        onConfirm={onSignOut}
+        isLoading={signOutMutation.isPending}
+      />
     </header>
   )
 }

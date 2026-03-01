@@ -1,7 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { ArrowLeft, List } from "lucide-react";
+import { List } from "lucide-react";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,6 +19,8 @@ import {
   useAddPriceListItemMutation,
 } from "@/features/inventory/hooks/use-pricing";
 import { formatDate, useBackofficeTranslations } from "@/shared/lib/i18n";
+import { useLocale } from "@/shared/lib/i18n/use-locale";
+import { BackButton } from "@/components/common/back-button";
 
 const editSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -42,7 +43,7 @@ interface Props {
 }
 
 export function PriceListDetailClient({ id }: Props) {
-  const router = useRouter();
+  const currentLocale = useLocale();
   const { locale } = useBackofficeTranslations("sidebar");
 
   const { data: priceList, isLoading, isError, error, refetch } = usePriceListDetailQuery(id);
@@ -115,9 +116,10 @@ export function PriceListDetailClient({ id }: Props) {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <Button variant="ghost" size="sm" onClick={() => router.back()}>
-          <ArrowLeft className="h-4 w-4" />
-        </Button>
+        <BackButton
+          fallbackHref={`/${currentLocale}/admin-dasboard/pricing/price-lists`}
+          label="Back"
+        />
         <List className="h-7 w-7 text-primary" />
         <div>
           <h1 className="text-2xl font-bold">{priceList.name}</h1>

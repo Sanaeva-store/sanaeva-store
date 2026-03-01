@@ -19,6 +19,7 @@ import {
 import { EmptyState, ErrorState, LoadingSkeleton } from "@/shared/ui";
 import { usePromotionsQuery, useTogglePromotionMutation } from "@/features/inventory/hooks/use-promotions";
 import { useBackofficeTranslations } from "@/shared/lib/i18n";
+import { PageHelp } from "@/components/common/page-help";
 
 export function PromotionsClient() {
   const { t } = useBackofficeTranslations("sidebar");
@@ -49,6 +50,17 @@ export function PromotionsClient() {
         <div>
           <h1 className="text-3xl font-bold">{t("items.promotionList")}</h1>
           <p className="mt-2 text-muted-foreground">{t("groups.promotions")}</p>
+        </div>
+        <div className="ml-auto">
+          <PageHelp
+            title="Promotions — Quick Guide"
+            items={[
+              { label: "Status filter", description: "Filter by Active or Inactive promotions" },
+              { label: "Toggle", description: "Activate or deactivate a promotion directly from the list" },
+              { label: "Detail", description: "Click a promotion to edit its rules and simulate discounts" },
+              { label: "Stacking", description: "Define which promotions can stack together from the detail page" },
+            ]}
+          />
         </div>
       </div>
 

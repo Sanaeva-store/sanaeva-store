@@ -110,7 +110,7 @@ export function ApprovalsClient() {
                               Reject
                             </Button>
                             <Button asChild size="sm" variant="ghost">
-                              <Link href={`/${locale}/admin-dasboard/admin-dasboard/admin/approvals/${approval.id}`}>View</Link>
+                              <Link href={`/${locale}/admin-dasboard/admin/approvals/${approval.id}`}>View</Link>
                             </Button>
                           </div>
                         </TableCell>

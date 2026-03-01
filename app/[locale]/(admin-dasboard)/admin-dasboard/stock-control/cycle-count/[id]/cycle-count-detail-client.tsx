@@ -1,7 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { ArrowLeft, ScanLine } from "lucide-react";
+import { useState } from "react";
+import { ScanLine } from "lucide-react";
 import { toast } from "sonner";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -18,6 +18,9 @@ import {
   useCloseCycleCountMutation,
 } from "@/features/inventory/hooks/use-cycle-count";
 import { formatDate, useBackofficeTranslations } from "@/shared/lib/i18n";
+import { useLocale } from "@/shared/lib/i18n/use-locale";
+import { BackButton } from "@/components/common/back-button";
+import { ConfirmDialog } from "@/components/common/confirm-dialog";
 
 const submitSchema = z.object({
   items: z.array(
@@ -37,8 +40,9 @@ interface Props {
 }
 
 export function CycleCountDetailClient({ id }: Props) {
-  const router = useRouter();
+  const currentLocale = useLocale();
   const { locale } = useBackofficeTranslations("sidebar");
+  const [showCloseConfirm, setShowCloseConfirm] = useState(false);
 
   const { data: session, isLoading, isError, error, refetch } = useCycleCountDetailQuery(id);
   const submitMutation = useSubmitCycleCountMutation();
@@ -85,9 +89,10 @@ export function CycleCountDetailClient({ id }: Props) {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <Button variant="ghost" size="sm" onClick={() => router.back()}>
-          <ArrowLeft className="h-4 w-4" />
-        </Button>
+        <BackButton
+          fallbackHref={`/${currentLocale}/admin-dasboard/stock-control/cycle-count`}
+          label="Back"
+        />
         <ScanLine className="h-7 w-7 text-primary" />
         <div>
           <h1 className="text-2xl font-bold">Cycle Count: {session.code}</h1>
@@ -171,18 +176,29 @@ export function CycleCountDetailClient({ id }: Props) {
             <Button
               variant="default"
               disabled={closeMutation.isPending}
-              onClick={() =>
-                closeMutation.mutate(id, {
-                  onSuccess: () => { toast.success("Cycle count closed"); router.back(); },
-                  onError: (e) => toast.error((e as Error).message ?? "Close failed"),
-                })
-              }
+              onClick={() => setShowCloseConfirm(true)}
             >
               {closeMutation.isPending ? "Closing..." : "Close Cycle Count"}
             </Button>
           </CardContent>
         </Card>
       )}
+
+      <ConfirmDialog
+        open={showCloseConfirm}
+        onOpenChange={setShowCloseConfirm}
+        title="Close Cycle Count?"
+        description="This will finalise the cycle count session. This action cannot be undone."
+        confirmLabel="Close Session"
+        cancelLabel="Cancel"
+        onConfirm={() =>
+          closeMutation.mutate(id, {
+            onSuccess: () => { toast.success("Cycle count closed"); setShowCloseConfirm(false); },
+            onError: (e) => { toast.error((e as Error).message ?? "Close failed"); setShowCloseConfirm(false); },
+          })
+        }
+        isLoading={closeMutation.isPending}
+      />
 
       {/* Items */}
       <Card>

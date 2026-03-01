@@ -1,20 +1,20 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { ArrowLeft, ScrollText } from "lucide-react";
+import { ScrollText } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { LoadingSkeleton, ErrorState } from "@/shared/ui";
 import { useAuditLogDetailQuery } from "@/features/inventory/hooks/use-admin-users";
 import { formatDate, useBackofficeTranslations } from "@/shared/lib/i18n";
+import { useLocale } from "@/shared/lib/i18n/use-locale";
+import { BackButton } from "@/components/common/back-button";
 
 interface Props {
   id: string;
 }
 
 export function AuditLogDetailClient({ id }: Props) {
-  const router = useRouter();
+  const currentLocale = useLocale();
   const { locale } = useBackofficeTranslations("sidebar");
 
   const { data: log, isLoading, isError, error, refetch } = useAuditLogDetailQuery(id);
@@ -32,9 +32,10 @@ export function AuditLogDetailClient({ id }: Props) {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <Button variant="ghost" size="sm" onClick={() => router.back()}>
-          <ArrowLeft className="h-4 w-4" />
-        </Button>
+        <BackButton
+          fallbackHref={`/${currentLocale}/admin-dasboard/admin/audit-logs`}
+          label="Back"
+        />
         <ScrollText className="h-7 w-7 text-primary" />
         <div>
           <h1 className="text-2xl font-bold">Audit Log</h1>
