@@ -82,12 +82,12 @@ _Based on: `frontend-integration-contract-v1.md` — Effective 2026-02-22_
 | [ ] | `PATCH /api/suppliers/:id` | Edit supplier |
 | [ ] | `PATCH /api/suppliers/:id/status` | Toggle supplier status |
 | [x] | `GET /api/purchase-orders` | `/admin-dasboard/purchasing/purchase-orders` (stub) |
-| [ ] | `POST /api/purchase-orders` | Create PO form |
-| [ ] | `GET /api/purchase-orders/:id` | PO detail |
-| [ ] | `PATCH /api/purchase-orders/:id/approve` | Approve PO action |
-| [ ] | `PATCH /api/purchase-orders/:id/send` | Send PO action |
-| [ ] | `POST /api/purchase-orders/:id/receive` | Receive PO action |
-| [ ] | `PATCH /api/purchase-orders/:id/cancel` | Cancel PO action |
+| [x] | `POST /api/purchase-orders` | Create PO form (`/admin-dasboard/purchasing/purchase-orders/create`) |
+| [x] | `GET /api/purchase-orders/:id` | PO detail (`/admin-dasboard/purchasing/purchase-orders/[id]`) |
+| [x] | `PATCH /api/purchase-orders/:id/approve` | Approve PO action (in detail page) |
+| [x] | `PATCH /api/purchase-orders/:id/send` | Send PO action (in detail page) |
+| [x] | `POST /api/purchase-orders/:id/receive` | Receive PO action (in detail page) |
+| [x] | `PATCH /api/purchase-orders/:id/cancel` | Cancel PO action (in detail page) |
 
 ---
 
@@ -128,15 +128,15 @@ _Based on: `frontend-integration-contract-v1.md` — Effective 2026-02-22_
 | Status | Endpoint | Page / Feature |
 |--------|----------|----------------|
 | [x] | `GET /api/promotions` | `/admin-dasboard/promotions` (stub) |
-| [ ] | `POST /api/promotions` | Create promotion form |
-| [ ] | `GET /api/promotions/:id` | Promotion detail |
-| [ ] | `PATCH /api/promotions/:id` | Edit promotion |
-| [ ] | `POST /api/promotions/:id/toggle` | Toggle promotion active |
-| [ ] | `POST /api/promotions/simulate` | Simulate discount |
+| [~] | `POST /api/promotions` | Create promotion form (via promotions list page) |
+| [x] | `GET /api/promotions/:id` | Promotion detail (`/admin-dasboard/promotions/[id]`) |
+| [x] | `PATCH /api/promotions/:id` | Edit promotion (in detail page) |
+| [x] | `POST /api/promotions/:id/toggle` | Toggle promotion active (in detail page) |
+| [x] | `POST /api/promotions/simulate` | Simulate discount (in detail page) |
 | [x] | `POST /api/promotions/validate-coupon` | `/admin-dasboard/promotions/validate-coupon` (stub) |
 | [ ] | `POST /api/promotions/calculate-discount` | Calculate discount tool |
-| [ ] | `GET /api/promotions/:id/stacking-rules` | Stacking rules view |
-| [ ] | `POST /api/promotions/:id/stacking-rules` | Create stacking rule |
+| [x] | `GET /api/promotions/:id/stacking-rules` | Stacking rules view (in detail page) |
+| [x] | `POST /api/promotions/:id/stacking-rules` | Create stacking rule (in detail page) |
 
 ---
 
@@ -144,19 +144,19 @@ _Based on: `frontend-integration-contract-v1.md` — Effective 2026-02-22_
 
 | Status | Endpoint | Page / Feature |
 |--------|----------|----------------|
-| [x] | `GET /api/admin-users` | `/admin-dasboard/admin/users` (stub) |
-| [ ] | `GET /api/admin-users/:id` | Admin user detail |
-| [ ] | `GET /api/admin-users/permissions/matrix` | Permissions matrix view |
-| [ ] | `POST /api/admin-users/:id/roles` | Assign role |
-| [ ] | `DELETE /api/admin-users/:id/roles/:roleCode` | Remove role |
-| [ ] | `PATCH /api/admin-users/:id/status` | Toggle admin user status |
-| [x] | `GET /api/audit-logs` | `/admin-dasboard/admin/audit-logs` (stub) |
-| [ ] | `GET /api/audit-logs/:id` | Audit log detail |
-| [x] | `GET /api/approvals` | `/admin-dasboard/admin/approvals` (stub) |
+| [x] | `GET /api/admin-users` | `/admin-dasboard/admin/users` (live, with View links) |
+| [x] | `GET /api/admin-users/:id` | Admin user detail (`/admin-dasboard/admin/users/[id]`) |
+| [x] | `GET /api/admin-users/permissions/matrix` | Permissions matrix shown in list page |
+| [x] | `POST /api/admin-users/:id/roles` | Assign role (in detail page) |
+| [x] | `DELETE /api/admin-users/:id/roles/:roleCode` | Remove role (in detail page) |
+| [x] | `PATCH /api/admin-users/:id/status` | Toggle admin user status (in list + detail page) |
+| [x] | `GET /api/audit-logs` | `/admin-dasboard/admin/audit-logs` (live, with View links) |
+| [x] | `GET /api/audit-logs/:id` | Audit log detail (`/admin-dasboard/admin/audit-logs/[id]`) |
+| [x] | `GET /api/approvals` | `/admin-dasboard/admin/approvals` (live, with View links) |
 | [ ] | `POST /api/approvals` | Create approval |
-| [ ] | `GET /api/approvals/:id` | Approval detail |
-| [ ] | `POST /api/approvals/:id/approve` | Approve action |
-| [ ] | `POST /api/approvals/:id/reject` | Reject action |
+| [x] | `GET /api/approvals/:id` | Approval detail (`/admin-dasboard/admin/approvals/[id]`) |
+| [x] | `POST /api/approvals/:id/approve` | Approve action (in list + detail page) |
+| [x] | `POST /api/approvals/:id/reject` | Reject action (in list + detail page) |
 
 ---
 
@@ -164,19 +164,19 @@ _Based on: `frontend-integration-contract-v1.md` — Effective 2026-02-22_
 
 | Status | Endpoint | Page / Feature |
 |--------|----------|----------------|
-| [x] | `GET /api/stock-transfers` | `/admin-dasboard/stock-control/transfers` (stub) |
+| [x] | `GET /api/stock-transfers` | `/admin-dasboard/stock-control/transfers` (live, with View links) |
 | [ ] | `POST /api/stock-transfers` | Create transfer form |
-| [ ] | `GET /api/stock-transfers/:id` | Transfer detail |
-| [ ] | `POST /api/stock-transfers/:id/approve` | Approve transfer |
-| [ ] | `POST /api/stock-transfers/:id/ship` | Ship transfer |
-| [ ] | `POST /api/stock-transfers/:id/receive` | Receive transfer |
-| [ ] | `POST /api/stock-transfers/:id/complete` | Complete transfer |
-| [ ] | `POST /api/stock-transfers/:id/cancel` | Cancel transfer |
-| [x] | `GET /api/cycle-count` | `/admin-dasboard/stock-control/cycle-count` (stub) |
-| [ ] | `POST /api/cycle-count` | Create cycle count |
-| [ ] | `GET /api/cycle-count/:id` | Cycle count detail |
-| [ ] | `POST /api/cycle-count/:id/count` | Submit count |
-| [ ] | `POST /api/cycle-count/:id/close` | Close cycle count |
+| [x] | `GET /api/stock-transfers/:id` | Transfer detail (`/admin-dasboard/stock-control/transfers/[id]`) |
+| [x] | `POST /api/stock-transfers/:id/approve` | Approve transfer (in list + detail page) |
+| [x] | `POST /api/stock-transfers/:id/ship` | Ship transfer (in list + detail page) |
+| [x] | `POST /api/stock-transfers/:id/receive` | Receive transfer (in detail page) |
+| [x] | `POST /api/stock-transfers/:id/complete` | Complete transfer (in list + detail page) |
+| [x] | `POST /api/stock-transfers/:id/cancel` | Cancel transfer (in list + detail page) |
+| [x] | `GET /api/cycle-count` | `/admin-dasboard/stock-control/cycle-count` (live, with View links) |
+| [x] | `POST /api/cycle-count` | Create cycle count (in list page) |
+| [x] | `GET /api/cycle-count/:id` | Cycle count detail (`/admin-dasboard/stock-control/cycle-count/[id]`) |
+| [x] | `POST /api/cycle-count/:id/count` | Submit count (in detail page) |
+| [x] | `POST /api/cycle-count/:id/close` | Close cycle count (in list + detail page) |
 
 ---
 
@@ -184,12 +184,12 @@ _Based on: `frontend-integration-contract-v1.md` — Effective 2026-02-22_
 
 | Status | Endpoint | Page / Feature |
 |--------|----------|----------------|
-| [x] | `GET /api/catalog/price-lists` | `/admin-dasboard/pricing/price-lists` (stub) |
-| [ ] | `POST /api/catalog/price-lists` | Create price list |
-| [ ] | `GET /api/catalog/price-lists/:id` | Price list detail |
-| [ ] | `PATCH /api/catalog/price-lists/:id` | Edit price list |
-| [ ] | `GET /api/catalog/price-lists/:id/items` | Price list items |
-| [ ] | `POST /api/catalog/price-lists/:id/items` | Add item to price list |
+| [x] | `GET /api/catalog/price-lists` | `/admin-dasboard/pricing/price-lists` (live, with View links) |
+| [x] | `POST /api/catalog/price-lists` | Create price list (in list page) |
+| [x] | `GET /api/catalog/price-lists/:id` | Price list detail (`/admin-dasboard/pricing/price-lists/[id]`) |
+| [x] | `PATCH /api/catalog/price-lists/:id` | Edit price list (in detail page) |
+| [x] | `GET /api/catalog/price-lists/:id/items` | Price list items (in detail page) |
+| [x] | `POST /api/catalog/price-lists/:id/items` | Add item to price list (in detail page) |
 
 ---
 

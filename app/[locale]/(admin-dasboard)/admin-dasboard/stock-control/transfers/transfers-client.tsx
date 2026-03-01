@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 import { ArrowLeftRight } from "lucide-react";
 import { toast } from "sonner";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -26,6 +28,8 @@ import { useBackofficeTranslations } from "@/shared/lib/i18n";
 
 export function TransfersClient() {
   const { t } = useBackofficeTranslations("sidebar");
+  const routeParams = useParams<{ locale: string }>();
+  const locale = routeParams.locale ?? "th";
   const [page, setPage] = useState(1);
 
   const { data, isLoading, isError, error, refetch } = useStockTransfersQuery({ page, limit: 20 });
@@ -126,6 +130,9 @@ export function TransfersClient() {
                               onClick={() => cancel.mutate(transfer.id, { onError: (e) => toast.error((e as Error).message ?? "Cancel failed") })}
                             >
                               Cancel
+                            </Button>
+                            <Button asChild size="sm" variant="ghost">
+                              <Link href={`/${locale}/admin-dasboard/admin-dasboard/stock-control/transfers/${transfer.id}`}>View</Link>
                             </Button>
                           </div>
                         </TableCell>

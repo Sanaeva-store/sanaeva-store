@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 import { ClipboardList } from "lucide-react";
 import {
   Card,
@@ -30,8 +32,7 @@ import { Label } from "@/components/ui/label";
 import { LoadingSkeleton, ErrorState, EmptyState } from "@/shared/ui";
 import { usePurchaseOrdersQuery } from "@/features/inventory/hooks/use-purchase-orders";
 import type { DocStatus } from "@/features/inventory/api/purchase-orders.api";
-import { useBackofficeTranslations } from "@/shared/lib/i18n";
-import { formatDate } from "@/shared/lib/i18n";
+import { useBackofficeTranslations, formatDate } from "@/shared/lib/i18n";
 
 const STATUS_VARIANT: Record<
   DocStatus,
@@ -58,6 +59,8 @@ const DOC_STATUSES: DocStatus[] = [
 
 export default function PurchaseOrdersPage() {
   const { t, locale } = useBackofficeTranslations("sidebar");
+  const routeParams = useParams<{ locale: string }>();
+  const routeLocale = routeParams.locale ?? "th";
   const [page, setPage] = useState(1);
   const limit = 20;
   const [statusFilter, setStatusFilter] = useState<DocStatus | "ALL">("ALL");
@@ -82,6 +85,9 @@ export default function PurchaseOrdersPage() {
           <h1 className="text-3xl font-bold">{t("items.purchaseOrders")}</h1>
           <p className="mt-2 text-muted-foreground">{t("groups.purchasing")}</p>
         </div>
+        <Button asChild className="ml-auto">
+          <Link href={`/${routeLocale}/admin-dasboard/admin-dasboard/purchasing/purchase-orders/create`}>Create PO</Link>
+        </Button>
       </div>
 
       {/* Filters */}
@@ -164,6 +170,7 @@ export default function PurchaseOrdersPage() {
                       <TableHead className="text-right">Items</TableHead>
                       <TableHead>Expected</TableHead>
                       <TableHead>Created</TableHead>
+                      <TableHead />
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -190,6 +197,11 @@ export default function PurchaseOrdersPage() {
                         </TableCell>
                         <TableCell className="whitespace-nowrap text-xs text-muted-foreground">
                           {formatDate(new Date(order.createdAt), locale)}
+                        </TableCell>
+                        <TableCell>
+                          <Button asChild size="sm" variant="ghost">
+                            <Link href={`/${routeLocale}/admin-dasboard/admin-dasboard/purchasing/purchase-orders/${order.id}`}>View</Link>
+                          </Button>
                         </TableCell>
                       </TableRow>
                     ))}

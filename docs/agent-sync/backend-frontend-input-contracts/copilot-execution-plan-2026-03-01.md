@@ -1,140 +1,176 @@
-# Copilot Execution Plan (sanaeva-store frontend)
+# Copilot Execution Plan (PR Task Pack)
 
 Updated: 2026-03-01  
 Repository: `sanaeva-store` (frontend)
 
 ## Goal
 
-ให้ Copilot พัฒนางานที่เหลือใน Admin integration ต่อจาก checklist ปัจจุบันจน "พร้อมใช้งานจริง" โดยไม่หลุด contract backend
+ทำงานค้างใน Back Office ให้ปิดเป็นรอบ PR ที่ชัดเจน เพื่อส่งต่อ Copilot แบบต่อเนื่องจนใช้งานจริงได้ครบเมนู
 
 Primary references:
 - `docs/agent-sync/backend-frontend-input-contracts/admin-integration-checklist-2026-03-01.md`
+- `docs/agent-sync/backend-frontend-input-contracts/TASK-CHECKLIST.md`
 - `docs/agent-sync/backend-frontend-input-contracts/backoffice-api-handoff/frontend-integration-contract-v1.md`
+- `docs/agent-sync/backend-frontend-input-contracts/frontend-gap-checklist.md`
 
-## Current Status Snapshot
-
-Completed:
-- API layer + hooks ครบตาม contract v1.1
-- หน้า admin ส่วนใหญ่เชื่อม API แล้ว (orders, order-management, promotions, pricing, stock-control, admin/security, inventory, reports)
-- Root cause `api/api` ถูกแก้แล้วใน HTTP client
-
-Remaining:
-- `/admin-dasboard` (dashboard root) ยังใช้ข้อมูล mock
-- `/admin-dasboard/analytics` ยังไม่ผูก API
-- `/admin-dasboard/customers` ยังไม่ผูก API
-- `/admin-dasboard/settings/general` ยังไม่ผูก API
-- `/admin-dasboard/settings/reports` ยังไม่ผูก API
-
-## Execution Rules (for Copilot)
+## Global Rules (must follow)
 
 - ใช้ `bun` เท่านั้น (`bun run lint`, `bun run typecheck`, `bun run test`)
 - ห้ามสร้าง business API route ใหม่ใน `app/api/*`
-- เรียกผ่าน API layer/hook ที่มีอยู่ก่อนเสมอ
-- ถ้า endpoint ยังไม่มีใน contract ให้บันทึกเป็น API Gap และไม่เดา endpoint
-- ทุก PR ต้องผ่าน lint + typecheck เป็นขั้นต่ำ
+- ใช้ API layer/hook ที่มีอยู่ก่อน
+- ถ้า endpoint ยังไม่มีใน contract: บันทึกเป็น API Gap และไม่เดา endpoint
+- ทุก PR ต้องมี loading/empty/error state ในหน้าที่แก้
 
-## Work Packages
-
-## WP-1: Dashboard Root Integration
+## PR-1 (P0): Kill Skeleton/Gap Pages
 
 ### Scope
-- เชื่อม `/admin-dasboard/page.tsx` จาก mock ไปใช้ข้อมูลจริง
+- `/admin-dasboard/analytics`
+- `/admin-dasboard/customers`
+- `/admin-dasboard/settings/general`
+- `/admin-dasboard/settings/reports`
+- dashboard root chart gap in `/admin-dasboard`
 
-### Required API / Hooks
-- `GET /api/orders/summary` via `useOrderSummaryQuery`
-- `GET /api/reports/dashboard-summary` via `useDashboardSummaryQuery`
-- (ถ้าจำเป็น) `GET /api/reports/low-stock` via `useLowStockReportQuery`
+### Target
+- หน้า skeleton ทุกหน้าต้องกลายเป็นหน้าใช้งานได้จริง หรือมี API gap ที่ explicit ใน UI + docs
+- dashboard root ต้องไม่เหลือ mock KPI
 
-### Files (expected)
-- `app/[locale]/(admin-dasboard)/admin-dasboard/page.tsx`
-- อาจเพิ่ม client wrapper เช่น `dashboard-client.tsx`
-
-### DoD
-- KPI card ใช้ data จริงทั้งหมด
-- มี loading/empty/error state
-- ไม่มี hardcoded KPI mock ค้าง
-- `bun run typecheck` ผ่าน
-- `bun run lint` ผ่าน
-
-## WP-2: Analytics / Customers / Settings Contract Decision
-
-### Scope
-- ตรวจ contract ว่ามี endpoint สำหรับ:
-  - analytics
-  - customers
-  - settings/general
-  - settings/reports
-
-### Action Rule
-- ถ้ามี endpoint ชัดเจน: เชื่อม API จริง
-- ถ้ายังไม่มี: ทำ API Gap doc และคง UI เป็น non-breaking placeholder
-
-### Files (expected)
+### Main files
 - `app/[locale]/(admin-dasboard)/admin-dasboard/analytics/page.tsx`
 - `app/[locale]/(admin-dasboard)/admin-dasboard/customers/page.tsx`
 - `app/[locale]/(admin-dasboard)/admin-dasboard/settings/general/page.tsx`
 - `app/[locale]/(admin-dasboard)/admin-dasboard/settings/reports/page.tsx`
+- `app/[locale]/(admin-dasboard)/admin-dasboard/dashboard-client.tsx`
 - `docs/agent-sync/backend-frontend-input-contracts/frontend-gap-checklist.md`
 
-### DoD
-- ทุกหน้าใน 4 หน้านี้ต้องเป็นอย่างใดอย่างหนึ่ง:
-  - เชื่อม API จริงครบ หรือ
-  - มี API gap ชัดเจนพร้อมเหตุผลและ field/endpoint ที่ต้องการ
-- ไม่สร้าง endpoint สมมติ
+### Copilot prompt
+```text
+Implement PR-1 (P0) from copilot-execution-plan-2026-03-01.md.
+Goal: remove skeleton/gap pages in analytics/customers/settings and finish dashboard root data wiring.
+Rules:
+- Use existing API hooks only.
+- If endpoint missing, keep page non-breaking and document API gap in frontend-gap-checklist.md.
+- No app/api business routes.
+- Ensure loading/empty/error states.
+Output:
+1) changed files
+2) gap decisions per page
+3) bun run typecheck + bun run lint + bun run test results
+```
 
-## WP-3: Production Hardening for Newly Integrated Pages
-
-### Scope
-- หน้าใหม่ที่เพิ่งเชื่อม API: orders, order-management, promotions, validate-coupon, pricing, transfers, cycle-count, admin users/audit/approvals
-
-### Checklist
-- state mutation ระหว่าง submit ถูก disable ปุ่มที่เกี่ยวข้อง
-- ข้อความ error จาก API แสดงชัด
-- pagination/filter state ไม่ reset ผิดจังหวะ
-- enum/status mapping ตรง backend แบบ exact string
-- i18n key ไม่พัง (fallback text ใช้น้อยที่สุด)
-
-### DoD
-- ไม่มี regression จาก manual flow หลัก:
-  - order reserve/release/commit
-  - promotion toggle + validate coupon
-  - transfer approve/ship/complete/cancel
-  - cycle-count create/close
-  - approvals approve/reject
-- `bun run lint` และ `bun run typecheck` ผ่าน
-
-## WP-4: Test Coverage for Critical API-UI Paths
+## PR-2 (P1): Product/SKU + Pricing Full Flow
 
 ### Scope
-- เพิ่ม unit/integration tests สำหรับ logic สำคัญของหน้า admin ที่เพิ่งเชื่อม
+- Product/SKU: edit/delete + variants/images management UI
+- Pricing: detail/edit price list + list/add items
 
-### Minimum Tests
-- form payload mapping ถูกต้อง (validate coupon, price list create, cycle count create)
-- action mutation ถูก endpoint/method
-- error state แสดงเมื่อ query fail
+### Main files
+- `app/[locale]/(admin-dasboard)/admin-dasboard/inventory/products/**`
+- `app/[locale]/(admin-dasboard)/admin-dasboard/pricing/price-lists/**`
+- `features/inventory/hooks/use-catalog.ts`
+- `features/inventory/hooks/use-pricing.ts`
 
-### Files (suggested)
-- `tests/unit/**` ตาม feature เดิม
+### Copilot prompt
+```text
+Implement PR-2 (P1): complete Product/SKU and Pricing flows.
+Add missing CRUD/action UI on top of existing API hooks.
+Keep forms schema-first (react-hook-form + zod), and add robust loading/error states.
+Run bun run typecheck, bun run lint, bun run test.
+```
 
-### DoD
-- test ใหม่ผ่านทั้งหมด
-- ไม่มี snapshot/flaky test
+## PR-3 (P1): Purchasing + Stock Control Full Flow
 
-## Suggested Copilot Task Order
+### Scope
+- Purchase Orders: create/detail/approve/send/receive/cancel
+- Transfers: create/detail/receive
+- Cycle Count: detail + submit count (`:id/count`)
 
-1. WP-1 (Dashboard root)
-2. WP-2 (contract decision for remaining 4 pages)
-3. WP-3 (hardening)
-4. WP-4 (tests)
+### Main files
+- `app/[locale]/(admin-dasboard)/admin-dasboard/purchasing/purchase-orders/page.tsx`
+- `app/[locale]/(admin-dasboard)/admin-dasboard/stock-control/transfers/**`
+- `app/[locale]/(admin-dasboard)/admin-dasboard/stock-control/cycle-count/**`
+- `features/inventory/hooks/use-purchase-orders.ts`
+- `features/inventory/hooks/use-stock-transfers.ts`
+- `features/inventory/hooks/use-cycle-count.ts`
 
-## Per-Task Commit Convention
+### Copilot prompt
+```text
+Implement PR-3 (P1): complete Purchasing and Stock Control workflows.
+Focus on missing actions and detail pages using existing hooks.
+Ensure action buttons are disabled while pending and show API errors clearly.
+Run bun run typecheck, bun run lint, bun run test.
+```
 
-- `feat(admin): integrate dashboard root with orders/report summary`
-- `chore(admin): document api gaps for analytics/customers/settings`
-- `refactor(admin): harden mutation/error states in integrated pages`
-- `test(admin): add coverage for promotion/order/transfer flows`
+## PR-4 (P1): Promotions + Reports Expansion
 
-## Validation Commands (must run each task)
+### Scope
+- Promotions: create/edit/detail/simulate/calculate/stacking-rules UI
+- Reports: add profit-by-sku / profit-by-category / profit-by-order views
+
+### Main files
+- `app/[locale]/(admin-dasboard)/admin-dasboard/promotions/**`
+- `app/[locale]/(admin-dasboard)/admin-dasboard/reports/profit/page.tsx`
+- `features/inventory/hooks/use-promotions.ts`
+- `features/inventory/hooks/use-reports.ts`
+
+### Copilot prompt
+```text
+Implement PR-4 (P1): finish Promotions and expand Profit reports.
+Use existing report/promotion hooks and keep response mapping strict to backend contracts.
+Include loading/empty/error states and basic UX validation.
+Run bun run typecheck, bun run lint, bun run test.
+```
+
+## PR-5 (P1): Admin Security Completion
+
+### Scope
+- Admin users: detail + assign role + remove role
+- Audit logs: detail page
+- Approvals: create + detail
+
+### Main files
+- `app/[locale]/(admin-dasboard)/admin-dasboard/admin/users/**`
+- `app/[locale]/(admin-dasboard)/admin-dasboard/admin/audit-logs/**`
+- `app/[locale]/(admin-dasboard)/admin-dasboard/admin/approvals/**`
+- `features/inventory/hooks/use-admin-users.ts`
+
+### Copilot prompt
+```text
+Implement PR-5 (P1): complete Admin Security pages.
+Finish missing detail and mutation flows while preserving role-safe behavior.
+Add clear error and permission handling for sensitive actions.
+Run bun run typecheck, bun run lint, bun run test.
+```
+
+## PR-6 (P2): Hardening + Tests + i18n Cleanup
+
+### Scope
+- unify pending/disabled behavior on all mutations
+- ensure enum/status mapping exact with backend
+- remove remaining hardcoded EN strings in back office pages
+- add regression tests for critical flows
+
+### Minimum tests
+- order reserve/release/commit actions
+- promotion toggle/validate/simulate
+- transfer lifecycle actions
+- cycle-count create/count/close
+- approvals approve/reject
+
+### Copilot prompt
+```text
+Implement PR-6 (P2): hardening, test coverage, and i18n cleanup.
+Do not add broad refactors. Focus on reliability and regressions.
+Deliver tests for critical mutations and remove remaining hardcoded text in back-office pages.
+Run bun run typecheck, bun run lint, bun run test.
+```
+
+## Per-PR Definition of Done
+
+- หน้า/ปุ่มใน scope เรียก API ได้จริง ไม่มี dead action
+- loading/empty/error state ครบ
+- ไม่มี silent error handling
+- checklist/docs สะท้อนสถานะใหม่
+- commands ผ่าน:
 
 ```bash
 bun run typecheck
@@ -142,9 +178,9 @@ bun run lint
 bun run test
 ```
 
-## Completion Criteria
+## Commit Convention
 
-ถือว่าเสร็จเมื่อ:
-- checklist ใน `admin-integration-checklist-2026-03-01.md` ไม่เหลืองานเชิง implementation ค้าง
-- หน้าที่ยังไม่เชื่อมมี API gap note ครบถ้วน
-- lint/typecheck/test ผ่านบน branch เดียวกัน
+- `feat(admin): <scope>`
+- `refactor(admin): <scope>`
+- `test(admin): <scope>`
+- `docs(admin): update checklist and gap notes`

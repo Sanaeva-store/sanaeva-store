@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 import { CheckSquare } from "lucide-react";
 import { toast } from "sonner";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -24,6 +26,8 @@ import { useBackofficeTranslations } from "@/shared/lib/i18n";
 
 export function ApprovalsClient() {
   const { t } = useBackofficeTranslations("sidebar");
+  const routeParams = useParams<{ locale: string }>();
+  const locale = routeParams.locale ?? "th";
   const [page, setPage] = useState(1);
 
   const { data, isLoading, isError, error, refetch } = useApprovalsQuery({ page, limit: 20 });
@@ -104,6 +108,9 @@ export function ApprovalsClient() {
                               onClick={() => reject.mutate({ id: approval.id }, { onError: (e) => toast.error((e as Error).message ?? "Rejection failed") })}
                             >
                               Reject
+                            </Button>
+                            <Button asChild size="sm" variant="ghost">
+                              <Link href={`/${locale}/admin-dasboard/admin-dasboard/admin/approvals/${approval.id}`}>View</Link>
                             </Button>
                           </div>
                         </TableCell>

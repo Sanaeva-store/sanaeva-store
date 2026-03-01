@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 import { Shield } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -23,6 +25,8 @@ import { useBackofficeTranslations } from "@/shared/lib/i18n";
 
 export function AdminUsersClient() {
   const { t } = useBackofficeTranslations("sidebar");
+  const routeParams = useParams<{ locale: string }>();
+  const locale = routeParams.locale ?? "th";
   const [page, setPage] = useState(1);
 
   const { data, isLoading, isError, error, refetch } = useAdminUsersQuery({ page, limit: 20 });
@@ -99,14 +103,19 @@ export function AdminUsersClient() {
                           </Badge>
                         </TableCell>
                         <TableCell>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            disabled={toggle.isPending}
-                            onClick={() => toggle.mutate(user.id)}
-                          >
-                            Toggle Status
-                          </Button>
+                          <div className="flex gap-2">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              disabled={toggle.isPending}
+                              onClick={() => toggle.mutate(user.id)}
+                            >
+                              Toggle Status
+                            </Button>
+                            <Button asChild size="sm" variant="ghost">
+                              <Link href={`/${locale}/admin-dasboard/admin-dasboard/admin/users/${user.id}`}>View</Link>
+                            </Button>
+                          </div>
                         </TableCell>
                       </TableRow>
                     ))}

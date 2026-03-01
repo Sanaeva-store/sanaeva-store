@@ -1,6 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 import { TicketPercent } from "lucide-react";
 import { toast } from "sonner";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -20,6 +22,8 @@ import { useBackofficeTranslations } from "@/shared/lib/i18n";
 
 export function PromotionsClient() {
   const { t } = useBackofficeTranslations("sidebar");
+  const routeParams = useParams<{ locale: string }>();
+  const locale = routeParams.locale ?? "th";
   const [page, setPage] = useState(1);
   const [isActive, setIsActive] = useState<"ALL" | "true" | "false">("ALL");
 
@@ -112,14 +116,19 @@ export function PromotionsClient() {
                           </Badge>
                         </TableCell>
                         <TableCell>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            disabled={toggle.isPending}
-                            onClick={() => toggle.mutate(promotion.id, { onError: (e) => toast.error((e as Error).message ?? "Toggle failed") })}
-                          >
-                            Toggle
-                          </Button>
+                          <div className="flex gap-2">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              disabled={toggle.isPending}
+                              onClick={() => toggle.mutate(promotion.id, { onError: (e) => toast.error((e as Error).message ?? "Toggle failed") })}
+                            >
+                              Toggle
+                            </Button>
+                            <Button asChild size="sm" variant="ghost">
+                              <Link href={`/${locale}/admin-dasboard/admin-dasboard/promotions/${promotion.id}`}>View</Link>
+                            </Button>
+                          </div>
                         </TableCell>
                       </TableRow>
                     ))}

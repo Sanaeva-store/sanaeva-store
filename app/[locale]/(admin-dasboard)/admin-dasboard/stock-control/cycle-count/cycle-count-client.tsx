@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 import { ScanLine } from "lucide-react";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -36,6 +38,8 @@ type FormValues = z.infer<typeof schema>;
 
 export function CycleCountClient() {
   const { t } = useBackofficeTranslations("sidebar");
+  const routeParams = useParams<{ locale: string }>();
+  const locale = routeParams.locale ?? "th";
   const [page, setPage] = useState(1);
 
   const { data, isLoading, isError, error, refetch } = useCycleCountsQuery({ page, limit: 20 });
@@ -152,6 +156,9 @@ export function CycleCountClient() {
                             onClick={() => closeMutation.mutate(session.id, { onError: (e) => toast.error((e as Error).message ?? "Close failed") })}
                           >
                             Close
+                          </Button>
+                          <Button asChild size="sm" variant="ghost">
+                            <Link href={`/${locale}/admin-dasboard/admin-dasboard/stock-control/cycle-count/${session.id}`}>View</Link>
                           </Button>
                         </TableCell>
                       </TableRow>

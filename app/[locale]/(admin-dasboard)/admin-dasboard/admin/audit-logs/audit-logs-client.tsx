@@ -1,6 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 import { ScrollText } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -20,6 +22,8 @@ import { useBackofficeTranslations } from "@/shared/lib/i18n";
 
 export function AuditLogsClient() {
   const { t } = useBackofficeTranslations("sidebar");
+  const routeParams = useParams<{ locale: string }>();
+  const locale = routeParams.locale ?? "th";
   const [entity, setEntity] = useState("");
   const [actorId, setActorId] = useState("");
   const [page, setPage] = useState(1);
@@ -107,6 +111,7 @@ export function AuditLogsClient() {
                       <TableHead>Entity ID</TableHead>
                       <TableHead>Actor</TableHead>
                       <TableHead>Created At</TableHead>
+                      <TableHead />
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -117,6 +122,11 @@ export function AuditLogsClient() {
                         <TableCell>{log.entityId ?? "-"}</TableCell>
                         <TableCell>{log.actorId}</TableCell>
                         <TableCell>{new Date(log.createdAt).toLocaleString()}</TableCell>
+                        <TableCell>
+                          <Button asChild size="sm" variant="outline">
+                            <Link href={`/${locale}/admin-dasboard/admin-dasboard/admin/audit-logs/${log.id}`}>View</Link>
+                          </Button>
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

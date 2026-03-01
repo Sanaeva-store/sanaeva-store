@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 import { List } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -29,6 +31,8 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 export function PriceListsClient() {
+  const routeParams = useParams<{ locale: string }>();
+  const locale = routeParams.locale ?? "th";
   const { t } = useBackofficeTranslations("sidebar");
   const [page, setPage] = useState(1);
 
@@ -126,6 +130,7 @@ export function PriceListsClient() {
                       <TableHead>Default</TableHead>
                       <TableHead>Valid From</TableHead>
                       <TableHead>Valid To</TableHead>
+                      <TableHead />
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -136,6 +141,11 @@ export function PriceListsClient() {
                         <TableCell>{item.isDefault ? "Yes" : "No"}</TableCell>
                         <TableCell>{item.validFrom ? new Date(item.validFrom).toLocaleDateString() : "-"}</TableCell>
                         <TableCell>{item.validTo ? new Date(item.validTo).toLocaleDateString() : "-"}</TableCell>
+                        <TableCell>
+                          <Button asChild size="sm" variant="ghost">
+                            <Link href={`/${locale}/admin-dasboard/admin-dasboard/pricing/price-lists/${item.id}`}>View</Link>
+                          </Button>
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
