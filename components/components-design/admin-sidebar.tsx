@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 
 import {
   Home,
@@ -58,6 +58,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useBackofficeTranslations, useLocale } from "@/shared/lib/i18n"
+import { useBackofficeMeQuery } from "@/features/inventory/hooks/use-backoffice-auth"
+import { useSignOutMutation } from "@/features/account/hooks/use-auth"
+import { hasAnyRole, getRequiredBackofficeRoles } from "@/shared/lib/auth/backoffice-rbac"
 
 type MenuItem = {
   titleKey: string
@@ -159,11 +162,21 @@ const menuItems: MenuGroup[] = [
 ]
 
 export function AdminSidebar() {
+  const router = useRouter()
   const pathname = usePathname()
   const locale = useLocale()
   const { t } = useBackofficeTranslations("sidebar")
+  const { data: me } = useBackofficeMeQuery()
+  const signOutMutation = useSignOutMutation()
 
   const toLocaleUrl = (url: string) => `/${locale}${url}`
+  const userRoles = me?.roles ?? []
+
+  const canAccess = (url: string) => {
+    const requiredRoles = getRequiredBackofficeRoles(url)
+    if (!requiredRoles) return true
+    return hasAnyRole(userRoles, requiredRoles)
+  }
 
   return (
     <Sidebar collapsible="icon">
@@ -192,7 +205,7 @@ export function AdminSidebar() {
             <SidebarGroupLabel>{t(group.titleKey)}</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {group.items.map((item) => {
+                {group.items.filter((item) => canAccess(item.url)).map((item) => {
                   const localizedUrl = toLocaleUrl(item.url)
                   const isActive = pathname === localizedUrl
 
@@ -223,12 +236,12 @@ export function AdminSidebar() {
                   className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                 >
                   <Avatar className="size-8 rounded-lg">
-                    <AvatarImage src="/avatars/shadcn.jpg" alt={t("account.name")} />
+                    <AvatarImage src="/avatars/shadcn.jpg" alt={me?.name ?? t("account.name")} />
                     <AvatarFallback className="rounded-lg">AD</AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
-                    <span className="truncate font-semibold">{t("account.name")}</span>
-                    <span className="truncate text-xs text-muted-foreground">{t("account.email")}</span>
+                    <span className="truncate font-semibold">{me?.name ?? t("account.name")}</span>
+                    <span className="truncate text-xs text-muted-foreground">{me?.email ?? t("account.email")}</span>
                   </div>
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
@@ -241,12 +254,12 @@ export function AdminSidebar() {
                 <DropdownMenuLabel className="p-0 font-normal">
                   <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                     <Avatar className="size-8 rounded-lg">
-                      <AvatarImage src="/avatars/shadcn.jpg" alt={t("account.name")} />
+                      <AvatarImage src="/avatars/shadcn.jpg" alt={me?.name ?? t("account.name")} />
                       <AvatarFallback className="rounded-lg">AD</AvatarFallback>
                     </Avatar>
                     <div className="grid flex-1 text-left text-sm leading-tight">
-                      <span className="truncate font-semibold">{t("account.name")}</span>
-                      <span className="truncate text-xs text-muted-foreground">{t("account.email")}</span>
+                      <span className="truncate font-semibold">{me?.name ?? t("account.name")}</span>
+                      <span className="truncate text-xs text-muted-foreground">{me?.email ?? t("account.email")}</span>
                     </div>
                   </div>
                 </DropdownMenuLabel>
@@ -255,7 +268,16 @@ export function AdminSidebar() {
                   <Settings className="mr-2 size-4" />
                   {t("account.accountSettings")}
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                <DropdownMenuItem
+                  disabled={signOutMutation.isPending}
+                  onSelect={(event) => {
+                    event.preventDefault()
+                    signOutMutation.mutate(undefined, {
+                      onSuccess: () => router.replace(`/${locale}`),
+                      onError: () => router.replace(`/${locale}`),
+                    })
+                  }}
+                >
                   <LogOut className="mr-2 size-4" />
                   {t("account.logout")}
                 </DropdownMenuItem>

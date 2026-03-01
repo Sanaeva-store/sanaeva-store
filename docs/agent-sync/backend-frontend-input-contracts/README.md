@@ -25,6 +25,8 @@ Last synced: 2026-02-24
    - `frontend-integration-contract-v1.md`
    - `today-delivery-plan-2026-02-22.md`
    - `CHANGELOG.md`
+6. `copilot-execution-plan-2026-03-01.md`
+   แผนลงมือทำแบบ task-based สำหรับ Copilot เพื่อปิดงาน integration ที่เหลือให้ครบ
 
 ## Source of truth (backend)
 

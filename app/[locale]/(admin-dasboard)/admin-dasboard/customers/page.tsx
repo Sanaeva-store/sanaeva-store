@@ -1,3 +1,10 @@
+/**
+ * API Gap: GAP-002
+ * This page has no backend endpoint in contract v1.1.
+ * See: docs/agent-sync/backend-frontend-input-contracts/frontend-gap-checklist.md
+ * Required: GET /api/customers, GET /api/customers/:id, PATCH /api/customers/:id/status,
+ *           GET /api/customers/:id/orders
+ */
 import type { Metadata } from "next";
 import { Users } from "lucide-react";
 

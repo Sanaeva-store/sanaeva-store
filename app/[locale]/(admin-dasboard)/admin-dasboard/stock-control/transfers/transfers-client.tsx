@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ArrowLeftRight } from "lucide-react";
+import { toast } from "sonner";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -98,7 +99,7 @@ export function TransfersClient() {
                               size="sm"
                               variant="outline"
                               disabled={isMutating}
-                              onClick={() => approve.mutate(transfer.id)}
+                              onClick={() => approve.mutate(transfer.id, { onError: (e) => toast.error((e as Error).message ?? "Approve failed") })}
                             >
                               Approve
                             </Button>
@@ -106,7 +107,7 @@ export function TransfersClient() {
                               size="sm"
                               variant="outline"
                               disabled={isMutating}
-                              onClick={() => ship.mutate(transfer.id)}
+                              onClick={() => ship.mutate(transfer.id, { onError: (e) => toast.error((e as Error).message ?? "Ship failed") })}
                             >
                               Ship
                             </Button>
@@ -114,7 +115,7 @@ export function TransfersClient() {
                               size="sm"
                               variant="outline"
                               disabled={isMutating}
-                              onClick={() => complete.mutate(transfer.id)}
+                              onClick={() => complete.mutate(transfer.id, { onError: (e) => toast.error((e as Error).message ?? "Complete failed") })}
                             >
                               Complete
                             </Button>
@@ -122,7 +123,7 @@ export function TransfersClient() {
                               size="sm"
                               variant="destructive"
                               disabled={isMutating}
-                              onClick={() => cancel.mutate(transfer.id)}
+                              onClick={() => cancel.mutate(transfer.id, { onError: (e) => toast.error((e as Error).message ?? "Cancel failed") })}
                             >
                               Cancel
                             </Button>

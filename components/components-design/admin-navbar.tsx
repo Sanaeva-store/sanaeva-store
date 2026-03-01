@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useRouter } from "next/navigation"
 
 import { Search, Bell, ChevronDown, User, Settings, CreditCard, LogOut, Moon, Sun } from "lucide-react"
 
@@ -18,17 +19,34 @@ import { Input } from "@/components/ui/input"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { Badge } from "@/components/ui/badge"
 import { useTheme } from "next-themes"
-import { useBackofficeTranslations } from "@/shared/lib/i18n"
+import { useBackofficeTranslations, useLocale } from "@/shared/lib/i18n"
 import { LanguageSwitcher } from "@/components/common/language-switcher"
+import { useBackofficeMeQuery } from "@/features/inventory/hooks/use-backoffice-auth"
+import { useSignOutMutation } from "@/features/account/hooks/use-auth"
 
 export function AdminNavbar() {
   const { theme, setTheme } = useTheme()
+  const router = useRouter()
+  const locale = useLocale()
   const { t } = useBackofficeTranslations("navbar")
+  const { data: me } = useBackofficeMeQuery()
+  const signOutMutation = useSignOutMutation()
   const [mounted, setMounted] = React.useState(false)
 
   React.useEffect(() => {
     setMounted(true)
   }, [])
+
+  const userDisplayName = me?.name ?? t("name")
+  const userDisplayEmail = me?.email ?? t("email")
+  const userDisplayRole = me?.roles?.[0] ?? t("role")
+
+  const onSignOut = () => {
+    signOutMutation.mutate(undefined, {
+      onSuccess: () => router.replace(`/${locale}`),
+      onError: () => router.replace(`/${locale}`),
+    })
+  }
 
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60 sm:px-6">
@@ -76,12 +94,12 @@ export function AdminNavbar() {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-10 gap-2 px-3">
               <Avatar className="h-7 w-7">
-                <AvatarImage src="/avatars/shadcn.jpg" alt={t("name")} />
+                <AvatarImage src="/avatars/shadcn.jpg" alt={userDisplayName} />
                 <AvatarFallback className="bg-primary text-xs text-primary-foreground">AD</AvatarFallback>
               </Avatar>
               <div className="hidden flex-col items-start text-sm md:flex">
-                <span className="font-medium">{t("name")}</span>
-                <span className="text-xs text-muted-foreground">{t("role")}</span>
+                <span className="font-medium">{userDisplayName}</span>
+                <span className="text-xs text-muted-foreground">{userDisplayRole}</span>
               </div>
               <ChevronDown className="hidden h-4 w-4 text-muted-foreground md:block" />
             </Button>
@@ -90,12 +108,12 @@ export function AdminNavbar() {
             <DropdownMenuLabel className="p-4">
               <div className="flex items-center gap-3">
                 <Avatar className="h-10 w-10">
-                  <AvatarImage src="/avatars/shadcn.jpg" alt={t("name")} />
+                  <AvatarImage src="/avatars/shadcn.jpg" alt={userDisplayName} />
                   <AvatarFallback className="bg-primary text-primary-foreground">AD</AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col">
-                  <p className="text-sm font-semibold">{t("name")}</p>
-                  <p className="text-xs text-muted-foreground">{t("email")}</p>
+                  <p className="text-sm font-semibold">{userDisplayName}</p>
+                  <p className="text-xs text-muted-foreground">{userDisplayEmail}</p>
                 </div>
               </div>
             </DropdownMenuLabel>
@@ -113,9 +131,16 @@ export function AdminNavbar() {
               <span>{t("billing")}</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="cursor-pointer gap-2 text-destructive">
+            <DropdownMenuItem
+              className="cursor-pointer gap-2 text-destructive"
+              disabled={signOutMutation.isPending}
+              onSelect={(event) => {
+                event.preventDefault()
+                onSignOut()
+              }}
+            >
               <LogOut className="h-4 w-4" />
-              <span>{t("logout")}</span>
+              <span>{signOutMutation.isPending ? `${t("logout")}...` : t("logout")}</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

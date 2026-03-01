@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { TicketPercent } from "lucide-react";
+import { toast } from "sonner";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -115,7 +116,7 @@ export function PromotionsClient() {
                             size="sm"
                             variant="outline"
                             disabled={toggle.isPending}
-                            onClick={() => toggle.mutate(promotion.id)}
+                            onClick={() => toggle.mutate(promotion.id, { onError: (e) => toast.error((e as Error).message ?? "Toggle failed") })}
                           >
                             Toggle
                           </Button>

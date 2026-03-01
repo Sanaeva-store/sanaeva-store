@@ -14,6 +14,10 @@
     "productCategory": "Product Category",
     "totalSold": "Total Sold",
     "monthlyIncome": "Monthly income",
+    "totalOrders": "Total Orders",
+    "pendingOrders": "Pending Orders",
+    "processingOrders": "Processing Orders",
+    "lowStockItems": "Low Stock Items",
     "trend": "+15%",
     "updateDate": "20 July 2024"
   },
@@ -33,5 +37,9 @@
     "targetAmount": "฿ 30,000,000",
     "currentAmount": "฿ 15,237,000",
     "description": "Based on the MSME analysis that has been carried out, the development of this business shows a very positive trend."
+  },
+  "error": {
+    "title": "Failed to load dashboard",
+    "description": "Unable to fetch dashboard data. Please try again."
   }
 }

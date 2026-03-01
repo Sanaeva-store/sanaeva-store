@@ -84,3 +84,88 @@ All API service functions and React Query hooks have been implemented for every 
 | Backoffice Auth | `features/inventory/api/backoffice-auth.api.ts` | `use-backoffice-auth.ts` | ✅ |
 
 **Remaining work**: UI pages and forms for each endpoint (see TASK-CHECKLIST.md).
+
+---
+
+## UI-Level API Gaps (2026-03-01)
+
+The following admin pages have **no corresponding backend endpoint** in contract v1.1.
+They are kept as non-breaking placeholder UIs (`LoadingSkeleton`) until backend adds the endpoints.
+
+### GAP-001 — `/admin-dasboard/analytics`
+
+**Page:** `app/[locale]/(admin-dasboard)/admin-dasboard/analytics/page.tsx`
+
+Required endpoints missing from contract:
+
+| Endpoint | Purpose | Fields needed |
+|---|---|---|
+| `GET /api/analytics/revenue` | Revenue trend over time | `date`, `revenue`, `currency` |
+| `GET /api/analytics/orders` | Order volume trend | `date`, `orderCount` |
+| `GET /api/analytics/aov` | Average order value | `date`, `aov` |
+| `GET /api/analytics/conversion` | Conversion rate | `date`, `conversionRate` |
+| `GET /api/analytics/sales-by-category` | Sales by category/period | `categoryId`, `categoryName`, `revenue`, `period` |
+
+**Decision:** Placeholder. Integrate when backend exposes analytics endpoints.
+
+---
+
+### GAP-002 — `/admin-dasboard/customers`
+
+**Page:** `app/[locale]/(admin-dasboard)/admin-dasboard/customers/page.tsx`
+
+Required endpoints missing from contract:
+
+| Endpoint | Purpose | Fields needed |
+|---|---|---|
+| `GET /api/customers` | Paginated customer list | `id`, `name`, `email`, `phone`, `totalOrders`, `totalSpent`, `createdAt` |
+| `GET /api/customers/:id` | Customer detail | Full customer profile |
+| `PATCH /api/customers/:id/status` | Activate/suspend customer | `status: "ACTIVE" or "SUSPENDED"` |
+| `GET /api/customers/:id/orders` | Orders by customer | Paginated order list |
+
+**Decision:** Placeholder. `Order.customerId` exists but no `/api/customers` resource in contract.
+
+---
+
+### GAP-003 — `/admin-dasboard/settings/general`
+
+**Page:** `app/[locale]/(admin-dasboard)/admin-dasboard/settings/general/page.tsx`
+
+Required endpoints missing from contract:
+
+| Endpoint | Purpose | Fields needed |
+|---|---|---|
+| `GET /api/settings/general` | Read general store settings | `storeName`, `storeEmail`, `currency`, `timezone`, `language` |
+| `PATCH /api/settings/general` | Update general store settings | Same as GET |
+
+**Decision:** Placeholder. Integrate when backend adds settings resource.
+
+---
+
+### GAP-004 — `/admin-dasboard/settings/reports`
+
+**Page:** `app/[locale]/(admin-dasboard)/admin-dasboard/settings/reports/page.tsx`
+
+Required endpoints missing from contract:
+
+| Endpoint | Purpose | Fields needed |
+|---|---|---|
+| `GET /api/settings/reports` | Read report configuration | `lowStockThreshold`, `reorderLeadDays`, `defaultCurrency`, `reportSchedule` |
+| `PATCH /api/settings/reports` | Update report configuration | Same as GET |
+
+**Decision:** Placeholder. Integrate when backend adds settings/reports resource.
+
+---
+
+## Action Required (Backend Team)
+
+To unblock UI integration for the above 4 pages, add these endpoint groups to the contract
+and implement backend routes:
+
+1. `GET/PATCH /api/analytics/*` — analytics time-series
+2. `GET/PATCH /api/customers/*` — customer management
+3. `GET/PATCH /api/settings/general` — general store settings
+4. `GET/PATCH /api/settings/reports` — report configuration settings
+
+Once confirmed in contract, remove the gap entry and implement integration per this file's
+completion checklist.

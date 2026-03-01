@@ -1,3 +1,10 @@
+/**
+ * API Gap: GAP-001
+ * This page has no backend endpoint in contract v1.1.
+ * See: docs/agent-sync/backend-frontend-input-contracts/frontend-gap-checklist.md
+ * Required: GET /api/analytics/revenue, /api/analytics/orders, /api/analytics/aov,
+ *           /api/analytics/conversion, /api/analytics/sales-by-category
+ */
 import type { Metadata } from "next";
 import { BarChart3 } from "lucide-react";
 

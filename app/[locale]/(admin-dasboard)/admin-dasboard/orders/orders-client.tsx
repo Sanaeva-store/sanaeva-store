@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { ShoppingCart } from "lucide-react";
+import { toast } from "sonner";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -147,10 +148,13 @@ export function OrdersClient() {
                             defaultValue={order.status}
                             disabled={updateStatus.isPending}
                             onChange={(e) => {
-                              updateStatus.mutate({
-                                id: order.id,
-                                status: e.target.value as OrderStatus,
-                              });
+                              updateStatus.mutate(
+                                {
+                                  id: order.id,
+                                  status: e.target.value as OrderStatus,
+                                },
+                                { onError: (err) => toast.error((err as Error).message ?? "Status update failed") },
+                              );
                             }}
                           >
                             {ORDER_STATUS.map((option) => (

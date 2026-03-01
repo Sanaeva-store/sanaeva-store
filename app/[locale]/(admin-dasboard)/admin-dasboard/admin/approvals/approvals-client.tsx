@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { CheckSquare } from "lucide-react";
+import { toast } from "sonner";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -92,7 +93,7 @@ export function ApprovalsClient() {
                               size="sm"
                               variant="outline"
                               disabled={approve.isPending || approval.status !== "PENDING"}
-                              onClick={() => approve.mutate({ id: approval.id })}
+                              onClick={() => approve.mutate({ id: approval.id }, { onError: (e) => toast.error((e as Error).message ?? "Approval failed") })}
                             >
                               Approve
                             </Button>
@@ -100,7 +101,7 @@ export function ApprovalsClient() {
                               size="sm"
                               variant="destructive"
                               disabled={reject.isPending || approval.status !== "PENDING"}
-                              onClick={() => reject.mutate({ id: approval.id })}
+                              onClick={() => reject.mutate({ id: approval.id }, { onError: (e) => toast.error((e as Error).message ?? "Rejection failed") })}
                             >
                               Reject
                             </Button>

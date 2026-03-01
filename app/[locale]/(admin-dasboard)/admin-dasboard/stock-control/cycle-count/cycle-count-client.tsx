@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ScanLine } from "lucide-react";
+import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -57,7 +58,7 @@ export function CycleCountClient() {
         warehouseId: values.warehouseId.trim(),
         note: values.note?.trim() || undefined,
       },
-      { onSuccess: () => reset() },
+      { onSuccess: () => reset(), onError: (e) => toast.error((e as Error).message ?? "Create failed") },
     );
   };
 
@@ -148,7 +149,7 @@ export function CycleCountClient() {
                             size="sm"
                             variant="outline"
                             disabled={closeMutation.isPending || session.status === "CLOSED"}
-                            onClick={() => closeMutation.mutate(session.id)}
+                            onClick={() => closeMutation.mutate(session.id, { onError: (e) => toast.error((e as Error).message ?? "Close failed") })}
                           >
                             Close
                           </Button>

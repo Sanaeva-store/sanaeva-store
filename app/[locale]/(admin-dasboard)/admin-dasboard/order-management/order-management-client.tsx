@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { ShoppingCart } from "lucide-react";
+import { toast } from "sonner";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -99,7 +100,7 @@ export function OrderManagementClient() {
                               size="sm"
                               variant="outline"
                               disabled={isMutating}
-                              onClick={() => reserve.mutate(order.id)}
+                              onClick={() => reserve.mutate(order.id, { onError: (e) => toast.error((e as Error).message ?? "Reserve failed") })}
                             >
                               Reserve
                             </Button>
@@ -107,14 +108,14 @@ export function OrderManagementClient() {
                               size="sm"
                               variant="outline"
                               disabled={isMutating}
-                              onClick={() => release.mutate(order.id)}
+                              onClick={() => release.mutate(order.id, { onError: (e) => toast.error((e as Error).message ?? "Release failed") })}
                             >
                               Release
                             </Button>
                             <Button
                               size="sm"
                               disabled={isMutating}
-                              onClick={() => commit.mutate(order.id)}
+                              onClick={() => commit.mutate(order.id, { onError: (e) => toast.error((e as Error).message ?? "Commit failed") })}
                             >
                               Commit
                             </Button>

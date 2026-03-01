@@ -1,3 +1,9 @@
+/**
+ * API Gap: GAP-004
+ * This page has no backend endpoint in contract v1.1.
+ * See: docs/agent-sync/backend-frontend-input-contracts/frontend-gap-checklist.md
+ * Required: GET /api/settings/reports, PATCH /api/settings/reports
+ */
 import type { Metadata } from "next";
 import { FileText } from "lucide-react";
 
